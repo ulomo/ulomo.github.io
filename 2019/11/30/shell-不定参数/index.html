@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="这两天在写shell脚本，因为接到了王老板的安排。先是让我写了个触发器，然后就是将之前别人的脚本优化一下。其实我来这里没多久就把那个脚本重写了，因为之前的那个输出真的很乱，看的我眼睛疼。虽然已经有现成的了，但是距离王老板的要求（简洁、输出重要信息、屏蔽没有的信息），我自认为还差点意思。  刚开始让我写个触发器的时候，我一脸懵，触发器是啥？然后王老板给我找了个别人写的模板，让我对着学一下。哈哈，怕">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell-不定参数">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="这两天在写shell脚本，因为接到了王老板的安排。先是让我写了个触发器，然后就是将之前别人的脚本优化一下。其实我来这里没多久就把那个脚本重写了，因为之前的那个输出真的很乱，看的我眼睛疼。虽然已经有现成的了，但是距离王老板的要求（简洁、输出重要信息、屏蔽没有的信息），我自认为还差点意思。  刚开始让我写个触发器的时候，我一脸懵，触发器是啥？然后王老板给我找了个别人写的模板，让我对着学一下。哈哈，怕">
+<meta property="article:published_time" content="2019-11-30T10:02:34.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.374Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>shell-不定参数</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/02/perl-%E8%AF%BB%E5%8F%96/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/30/git%E4%BD%BF%E7%94%A8/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&text=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&is_video=false&description=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell-不定参数&body=Check out this article: https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&name=shell-不定参数&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#不用if判断的赋值"><span class="toc-number">1.</span> <span class="toc-text">不用if判断的赋值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三目运算"><span class="toc-number">2.</span> <span class="toc-text">三目运算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#shell中传参"><span class="toc-number">3.</span> <span class="toc-text">shell中传参</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        shell-不定参数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-30T10:02:34.000Z" itemprop="datePublished">2019-11-30</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>这两天在写shell脚本，因为接到了王老板的安排。先是让我写了个触发器，然后就是将之前别人的脚本优化一下。其实我来这里没多久就把那个脚本重写了，因为之前的那个输出真的很乱，看的我眼睛疼。虽然已经有现成的了，但是距离王老板的要求（简洁、输出重要信息、屏蔽没有的信息），我自认为还差点意思。</p>
+</blockquote>
+<p>刚开始让我写个触发器的时候，我一脸懵，触发器是啥？然后王老板给我找了个别人写的模板，让我对着学一下。哈哈，怕给我压力，然后叫我随便玩一下，说也不重要。这么长时间了，觉得王老板这个人挺好的，等我以后离开这个地方后，我觉得真的还挺舍不得的。学了之后发现和存储过程一样简单，然后一会就写完了，因为之前学了存储过程，里面涉及取变量的操作，做起来就觉得挺简单的。不过用到了一个新的函数<code>sys.guid()</code>用来生成唯一的标识符，为了避免重复操作导致不能辨别嘛。</p>
+<p>然后就是改这个shell脚本了，之前我改了一下，主要是改格式，之前输出没对齐，看着特别乱。然后加了一些上限值的警告，如果正常的话，会在后面输出<code>bingo！</code>哈哈。但是还是会在屏幕上输出很多信息，也就是刷屏了。然后就是这个上限警告值是写死在里面的，所以这次优化，主要是加入这些功能：</p>
+<ol>
+<li>help信息</li>
+<li>-s 数字 来设置size的上限</li>
+<li>-m 数字 来设置数量上限</li>
+<li>-q 来设置quiet/silent模式，即不刷屏，只显示最后结果。当然想看这些信息的话，就不加这个参数咯</li>
+</ol>
+<p>两个点：</p>
+<ul>
+<li>所有这些都需要通过参数传递进去</li>
+<li>但是如果没传参数也要有默认值</li>
+</ul>
+<hr>
+<h1 id="不用if判断的赋值"><a href="#不用if判断的赋值" class="headerlink" title="不用if判断的赋值"></a>不用if判断的赋值</h1><p><code>:-</code> or<code>-</code> 如果值为空则赋值</p>
+<p><code>:+</code>or<code>+</code> 如果值非空就赋值</p>
+<p>也可以理解为赋默认值，其实本意是先判断再赋值。按照原意理解的话，就可以省去一个if判断变量是否为空的写法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">&#123;variable:-值&#125;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">or</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;variable-值&#125;</span></span><br><span class="line">eg：</span><br><span class="line"><span class="meta">	$</span><span class="bash">&#123;a:-2&#125;	<span class="comment">#a为空则赋值2</span></span></span><br><span class="line"><span class="meta">	$</span><span class="bash">&#123;b-3&#125;	<span class="comment">#b为空则赋3</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;variable:+值&#125;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">or</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;variable+值&#125;</span></span><br><span class="line">	a=10；b=20</span><br><span class="line"><span class="meta">	$</span><span class="bash">&#123;a:+2&#125;	<span class="comment">#a值不为空，则赋值2</span></span></span><br><span class="line"><span class="meta">	$</span><span class="bash">&#123;b+2&#125;	<span class="comment">#b值不为空，则赋值2</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="三目运算"><a href="#三目运算" class="headerlink" title="三目运算"></a>三目运算</h1><p>程序写多了，才会发现这些语法的重要性。就好比python的lambda函数，对于一些简单的函数来说简直是好用。这里要说的是shell中的三目运算，其实好多if判断很简单，仅仅是做一个判断加一个赋值，有时候就觉得真的没必要写一个<code>if...then....fi</code>出来。但是可惜的shell的三目运算仅仅支持数字。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> a是否为20，是返回1，否则返回2</span></span><br><span class="line"><span class="meta">$</span><span class="bash">((a==20?1:2))</span></span><br><span class="line"></span><br><span class="line">a=20</span><br><span class="line"><span class="meta">#</span><span class="bash">将返回值赋值给c</span></span><br><span class="line">c=$((a==20?1:2))</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="shell中传参"><a href="#shell中传参" class="headerlink" title="shell中传参"></a>shell中传参</h1><p>我之前想的是把所有传递进去的参数作为一个列表或者字符串。因为一个参数后面要跟一个数字，为了取到这个数字，我用的是字符串截取。因为我用<code>shift</code>老是取不到想要的值。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">list=$*</span><br><span class="line">for i in $*</span><br><span class="line">do</span><br><span class="line">	case $i in</span><br><span class="line">		-s)</span><br><span class="line"><span class="meta">			#</span><span class="bash">字符串截取，将左边到-s的字符（包括-s）全部忽略</span></span><br><span class="line">			size=`echo $&#123;list#*-s&#125; | awk '&#123;print $1&#125;'`</span><br><span class="line">			;;</span><br><span class="line">		-m)</span><br><span class="line">			number=`echo $&#123;list#*-m&#125; | awk '&#123;print $1&#125;'`</span><br><span class="line">			;;</span><br><span class="line">		-h | --help)</span><br><span class="line">			echo "help manual"</span><br><span class="line">			;;</span><br><span class="line">		*)</span><br><span class="line">		;;</span><br><span class="line">	esac</span><br><span class="line">done</span><br><span class="line"><span class="meta">#</span><span class="bash">如果传入参数为空就赋值</span></span><br><span class="line">echo $&#123;size：-888&#125;</span><br><span class="line">echo $&#123;number：:666&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这么写没问题，本来我之前想用shift取参数的，毕竟学过perl嘛，perl就是这么做的，但是我没成功。</p>
+<p>是我太愚蠢了：），我每次都是shift一个参数，结果第二个参数就要shift两个，第三个参数又只要shift一个参数。如果传入参数的顺序不变，那没问题。但是。。。。。。谁能保证参数顺序不变，而且程序也不能设计的这个样子吧，我自己都看不下去了。所以傻傻的我google到了正确写法：<strong>一次shift两个参数</strong> <code>shift 2</code></p>
+<p>虽然我不知道可以一次可以shift两个参数，但是我想都不敢想，说明我傻。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">for i in $*</span><br><span class="line">do</span><br><span class="line">    case $i in</span><br><span class="line">        -s)</span><br><span class="line">            size=$&#123;2:-888&#125;</span><br><span class="line">            #一次shift两个参数，将-s和它的数字都去掉了。后面的就一样了</span><br><span class="line">            shift 2</span><br><span class="line">            ;;</span><br><span class="line">        -m)</span><br><span class="line">            number=$&#123;2:-666&#125;</span><br><span class="line">            shift 2</span><br><span class="line">            ;;</span><br><span class="line">        -h | --help)</span><br><span class="line">            echo "help manual"</span><br><span class="line">            ;;</span><br><span class="line">        *)</span><br><span class="line">            ;;</span><br><span class="line">    esac</span><br><span class="line">done</span><br><span class="line">echo $size</span><br><span class="line">echo $number</span><br></pre></td></tr></table></figure>
+
+<p>这么写多帅啊，不需要字符串截取，不需要awk，不需要子进程，速度也快多了。</p>
+<p><code>shift</code>说了这么多，还没写它的作用，它就好比从栈中（pop）取数据。不过是从左边取，不带参数的话就是一次取一个参数，取出来的参数是不会放回去的。不过<code>pop</code>有<code>push</code>可以放回去，但是shell中<code>shift</code>为什么没有<code>unshift</code>呢？perl中就有啊。</p>
+<hr>
+<p>不可例外的，还是要写一下这几天的总结：也算是过失吧</p>
+<p>第一个：在写shell脚本的时候，因为要重复调用两次相同的代码，所以我就想着用一个函数写吧，这样简单不少。但是我却没考虑到写成了函数之后，它中间的变量问题。如果在函数外已经定义了变量，那好，一点问题都没有。但问题来了，他那个代码中竟然需要接受一个程序外部传进来的参数<code>$1</code>,所以始终是运行不正常的。后来才发现了这个问题，对于shell函数来说，<code>$1</code>代表的是传给函数的第一个参数：例如</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function getvar()&#123;</span><br><span class="line">	echo "$1 is the args of function" </span><br><span class="line">&#125;</span><br><span class="line">getvar 666</span><br></pre></td></tr></table></figure>
+
+<p>最终这个<code>$1</code>接受到的就是666。所以它接受的并不是函数外部传进来的参数。所以这个教训的总结就是变量如果是从程序外部传进来的，二话不说先把这些变量保存下来，所有的都保存也好<code>$*</code>或者<code>$@</code>，一个一个的保存也好<code>$1</code>,<code>$2</code>。这样就不会出现这个问题了，这也算是一个良好的编程习惯吧。</p>
+<p>第二个：如果是改写别人之前写的脚本，不仅要把自己的那部分功能实现，还要弄清楚别人之前写的意图，因为你改了之后就不能保证别人的还一样正确啊，比如说shell环境问题，变量问题，如果是函数的话还要考虑函数位置问题，各个模块的逻辑问题等等。总之不要只看自己写的那部分，就可以提高正确率，减少不必要的纠错时间。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#不用if判断的赋值"><span class="toc-number">1.</span> <span class="toc-text">不用if判断的赋值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三目运算"><span class="toc-number">2.</span> <span class="toc-text">三目运算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#shell中传参"><span class="toc-number">3.</span> <span class="toc-text">shell中传参</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&text=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&is_video=false&description=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell-不定参数&body=Check out this article: https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&title=shell-不定参数" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/&name=shell-不定参数&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

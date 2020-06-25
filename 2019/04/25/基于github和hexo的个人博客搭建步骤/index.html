@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="原理 本地编写markdown文件，选择一个喜欢的hexo主题，使用hexo框架生成静态网页，利用git将本地文件推送到github代码托管平台，然后通过网址进行访问（这里也可以自己注册域名，在github上进行绑定，然后可以通过自己的域名来访问网站）   github是一个代码托管平台，用来存放网页文件，当做服务器使用    hexo是基于node.js的静态博客框架，用来生成html静态网页">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于github和hexo的个人博客搭建步骤">
+<meta property="og:url" content="https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="原理 本地编写markdown文件，选择一个喜欢的hexo主题，使用hexo框架生成静态网页，利用git将本地文件推送到github代码托管平台，然后通过网址进行访问（这里也可以自己注册域名，在github上进行绑定，然后可以通过自己的域名来访问网站）   github是一个代码托管平台，用来存放网页文件，当做服务器使用    hexo是基于node.js的静态博客框架，用来生成html静态网页">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EYNF7d.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EYNm1f.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EYNQBQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EYN3As.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EYNGhq.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EYNDE9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EYN69x.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EYN2jO.png">
+<meta property="article:published_time" content="2019-04-25T04:25:46.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.390Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="github">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/05/01/EYNF7d.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>基于github和hexo的个人博客搭建步骤</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&text=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&is_video=false&description=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于github和hexo的个人博客搭建步骤&body=Check out this article: https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&name=基于github和hexo的个人博客搭建步骤&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#必备技能"><span class="toc-number">2.</span> <span class="toc-text">必备技能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤"><span class="toc-number">3.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#安装node-js-git-hexo"><span class="toc-number">3.1.</span> <span class="toc-text">安装node.js  git hexo</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#新建存放hexo的文件夹"><span class="toc-number">3.2.</span> <span class="toc-text">新建存放hexo的文件夹</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-number"></span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#初始化hexo"><span class="toc-number">0.1.</span> <span class="toc-text">初始化hexo</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用hexo生成静态html文件"><span class="toc-number">0.2.</span> <span class="toc-text">使用hexo生成静态html文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#本地启动服务"><span class="toc-number">0.3.</span> <span class="toc-text">本地启动服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用浏览器访问"><span class="toc-number">0.4.</span> <span class="toc-text">使用浏览器访问</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#在github上面创建仓库"><span class="toc-number">0.5.</span> <span class="toc-text">在github上面创建仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#配置hexo，与github关联起来"><span class="toc-number">0.6.</span> <span class="toc-text">配置hexo，与github关联起来</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#将本地文件推送到github上面"><span class="toc-number">0.7.</span> <span class="toc-text">将本地文件推送到github上面</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#配置自己喜欢的主题"><span class="toc-number">0.8.</span> <span class="toc-text">配置自己喜欢的主题</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        基于github和hexo的个人博客搭建步骤
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-25T04:25:46.000Z" itemprop="datePublished">2019-04-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/git/" rel="tag">git</a>, <a class="tag-link" href="/tags/github/" rel="tag">github</a>, <a class="tag-link" href="/tags/hexo/" rel="tag">hexo</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><ul>
+<li><p>本地编写markdown文件，选择一个喜欢的hexo主题，使用hexo框架生成静态网页，利用git将本地文件推送到github代码托管平台，然后通过网址进行访问（这里也可以自己注册域名，在github上进行绑定，然后可以通过自己的域名来访问网站）</p>
+<p>  github是一个代码托管平台，用来存放网页文件，当做服务器使用 </p>
+<p>  hexo是基于node.js的静态博客框架，用来生成html静态网页</p>
+<p>  git是一个分布式版本控制系统，用来将本地文件推送到github上</p>
+</li>
+</ul>
+<h4 id="必备技能"><a href="#必备技能" class="headerlink" title="必备技能"></a>必备技能</h4><ul>
+<li><p>markdown编写能力（十分钟就可以掌握，超简单的）</p>
+</li>
+<li><p>github注册账号，创建仓库</p>
+</li>
+<li><p>git的基本使用</p>
+</li>
+</ul>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><h5 id="安装node-js-git-hexo"><a href="#安装node-js-git-hexo" class="headerlink" title="安装node.js  git hexo"></a>安装node.js  git hexo</h5><ul>
+<li><p>archlinux上安装比较简单</p>
+<pre><code>pacman -S nodejs git      
+
+npm install -g hexo-cli   #这里可能需要花费点时间，也可能会报错，不用管就ok
+
+npm install --save hexo-deployer-git    #解决后面发布时找不到git的问题</code></pre></li>
+<li><p>windows安装<br><a href="https://git-scm.com/downloa" target="_blank" rel="noopener">git</a></p>
+<p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a></p>
+<p>上面两个安装好了之后打开cmd</p>
+</li>
+</ul>
+<pre><code>npm install -g hexo-cli</code></pre><h5 id="新建存放hexo的文件夹"><a href="#新建存放hexo的文件夹" class="headerlink" title="新建存放hexo的文件夹"></a>新建存放hexo的文件夹</h5><ul>
+<li><p>archlinux</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir hexodir</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>windows</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">随便找个地方新建一个文件夹就好了</span><br></pre></td></tr></table></figure>
+
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1></li>
+</ul>
+<h5 id="初始化hexo"><a href="#初始化hexo" class="headerlink" title="初始化hexo"></a>初始化hexo</h5><p>需要进入到新建的文件夹下面操作</p>
+<ul>
+<li>linux</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd hexodir</span><br><span class="line">hexo init</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>windows</p>
+<p>进入hexo文件夹下面，打开cmd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm init</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="使用hexo生成静态html文件"><a href="#使用hexo生成静态html文件" class="headerlink" title="使用hexo生成静态html文件"></a>使用hexo生成静态html文件</h5><pre><code>进入到hexo文件下，windows打开cmd，linux打开终端</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+
+<pre><code>或者简写为</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+
+<h5 id="本地启动服务"><a href="#本地启动服务" class="headerlink" title="本地启动服务"></a>本地启动服务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<pre><code>或者简写为</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用浏览器访问"><a href="#使用浏览器访问" class="headerlink" title="使用浏览器访问"></a>使用浏览器访问</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost:4000&#x2F;</span><br></pre></td></tr></table></figure>
+
+<pre><code>如果能打开网页，说明本地已经配置好了</code></pre><hr>
+<h5 id="在github上面创建仓库"><a href="#在github上面创建仓库" class="headerlink" title="在github上面创建仓库"></a>在github上面创建仓库</h5><ul>
+<li><p>如果没有github，先去<a href="[https://github.com/join?source=header-home](https://github.com/join?source=header-home">注册</a>一个</p>
+</li>
+<li><p>git与github连接需要使用ssh，所以需要生成ssh 密匙。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+
+<p>linux在~/.ssh下生成id_rsa.pub文件，复制文件内容</p>
+<p><img src="https://s2.ax1x.com/2019/05/01/EYNF7d.png" alt="EYNF7d.png"></p>
+<p><a href="https://imgchr.com/i/EYNm1f" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/05/01/EYNm1f.png" alt="EYNm1f.png"></a></p>
+<p><a href="https://imgchr.com/i/EYNQBQ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/05/01/EYNQBQ.png" alt="EYNQBQ.png"></a></p>
+<p><a href="https://imgchr.com/i/EYN3As" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/05/01/EYN3As.png" alt="EYN3As.png"></a></p>
+<p><a href="https://imgchr.com/i/EYNGhq" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/05/01/EYNGhq.png" alt="EYNGhq.png"></a></p>
+<ul>
+<li>复制id_rsa.pub文件内容，添加到key中</li>
+</ul>
+<p><a href="https://imgchr.com/i/EYNDE9" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/05/01/EYNDE9.png" alt="EYNDE9.png"></a></p>
+<p><a href="https://imgchr.com/i/EYN69x" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/05/01/EYN69x.png" alt="EYN69x.png"></a></p>
+<p><a href="https://imgchr.com/i/EYN2jO" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/05/01/EYN2jO.png" alt="EYN2jO.png"></a></p>
+</li>
+</ul>
+<h5 id="配置hexo，与github关联起来"><a href="#配置hexo，与github关联起来" class="headerlink" title="配置hexo，与github关联起来"></a>配置hexo，与github关联起来</h5><pre><code>注意：在写配置的时候，冒号后面需要有一个空格，不然会报错
+编辑hexodir文件夹下面的_config.yml文件，最后面添加</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deloy:</span><br><span class="line">        type: git</span><br><span class="line">    rpeo: git@github.com:用户名&#x2F;仓库名.git</span><br><span class="line">    branch: master</span><br></pre></td></tr></table></figure>
+
+<h5 id="将本地文件推送到github上面"><a href="#将本地文件推送到github上面" class="headerlink" title="将本地文件推送到github上面"></a>将本地文件推送到github上面</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<pre><code>或者简写为</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    hexo g</span><br><span class="line">    hexo d</span><br></pre></td></tr></table></figure>
+
+<p>然后打开网址就能看到自己的网站了</p>
+<h5 id="配置自己喜欢的主题"><a href="#配置自己喜欢的主题" class="headerlink" title="配置自己喜欢的主题"></a>配置自己喜欢的主题</h5><ul>
+<li><p>在官网选择自己喜欢的<a href="https://hexo.io/themes/" target="_blank" rel="noopener">主题</a></p>
+</li>
+<li><p>将主题下载到hexodir下的themes目录下，比如我下载的next主题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd hexodir</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;iissnan&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure></li>
+<li><p>修改hexodir目录下的_config.yml配置文件,修改theme</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">      theme: next</span><br></pre></td></tr></table></figure></li>
+<li><p>然后重新生成静态网页，并将网页推送到github上</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">    hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#必备技能"><span class="toc-number">2.</span> <span class="toc-text">必备技能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤"><span class="toc-number">3.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#安装node-js-git-hexo"><span class="toc-number">3.1.</span> <span class="toc-text">安装node.js  git hexo</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#新建存放hexo的文件夹"><span class="toc-number">3.2.</span> <span class="toc-text">新建存放hexo的文件夹</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-number"></span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#初始化hexo"><span class="toc-number">0.1.</span> <span class="toc-text">初始化hexo</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用hexo生成静态html文件"><span class="toc-number">0.2.</span> <span class="toc-text">使用hexo生成静态html文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#本地启动服务"><span class="toc-number">0.3.</span> <span class="toc-text">本地启动服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用浏览器访问"><span class="toc-number">0.4.</span> <span class="toc-text">使用浏览器访问</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#在github上面创建仓库"><span class="toc-number">0.5.</span> <span class="toc-text">在github上面创建仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#配置hexo，与github关联起来"><span class="toc-number">0.6.</span> <span class="toc-text">配置hexo，与github关联起来</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#将本地文件推送到github上面"><span class="toc-number">0.7.</span> <span class="toc-text">将本地文件推送到github上面</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#配置自己喜欢的主题"><span class="toc-number">0.8.</span> <span class="toc-text">配置自己喜欢的主题</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&text=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&is_video=false&description=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于github和hexo的个人博客搭建步骤&body=Check out this article: https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&title=基于github和hexo的个人博客搭建步骤" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/&name=基于github和hexo的个人博客搭建步骤&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

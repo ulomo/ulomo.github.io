@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="读取read，简写r应该是最为实用的命令之一了。因为它可以在不关闭vim的情况下，去读取一个文件内容或者shell命令的输出到文件中。 12345eg：	#读取当前目录下的文件	:read !ls	#读取指定文件	:r note  这样执行的时候会将读取的内容置于当前行下。当然还可以指定读取到那一行下 12345eg:	#读取到文件开头	:0r !ls	#读取到指定行下	:5r !ip -c a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim-读写以及执行shell命令">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="读取read，简写r应该是最为实用的命令之一了。因为它可以在不关闭vim的情况下，去读取一个文件内容或者shell命令的输出到文件中。 12345eg：	#读取当前目录下的文件	:read !ls	#读取指定文件	:r note  这样执行的时候会将读取的内容置于当前行下。当然还可以指定读取到那一行下 12345eg:	#读取到文件开头	:0r !ls	#读取到指定行下	:5r !ip -c a">
+<meta property="article:published_time" content="2019-11-19T15:46:06.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.384Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="一生所爱">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>vim-读写以及执行shell命令</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/19/vim-vimdiff%E6%AF%94%E8%BE%83/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/19/vim-%E6%8A%80%E5%B7%A7/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&text=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&is_video=false&description=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vim-读写以及执行shell命令&body=Check out this article: https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&name=vim-读写以及执行shell命令&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#读取"><span class="toc-number">1.</span> <span class="toc-text">读取</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行shell命令"><span class="toc-number">2.</span> <span class="toc-text">执行shell命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#写入文件"><span class="toc-number">3.</span> <span class="toc-text">写入文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#格式化文本"><span class="toc-number">4.</span> <span class="toc-text">格式化文本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#大小写转换"><span class="toc-number">5.</span> <span class="toc-text">大小写转换</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        vim-读写以及执行shell命令
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-19T15:46:06.000Z" itemprop="datePublished">2019-11-19</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E4%B8%80%E7%94%9F%E6%89%80%E7%88%B1/" rel="tag">一生所爱</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h1><p><code>read</code>，简写<code>r</code>应该是最为实用的命令之一了。因为它可以在不关闭vim的情况下，去读取一个文件内容或者shell命令的输出到文件中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line"><span class="meta">	#</span><span class="bash">读取当前目录下的文件</span></span><br><span class="line">	:read !ls</span><br><span class="line"><span class="meta">	#</span><span class="bash">读取指定文件</span></span><br><span class="line">	:r note</span><br></pre></td></tr></table></figure>
+
+<p>这样执行的时候会将读取的内容置于当前行下。当然还可以指定读取到那一行下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line"><span class="meta">	#</span><span class="bash">读取到文件开头</span></span><br><span class="line">	:0r !ls</span><br><span class="line"><span class="meta">	#</span><span class="bash">读取到指定行下</span></span><br><span class="line">	:5r !ip -c a</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="执行shell命令"><a href="#执行shell命令" class="headerlink" title="执行shell命令"></a>执行shell命令</h1><p><code>！{motion}{program}</code>：将motion指定的文本块通过管道传送给shell的program处理。</p>
+<p>使用<code>！</code>来执行shell命令，可以和read搭配使用。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line"><span class="meta">	#</span><span class="bash">读取shell输出</span></span><br><span class="line">	:r !echo $PATH | awk -v FS=':' '&#123;print $1&#125;'</span><br></pre></td></tr></table></figure>
+
+<p>motion指的是文本块，所以范围由motion指定。其实在键入！后，进行的移动会被转化为一个数字表示的范围。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line"><span class="meta">	#</span><span class="bash">对一到五行的内容实行排序</span></span><br><span class="line">	!5Gsort		#首先gg移动到文本的第一行，然后执行命令</span><br><span class="line"><span class="meta">	#</span><span class="bash">当然了可以自己指定要操作的行</span></span><br><span class="line">	5,10！sort</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h1><p><code>write</code>，简写为<code>w</code>，将当前文件中的内容写入磁盘（保存）或另一个文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line"><span class="meta">	#</span><span class="bash">将vim中编辑的内容保存到磁盘中</span></span><br><span class="line">	:w</span><br><span class="line"><span class="meta">	#</span><span class="bash">将编辑内容写入另一个文件</span></span><br><span class="line">	:w note</span><br><span class="line"><span class="meta">	#</span><span class="bash">指定那些写入到另一个文件</span></span><br><span class="line">	:.,$w note		#将当前行到文件末尾的内容写入note文件中</span><br><span class="line"><span class="meta">	#</span><span class="bash">追加到另一文件中</span></span><br><span class="line">	:.w &gt;&gt; note		#仅仅将当前行追加另一个文件中</span><br></pre></td></tr></table></figure>
+
+<p>还可以和<code>！</code>搭配起来使用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line"><span class="meta">	#</span><span class="bash">统计文本中的字数</span></span><br><span class="line">	:w !wc -l</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="格式化文本"><a href="#格式化文本" class="headerlink" title="格式化文本"></a>格式化文本</h1><p><code>gq</code>加上要格式化的范围，这个范围由移动等范围操作动作组成</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line"><span class="meta">	#</span><span class="bash">格式化一段文本</span></span><br><span class="line">	gqap		#gq加ap，ap代表a paragraph</span><br><span class="line"><span class="meta">	#</span><span class="bash">格式化整个文本</span></span><br><span class="line">	gggqG		#gg移动到文本开头，gq加G，G代表文本末尾</span><br><span class="line"><span class="meta">	#</span><span class="bash">格式化三行</span></span><br><span class="line">	gq3j</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="大小写转换"><a href="#大小写转换" class="headerlink" title="大小写转换"></a>大小写转换</h1><p><code>gU</code>加范围动作，小写转大写</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line"><span class="meta">	#</span><span class="bash">将整个文本都全部变为大写</span></span><br><span class="line">	gggUG		#gg移动到文件开头，gU格式化，G指定一直到文件末尾</span><br><span class="line"><span class="meta">	#</span><span class="bash">将右边三个单词变为大写</span></span><br><span class="line">	gU3w		#gU格式化，3w右边三个单词</span><br></pre></td></tr></table></figure>
+
+<p><code>gu</code>加范围动作，大写转小写</p>
+<p><code>g~</code>加范围动作，大小写反转</p>
+<p><strong><em>tips:</em></strong>使用ctrl+L可以重新绘制屏幕。比如说在打开了一个很大的文件后，vim不会全部渲染，只会渲染当前的文本段，有时候会出现语法高亮绘制错误的情况，只需要ctrl+l刷新一下就可以了</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#读取"><span class="toc-number">1.</span> <span class="toc-text">读取</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#执行shell命令"><span class="toc-number">2.</span> <span class="toc-text">执行shell命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#写入文件"><span class="toc-number">3.</span> <span class="toc-text">写入文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#格式化文本"><span class="toc-number">4.</span> <span class="toc-text">格式化文本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#大小写转换"><span class="toc-number">5.</span> <span class="toc-text">大小写转换</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&text=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&is_video=false&description=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vim-读写以及执行shell命令&body=Check out this article: https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&title=vim-读写以及执行shell命令" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/19/vim-%E8%AF%BB%E5%86%99%E4%BB%A5%E5%8F%8A%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/&name=vim-读写以及执行shell命令&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

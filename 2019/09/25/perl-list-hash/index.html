@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="数组：list数组与列表可指代同一个东西，但是列表侧重于数据，而数组表示对数据的引用。 索引：从0开始数组间各元素以,分隔数组用()括起来1(1,3,5)  范围操作符：num..num数组的引用：@123@a&#x3D;(1,2,3,4,5)@b&#x3D;(1..5)#@a与@b相等  qw（quote word）简写qw函数在llist中可以省去重复的字符串 1234#这两个相同@num&#x3D;qw(1 3 5)@n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="perl_list_hash">
+<meta property="og:url" content="https://ulomo.github.io/2019/09/25/perl-list-hash/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="数组：list数组与列表可指代同一个东西，但是列表侧重于数据，而数组表示对数据的引用。 索引：从0开始数组间各元素以,分隔数组用()括起来1(1,3,5)  范围操作符：num..num数组的引用：@123@a&#x3D;(1,2,3,4,5)@b&#x3D;(1..5)#@a与@b相等  qw（quote word）简写qw函数在llist中可以省去重复的字符串 1234#这两个相同@num&#x3D;qw(1 3 5)@n">
+<meta property="article:published_time" content="2019-09-25T15:12:58.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.364Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>perl_list_hash</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/10/13/RE%E6%AD%A3%E5%88%99/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/09/18/perl%E7%BB%88%E4%BA%8E%E5%BC%80%E5%A7%8B%E4%BA%86/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/09/25/perl-list-hash/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&text=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&is_video=false&description=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=perl_list_hash&body=Check out this article: https://ulomo.github.io/2019/09/25/perl-list-hash/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&name=perl_list_hash&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组：list"><span class="toc-number">1.</span> <span class="toc-text">数组：list</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#索引：从0开始"><span class="toc-number">1.1.</span> <span class="toc-text">索引：从0开始</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数组间各元素以-分隔"><span class="toc-number">1.2.</span> <span class="toc-text">数组间各元素以,分隔</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数组用-括起来"><span class="toc-number">1.3.</span> <span class="toc-text">数组用()括起来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#范围操作符：num-num"><span class="toc-number">1.4.</span> <span class="toc-text">范围操作符：num..num</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数组的引用："><span class="toc-number">1.5.</span> <span class="toc-text">数组的引用：@</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#qw（quote-word）简写"><span class="toc-number">1.6.</span> <span class="toc-text">qw（quote word）简写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列表的赋值"><span class="toc-number">1.7.</span> <span class="toc-text">列表的赋值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取数组中的值"><span class="toc-number">2.</span> <span class="toc-text">取数组中的值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#下标、函数"><span class="toc-number">2.1.</span> <span class="toc-text">下标、函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#foreach循环所有值"><span class="toc-number">2.2.</span> <span class="toc-text">foreach循环所有值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#reverse逆序"><span class="toc-number">2.3.</span> <span class="toc-text">reverse逆序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#scalar强制转换列表为标量"><span class="toc-number">2.4.</span> <span class="toc-text">scalar强制转换列表为标量</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        perl_list_hash
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-09-25T15:12:58.000Z" itemprop="datePublished">2019-09-25</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="数组：list"><a href="#数组：list" class="headerlink" title="数组：list"></a>数组：list</h3><p>数组与列表可指代同一个东西，但是列表侧重于数据，而数组表示对数据的引用。</p>
+<h4 id="索引：从0开始"><a href="#索引：从0开始" class="headerlink" title="索引：从0开始"></a>索引：从0开始</h4><h4 id="数组间各元素以-分隔"><a href="#数组间各元素以-分隔" class="headerlink" title="数组间各元素以,分隔"></a>数组间各元素以<code>,</code>分隔</h4><h4 id="数组用-括起来"><a href="#数组用-括起来" class="headerlink" title="数组用()括起来"></a>数组用<code>()</code>括起来</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="范围操作符：num-num"><a href="#范围操作符：num-num" class="headerlink" title="范围操作符：num..num"></a>范围操作符：<code>num..num</code></h4><h4 id="数组的引用："><a href="#数组的引用：" class="headerlink" title="数组的引用：@"></a>数组的引用：<code>@</code></h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@a=(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">@b=(<span class="number">1</span>..<span class="number">5</span>)</span><br><span class="line"><span class="comment">#@a与@b相等</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="qw（quote-word）简写"><a href="#qw（quote-word）简写" class="headerlink" title="qw（quote word）简写"></a>qw（quote word）简写</h4><p>qw函数在llist中可以省去重复的字符串</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这两个相同</span></span><br><span class="line">@num=<span class="string">qw(1 3 5)</span></span><br><span class="line">@num=(<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>)</span><br><span class="line"><span class="comment">#同样的这个括号也是可选则别的</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="列表的赋值"><a href="#列表的赋值" class="headerlink" title="列表的赋值"></a>列表的赋值</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">($a,$b)=(<span class="string">"sunshine"</span>,<span class="string">"girl"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>交换两个变量</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这是我见过最快的交换两个变量的值的方法了，不需要借助中间变量</span></span><br><span class="line">($a,$b)=($b,$a)</span><br></pre></td></tr></table></figure>
+
+<h3 id="取数组中的值"><a href="#取数组中的值" class="headerlink" title="取数组中的值"></a>取数组中的值</h3><h4 id="下标、函数"><a href="#下标、函数" class="headerlink" title="下标、函数"></a>下标、函数</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@a=(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line"><span class="comment">#可使用下标取值的方式,与python、shell不同，下标并不用[]。</span></span><br><span class="line">$a<span class="string">&#123;0&#125;</span>,$a<span class="string">&#123;2&#125;</span></span><br><span class="line"><span class="comment">#更加常用的方式，将数据从数组中取出来，数组长度变短</span></span><br><span class="line"><span class="keyword">shift</span>/<span class="keyword">unshift</span> <span class="comment">#从头依次取出、添加数据</span></span><br><span class="line"><span class="keyword">shift</span>(@a);--&gt;<span class="number">1</span> </span><br><span class="line"><span class="keyword">unshift</span>(@a，<span class="number">0</span>);</span><br><span class="line"><span class="keyword">pop</span>/<span class="keyword">push</span>	<span class="comment">#从尾依次取出、添加数据</span></span><br><span class="line"><span class="keyword">pop</span>(@a);--&gt;<span class="number">5</span></span><br><span class="line"><span class="keyword">push</span>(@a,<span class="number">6</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="foreach循环所有值"><a href="#foreach循环所有值" class="headerlink" title="foreach循环所有值"></a><code>foreach</code>循环所有值</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#循环所有值</span></span><br><span class="line"><span class="keyword">foreach</span> $a(<span class="number">1</span>..<span class="number">10</span>)&#123;</span><br><span class="line">	<span class="keyword">print</span> $a,<span class="string">"\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@a=(<span class="number">1</span>..<span class="number">10</span>);</span><br><span class="line"><span class="keyword">foreach</span> $a(@a)&#123;</span><br><span class="line">	<span class="keyword">print</span> $a,<span class="string">"\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#$a或者$_是控制变量，控制变量依次迭代从列表中取一个新值。</span></span><br><span class="line"><span class="keyword">foreach</span> $_(@a)&#123;</span><br><span class="line">	<span class="keyword">print</span> $_,<span class="string">"\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#控制变量可以不写，默认变量$_</span></span><br><span class="line"><span class="keyword">foreach</span> (@a)&#123;</span><br><span class="line">	<span class="keyword">print</span> $_,<span class="string">"\n"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="reverse逆序"><a href="#reverse逆序" class="headerlink" title="reverse逆序"></a><code>reverse</code>逆序</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@a=(<span class="number">1</span>..<span class="number">10</span>);</span><br><span class="line">@b=<span class="keyword">reverse</span>(@a);</span><br><span class="line"><span class="comment">#括号可以省略</span></span><br><span class="line">@b=<span class="keyword">reverse</span> @a;</span><br><span class="line"><span class="comment">#范围操作符也可省略括号</span></span><br><span class="line">@b=<span class="keyword">reverse</span> <span class="number">1</span>..<span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#-------------perl中所有没有必要的括号都可以省略--------------</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="scalar强制转换列表为标量"><a href="#scalar强制转换列表为标量" class="headerlink" title="scalar强制转换列表为标量"></a><code>scalar</code>强制转换列表为标量</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@a=(<span class="number">1</span>..<span class="number">10</span>)</span><br><span class="line"><span class="keyword">scalar</span> @a;--&gt;<span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组：list"><span class="toc-number">1.</span> <span class="toc-text">数组：list</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#索引：从0开始"><span class="toc-number">1.1.</span> <span class="toc-text">索引：从0开始</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数组间各元素以-分隔"><span class="toc-number">1.2.</span> <span class="toc-text">数组间各元素以,分隔</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数组用-括起来"><span class="toc-number">1.3.</span> <span class="toc-text">数组用()括起来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#范围操作符：num-num"><span class="toc-number">1.4.</span> <span class="toc-text">范围操作符：num..num</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数组的引用："><span class="toc-number">1.5.</span> <span class="toc-text">数组的引用：@</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#qw（quote-word）简写"><span class="toc-number">1.6.</span> <span class="toc-text">qw（quote word）简写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列表的赋值"><span class="toc-number">1.7.</span> <span class="toc-text">列表的赋值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取数组中的值"><span class="toc-number">2.</span> <span class="toc-text">取数组中的值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#下标、函数"><span class="toc-number">2.1.</span> <span class="toc-text">下标、函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#foreach循环所有值"><span class="toc-number">2.2.</span> <span class="toc-text">foreach循环所有值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#reverse逆序"><span class="toc-number">2.3.</span> <span class="toc-text">reverse逆序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#scalar强制转换列表为标量"><span class="toc-number">2.4.</span> <span class="toc-text">scalar强制转换列表为标量</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/09/25/perl-list-hash/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&text=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&is_video=false&description=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=perl_list_hash&body=Check out this article: https://ulomo.github.io/2019/09/25/perl-list-hash/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&title=perl_list_hash" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/09/25/perl-list-hash/&name=perl_list_hash&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

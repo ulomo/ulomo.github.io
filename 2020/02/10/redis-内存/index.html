@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="如你所说，任何事情都不是绝对的。虽然说是内存数据库，但是真的是所有数据都放到内存中吗？应该是这样的吧，否则还叫什么内存数据库，其实错了，任何事情都有轻重缓急，而且内存不可能有硬盘那么大，不必要的数据还是放在了硬盘上面。  目标只有一个：提升速度。 那么就没必要将不经常使用的数据放内存里了，毕竟数据多了速度也会变慢。同时一些没必要存储的数据其实可以直接在内存中销毁，没必要写入磁盘。所以有两种策略来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis-内存">
+<meta property="og:url" content="https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="如你所说，任何事情都不是绝对的。虽然说是内存数据库，但是真的是所有数据都放到内存中吗？应该是这样的吧，否则还叫什么内存数据库，其实错了，任何事情都有轻重缓急，而且内存不可能有硬盘那么大，不必要的数据还是放在了硬盘上面。  目标只有一个：提升速度。 那么就没必要将不经常使用的数据放内存里了，毕竟数据多了速度也会变慢。同时一些没必要存储的数据其实可以直接在内存中销毁，没必要写入磁盘。所以有两种策略来">
+<meta property="article:published_time" content="2020-02-10T13:57:07.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.370Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>redis-内存</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/10/redis-%E8%BF%9C%E7%A8%8B/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/10/shell%E8%84%9A%E6%9C%AC%E6%9D%83%E9%99%90/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&text=redis-内存" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&is_video=false&description=redis-内存" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis-内存&body=Check out this article: https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&name=redis-内存&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设置过期时间–-gt-临时数据自动销毁"><span class="toc-number">1.</span> <span class="toc-text">设置过期时间–&gt;临时数据自动销毁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LRU动态算法–-gt-不用数据不加载到内存"><span class="toc-number">2.</span> <span class="toc-text">LRU动态算法–&gt;不用数据不加载到内存</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        redis-内存
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-02-10T13:57:07.000Z" itemprop="datePublished">2020-02-10</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/redis/" rel="tag">redis</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>如你所说，任何事情都不是绝对的。虽然说是内存数据库，但是真的是所有数据都放到内存中吗？应该是这样的吧，否则还叫什么内存数据库，其实错了，任何事情都有轻重缓急，而且内存不可能有硬盘那么大，不必要的数据还是放在了硬盘上面。</p>
+</blockquote>
+<p>目标只有一个：提升速度。</p>
+<p>那么就没必要将不经常使用的数据放内存里了，毕竟数据多了速度也会变慢。同时一些没必要存储的数据其实可以直接在内存中销毁，没必要写入磁盘。所以有两种策略来实现这一目标</p>
+<h1 id="设置过期时间–-gt-临时数据自动销毁"><a href="#设置过期时间–-gt-临时数据自动销毁" class="headerlink" title="设置过期时间–&gt;临时数据自动销毁"></a>设置过期时间–&gt;临时数据自动销毁</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">expire key time # time单位为秒</span><br><span class="line">setex(string key,int seconds,string value)  # 字符串使用（特例）</span><br><span class="line"></span><br><span class="line">ttl key	# 查看过期时间</span><br></pre></td></tr></table></figure>
+
+<p>撤销设置的过期时间</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">persist key	# 如果不想销毁，可以撤销</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">127.0.0.1:6379&gt; set name lanzhan	# 插入数据key-value，name-&gt;lanzhan</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; ttl name	# 查看过期时间，-1为永不过期</span><br><span class="line">(integer) -1</span><br><span class="line">127.0.0.1:6379&gt; expire name 20	# 设置过期时间为20s</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; persist name	# 撤销过期时间</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl name	# 现在又为永不过期</span><br><span class="line">(integer) -1</span><br><span class="line">127.0.0.1:6379&gt; expire name 2	# 设置过期时间为2s</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl name	# 已经过期，-2为已过期</span><br><span class="line">(integer) -2</span><br><span class="line">127.0.0.1:6379&gt; keys *	# 数据已销毁，不存在了</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
+
+<p>适合场景：临时数据（验证码），中间数据（类似与oracle中建的那些临时表）</p>
+<h1 id="LRU动态算法–-gt-不用数据不加载到内存"><a href="#LRU动态算法–-gt-不用数据不加载到内存" class="headerlink" title="LRU动态算法–&gt;不用数据不加载到内存"></a>LRU动态算法–&gt;不用数据不加载到内存</h1><p>redis启动时默认会将所有数据都加载到内存中，lru算法会将不常用数据在内存中销毁，需要时才会从硬盘中再次读取</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设置过期时间–-gt-临时数据自动销毁"><span class="toc-number">1.</span> <span class="toc-text">设置过期时间–&gt;临时数据自动销毁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LRU动态算法–-gt-不用数据不加载到内存"><span class="toc-number">2.</span> <span class="toc-text">LRU动态算法–&gt;不用数据不加载到内存</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&text=redis-内存" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&is_video=false&description=redis-内存" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis-内存&body=Check out this article: https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&title=redis-内存" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/10/redis-%E5%86%85%E5%AD%98/&name=redis-内存&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

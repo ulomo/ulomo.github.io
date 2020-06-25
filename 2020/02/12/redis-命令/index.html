@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="切换数据库默认有16个数据库0-15，切换数据库使用select 1select 15    删除与保存flushall：删除所有数据 save：保存，上一条命令的结果即刻同步数据到硬盘 bgsave：和save一样的作用，不同点在于save是停止当前所有的写操作，先进行备份同步，而bgsave是可以一边写一边保存 这两个命令和sql中的提交commit作用一样，会立即生效即同步数据到硬盘 key">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis-命令">
+<meta property="og:url" content="https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="切换数据库默认有16个数据库0-15，切换数据库使用select 1select 15    删除与保存flushall：删除所有数据 save：保存，上一条命令的结果即刻同步数据到硬盘 bgsave：和save一样的作用，不同点在于save是停止当前所有的写操作，先进行备份同步，而bgsave是可以一边写一边保存 这两个命令和sql中的提交commit作用一样，会立即生效即同步数据到硬盘 key">
+<meta property="article:published_time" content="2020-02-12T12:27:08.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.370Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>redis-命令</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/10/redis-%E8%BF%9C%E7%A8%8B/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&text=redis-命令" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&is_video=false&description=redis-命令" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis-命令&body=Check out this article: https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&name=redis-命令&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#切换数据库"><span class="toc-number">1.</span> <span class="toc-text">切换数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除与保存"><span class="toc-number">2.</span> <span class="toc-text">删除与保存</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#key键"><span class="toc-number">3.</span> <span class="toc-text">key键</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#key命令-适用于所有的数据类型的命令"><span class="toc-number">3.1.</span> <span class="toc-text">key命令:适用于所有的数据类型的命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#key命名规范"><span class="toc-number">3.2.</span> <span class="toc-text">key命名规范</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#value数据类型"><span class="toc-number">4.</span> <span class="toc-text">value数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#string"><span class="toc-number">4.1.</span> <span class="toc-text">string</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#赋值"><span class="toc-number">4.1.1.</span> <span class="toc-text">赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取值"><span class="toc-number">4.1.2.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数字递增-减"><span class="toc-number">4.1.3.</span> <span class="toc-text">数字递增&#x2F;减</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#list"><span class="toc-number">4.2.</span> <span class="toc-text">list</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#赋值-1"><span class="toc-number">4.2.1.</span> <span class="toc-text">赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加"><span class="toc-number">4.2.2.</span> <span class="toc-text">增加</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取值-1"><span class="toc-number">4.2.3.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">4.2.4.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表长度"><span class="toc-number">4.2.5.</span> <span class="toc-text">列表长度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#set"><span class="toc-number">4.3.</span> <span class="toc-text">set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加-1"><span class="toc-number">4.3.1.</span> <span class="toc-text">增加</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取值-2"><span class="toc-number">4.3.2.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断"><span class="toc-number">4.3.3.</span> <span class="toc-text">判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-1"><span class="toc-number">4.3.4.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动"><span class="toc-number">4.3.5.</span> <span class="toc-text">移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集合长度"><span class="toc-number">4.3.6.</span> <span class="toc-text">集合长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集合运算"><span class="toc-number">4.3.7.</span> <span class="toc-text">集合运算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zset"><span class="toc-number">4.4.</span> <span class="toc-text">zset</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加、更新"><span class="toc-number">4.4.1.</span> <span class="toc-text">增加、更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-number">4.4.2.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-2"><span class="toc-number">4.4.3.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#长度"><span class="toc-number">4.4.4.</span> <span class="toc-text">长度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hash"><span class="toc-number">4.5.</span> <span class="toc-text">hash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加、更新-1"><span class="toc-number">4.5.1.</span> <span class="toc-text">增加、更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取值-3"><span class="toc-number">4.5.2.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-3"><span class="toc-number">4.5.3.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断-1"><span class="toc-number">4.5.4.</span> <span class="toc-text">判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#长度-1"><span class="toc-number">4.5.5.</span> <span class="toc-text">长度</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        redis-命令
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-02-12T12:27:08.000Z" itemprop="datePublished">2020-02-12</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="切换数据库"><a href="#切换数据库" class="headerlink" title="切换数据库"></a>切换数据库</h1><p>默认有16个数据库0-15，切换数据库使用<code>select</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 15</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="删除与保存"><a href="#删除与保存" class="headerlink" title="删除与保存"></a>删除与保存</h1><p><code>flushall</code>：删除所有数据</p>
+<p><code>save</code>：保存，上一条命令的结果即刻同步数据到硬盘</p>
+<p><code>bgsave</code>：和save一样的作用，不同点在于save是停止当前所有的写操作，先进行备份同步，而bgsave是可以一边写一边保存</p>
+<p>这两个命令和sql中的提交commit作用一样，会立即生效即同步数据到硬盘</p>
+<h1 id="key键"><a href="#key键" class="headerlink" title="key键"></a>key键</h1><h2 id="key命令-适用于所有的数据类型的命令"><a href="#key命令-适用于所有的数据类型的命令" class="headerlink" title="key命令:适用于所有的数据类型的命令"></a>key命令:适用于所有的数据类型的命令</h2><p><code>keys *</code>查看所有的key ——————————–&gt; <strong>keys命令支持正则匹配</strong></p>
+<p><code>exists key</code>是否存在key，存在返回1，否则返回0</p>
+<p><code>expire key time</code>设置key的过期时间，单位秒</p>
+<p><code>pexpire key time</code>设置key的过期时间，单位毫秒</p>
+<p><code>persist key</code>撤销过期设置</p>
+<p><code>ttl key</code>查看过期时间time to live，-1为永不过期，-2为已近销毁</p>
+<p><code>pttl key</code>查看过期时间，单位毫秒</p>
+<p><code>del key</code>删除key</p>
+<p><code>rename key newkey</code>重命名key</p>
+<p><code>move key dbindex</code>将key移到其它数据库（默认16个：0-15）</p>
+<p><code>randomkey</code>随机返回一个key</p>
+<p><code>type key</code>查看key对应值的存储类型</p>
+<h2 id="key命名规范"><a href="#key命名规范" class="headerlink" title="key命名规范"></a>key命名规范</h2><ol>
+<li><p>单个key支持最大512M</p>
+</li>
+<li><p>每个key都是唯一的</p>
+</li>
+<li><p>key区分大小写</p>
+</li>
+<li><p>key使用统一的命名格式，使用冒号分隔，用来区分数据以及分类</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">school:student:1</span><br><span class="line">school:student:2</span><br><span class="line">school:teacher:1</span><br><span class="line">school:teacher:2</span><br></pre></td></tr></table></figure>
+
+<p>每个key都做到了唯一，而且易于区分，加快查询速度，比如要查询所有的老师信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keys school:teacher*</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ol>
+<h1 id="value数据类型"><a href="#value数据类型" class="headerlink" title="value数据类型"></a>value数据类型</h1><p>redis支持五种不同的数据类型：</p>
+<ul>
+<li>string：用来存放字符串</li>
+<li>list：value为list的有序集合，存储list集合，当值被清空后，键也不复存在了。不存在空的list</li>
+<li>set：无序不重复数据，与list一样为集合，只不过不允许list中出现重复的数据，而且数据无序</li>
+<li>zset：有序不重复数据，与set类似，不过是有序的集合。通过给每个元素添加一个score，来判断顺序，元素不可重复，但是score可以重复</li>
+<li>hash：其value为hash的key-value键值对，适合用来存储对象，这也是最接近sql的一种数据类型，如果比作sql的话就像将字段与值对应起来的关系</li>
+</ul>
+<h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><p>最大同样可以存储512M</p>
+<h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><p><code>set key value</code>：key唯一，后面的重复key会覆盖前面的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set school:user:1 lanzhan</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>setnx key value</code>：表示set if not exist，当没有出现过的key才赋值，这样比较安全，推荐使用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setnx school:user:1 zhansan</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>setex key time value</code>：表示set expire，赋值的同时设置过期时间，time单位为秒</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setex school:user:2 libai</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>setrange key offset value</code>：从偏移offset开始覆盖指定key的value值，偏移值从0开始计数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set school:user:3 libai</span><br><span class="line">127.0.0.1:6379&gt; setrange school:user:3 2 shishi</span><br><span class="line">127.0.0.1:6379&gt; get school:user:3</span><br><span class="line">"lishishi"</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>mset key1 value1 key2 value2....</code>：同时设置一个或多个 key-value 对</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mset user1 libai user2 hanxing user3 gonsunli</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>msetnx key1 value1 key2 value2....</code>：如果不存在就赋值if not exists，同理</p>
+<p>如果其中一个已经存在，那么整条命令都不会执行</p>
+<h3 id="取值"><a href="#取值" class="headerlink" title="取值"></a>取值</h3><p><code>get key</code>：获取指定key的值</p>
+<p><code>getrange key start end</code>：获取key中字符串的子字符串，范围取值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set school:user:baijuyi 12345678</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get school:user:baijuyi</span><br><span class="line">"12345678"</span><br><span class="line">127.0.0.1:6379&gt; getrange school:user:baijuyi 0 3</span><br><span class="line">"1234"</span><br></pre></td></tr></table></figure>
+
+<p><code>mget key1 key2 ...</code>：获取所有(一个或多个)给定 key 的值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mget user1 user2 user3</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="数字递增-减"><a href="#数字递增-减" class="headerlink" title="数字递增/减"></a>数字递增/减</h3><p>将value为数字的这种进行增加或减少，目前来看它的作用在于统计数字</p>
+<p><code>incr key</code>：递增1</p>
+<p><code>decr key</code>：递减1</p>
+<p><code>incrby key num</code>：递增num个</p>
+<p><code>decrby key num</code>：递减num个</p>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><h3 id="赋值-1"><a href="#赋值-1" class="headerlink" title="赋值"></a>赋值</h3><p><code>lpush key member1 member2 member3</code>：按照顺序将这个list插入数据库，将一个或多个值插入到列表<strong>头部</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lpush user1 1 2 3 4 5</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>rpush key member1 member2 member3</code>：在列表中添加一个或多个值，尾部</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpush user2 1 2 3 4 5</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="增加"><a href="#增加" class="headerlink" title="增加"></a>增加</h3><p><code>linsert key before/after pivot member</code>：在某个pivot元素前/后插入数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lrange user1 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">127.0.0.1:6379&gt; linsert user1 before 2 a</span><br><span class="line">127.0.0.1:6379&gt; lrange user1 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "a"</span><br><span class="line">3) "2"</span><br><span class="line">4) "3"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="取值-1"><a href="#取值-1" class="headerlink" title="取值"></a>取值</h3><p><code>lrange key start end</code>：查看列表指定范围内的元素</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lrange user1 0 2</span><br><span class="line">1) "5"</span><br><span class="line">2) "4"</span><br><span class="line">3) "3"</span><br></pre></td></tr></table></figure>
+
+<p><code>lrange key 0 -1</code>：查看整条数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lrange user1 0 -1</span><br><span class="line">1) "5"</span><br><span class="line">2) "4"</span><br><span class="line">3) "3"</span><br><span class="line">4) "2"</span><br><span class="line">5) "1"</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lrange user2 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">4) "4"</span><br><span class="line">5) "5"</span><br></pre></td></tr></table></figure>
+
+<p>需要注意lpush与rpush的顺序不同，lpush相当于从栈的底部传入数据，最先传入的数据最后到了栈顶</p>
+<p>lrange并不属于栈的操作，所以只是简单的将这个list从左到右的显示出来</p>
+<p><code>lindex key index</code>：通过索引获取列表中的元素</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lrange user1 0 -1</span><br><span class="line">1) "4"</span><br><span class="line">2) "3"</span><br><span class="line">3) "2"</span><br><span class="line">127.0.0.1:6379&gt; lindex user1 0</span><br><span class="line">"4"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p><code>lpop key</code>：这个不同于lrange，它属于栈操作，会将数据取出来，并且删除。从栈底取数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lpop user1</span><br><span class="line">"5"</span><br><span class="line">127.0.0.1:6379&gt; lrange user1 0 -1</span><br><span class="line">1) "4"</span><br><span class="line">2) "3"</span><br><span class="line">3) "2"</span><br><span class="line">4) "1"</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; lpop user2</span><br><span class="line">"1"</span><br></pre></td></tr></table></figure>
+
+<p><code>rpop key</code>：栈顶取数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; rpop user1</span><br><span class="line">"1"</span><br><span class="line">127.0.0.1:6379&gt; lrange user1 0 -1</span><br><span class="line">1) "4"</span><br><span class="line">2) "3"</span><br><span class="line">3) "2"</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>lrem key count member</code>：删除count个value值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; rpush user3 1 2 2 3 3 3</span><br><span class="line">(integer) 6</span><br><span class="line">127.0.0.1:6379&gt; lrange user3 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "2"</span><br><span class="line">4) "3"</span><br><span class="line">5) "3"</span><br><span class="line">6) "3"</span><br><span class="line">127.0.0.1:6379&gt; lrem user3 2 3   # 删除2个3</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; lrange user3 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "2"</span><br><span class="line">4) "3"</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>ltrim key start_index end_index</code>:对一个列表进行修剪(trim)，就是说，让列表只保留指定区间内的元素，不在指定区间之内的元素都将被删除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; rpush user4 1 2 3 4 5 6</span><br><span class="line">(integer) 6</span><br><span class="line">127.0.0.1:6379&gt; lrange user4 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">4) "4"</span><br><span class="line">5) "5"</span><br><span class="line">6) "6"</span><br><span class="line">127.0.0.1:6379&gt; ltrim user4 2 4	# 只保留索引为2到4的元素</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; lrange user4 0 -1</span><br><span class="line">1) "3"</span><br><span class="line">2) "4"</span><br><span class="line">3) "5"</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>rpoplpush source destination</code>：移出source的栈顶元素，并加入到destination的栈底</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; rpush user1 1 2 3 4</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; rpush user2 1 2 3 4</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; lrange user1 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">4) "4"</span><br><span class="line">127.0.0.1:6379&gt; lrange user2 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">4) "4"</span><br><span class="line">127.0.0.1:6379&gt; rpoplpush user1 user2</span><br><span class="line">"4"</span><br><span class="line">127.0.0.1:6379&gt; lrange user1 0 -1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">127.0.0.1:6379&gt; lrange user2 0 -1</span><br><span class="line">1) "4"</span><br><span class="line">2) "1"</span><br><span class="line">3) "2"</span><br><span class="line">4) "3"</span><br><span class="line">5) "4"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="列表长度"><a href="#列表长度" class="headerlink" title="列表长度"></a>列表长度</h3><p><code>llen key</code>：获取列表长度</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lrange user2 0 -1</span><br><span class="line">1) "2"</span><br><span class="line">2) "3"</span><br><span class="line">3) "4"</span><br><span class="line">4) "5"</span><br><span class="line">127.0.0.1:6379&gt; llen user2</span><br><span class="line">(integer) 4</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><h3 id="增加-1"><a href="#增加-1" class="headerlink" title="增加"></a>增加</h3><p><code>sadd key member1 member2 member3</code>：value不允许重复，如果有重复则会自动去掉多余的重复数据。在给之前存在的key添加值时，如果出现重复数据也会自动忽略这些重复数据，只添加不重复的那些数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sadd user1 1 2 2 3 3 3</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; smembers user1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="取值-2"><a href="#取值-2" class="headerlink" title="取值"></a>取值</h3><p><code>smembers key</code>：查看key的value值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smembers user1</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>srandmember key num</code>：从集合中随机去num个元素</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; smembers user1</span><br><span class="line">1) "1"</span><br><span class="line">2) "3"</span><br><span class="line">127.0.0.1:6379&gt; srandmember user1 1</span><br><span class="line">1) "3"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><p><code>sinmember key member</code>：判断某个元素value是否属于key，存在返回1，否则返回0</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; smembers user1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">127.0.0.1:6379&gt; sismember user1 1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sismember user1 4</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h3><p><code>srem key member</code>：删除集合中指定的元素</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; smembers user1</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">127.0.0.1:6379&gt; srem user1 2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; smembers user1</span><br><span class="line">1) "1"</span><br><span class="line">2) "3"</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>spop key</code>：与list的pop操作不同，这里的pop是随机删除一个元素</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spop user1</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h3><p><code>smove key1 key2 member</code>：将key1中的value移到key2中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sadd user1 1 2 3</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; sadd user2 2 3 4</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; smove user1 user2 1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; smembers user1</span><br><span class="line">1) "2"</span><br><span class="line">2) "3"</span><br><span class="line">127.0.0.1:6379&gt; smembers user2</span><br><span class="line">1) "1"</span><br><span class="line">2) "2"</span><br><span class="line">3) "3"</span><br><span class="line">4) "4"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="集合长度"><a href="#集合长度" class="headerlink" title="集合长度"></a>集合长度</h3><p><code>scard key</code>：获取集合元素个数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; scard user1</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h3><p>会自动去重</p>
+<p><code>sdiff key1 key2</code>：差集，key1 差 key2</p>
+<p><code>sinter key1 key2</code>：交集， key1 交 key2</p>
+<p><code>sunion key1 key2</code>：并集，key1 并 key2</p>
+<h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><h3 id="增加、更新"><a href="#增加、更新" class="headerlink" title="增加、更新"></a>增加、更新</h3><p><code>zadd key score1 member1 score2 member2</code>：向有序集合添加一个或多个成员，或者更新已存在成员的分数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zadd user3 10 a 20 b 20 c 40 d</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><p><code>zrange key index_start index_end</code>：查看范围内的元素</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange user3 0 -1</span><br><span class="line">1) "a"</span><br><span class="line">2) "b"</span><br><span class="line">3) "c"</span><br><span class="line">4) "d"</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>zrevrange key index_start index_end</code>：查看范围内的元素，倒序</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrevrange user3 0 -1</span><br><span class="line">1) "c"</span><br><span class="line">2) "b"</span><br><span class="line">3) "a"</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>zrange key index_start index_end withscores</code>：查看范围内的元素，以及成员分数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange user3 0 -1 withscores</span><br><span class="line">1) "a"</span><br><span class="line">2) "10"</span><br><span class="line">3) "b"</span><br><span class="line">4) "20"</span><br><span class="line">5) "c"</span><br><span class="line">6) "20"</span><br><span class="line">7) "d"</span><br><span class="line">8) "40"</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>zrangebyscore key min_score max_score limit index count</code>：查看分数范围内的成员(可选用limit来再次筛选)，score为闭合区间</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrangebyscore user3 20 40</span><br><span class="line">1) "b"</span><br><span class="line">2) "c"</span><br><span class="line">3) "d"</span><br><span class="line">127.0.0.1:6379&gt; zrangebyscore user3 20 40 limit 0 1</span><br><span class="line">1) "b"</span><br></pre></td></tr></table></figure>
+
+<p>如果要不闭合使用<code>(</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrangebyscore user3 (20 40</span><br><span class="line">1) "d"</span><br><span class="line">127.0.0.1:6379&gt; zrangebyscore user3 (20 (40</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>zrevrangebyscore key max_score min_score limit index count</code>：先倒叙再查看分数范围内的成员(可选用limit来再次筛选)，score为闭合区间</p>
+<p><code>zrank key member</code>：查看元素的index</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange user3 0 -1</span><br><span class="line">1) "a"</span><br><span class="line">2) "b"</span><br><span class="line">3) "c"</span><br><span class="line">127.0.0.1:6379&gt; zrank user3 c</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>zrevrank key member</code>：先倒序，再查看其索引</p>
+<p><code>zscore key score</code>：查看元素对应的score</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange user3 0 -1 withscores</span><br><span class="line">1) "a"</span><br><span class="line">2) "10"</span><br><span class="line">3) "b"</span><br><span class="line">4) "20"</span><br><span class="line">5) "c"</span><br><span class="line">6) "20"</span><br><span class="line">127.0.0.1:6379&gt; zscore user3 a</span><br><span class="line">"10"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除-2"><a href="#删除-2" class="headerlink" title="删除"></a>删除</h3><p><code>zrem key member</code>：删除指定memeber元素，连同score一起删除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zrem user3 d</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="长度"><a href="#长度" class="headerlink" title="长度"></a>长度</h3><p><code>zcard key</code>：计算集合长度，不包含score</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zcard user3</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>zcount key min_score max_score</code>：计算指定分数内的成员数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrangebyscore user3 20 40</span><br><span class="line">1) "b"</span><br><span class="line">2) "c"</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; zcount user3 20 40</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><h3 id="增加、更新-1"><a href="#增加、更新-1" class="headerlink" title="增加、更新"></a>增加、更新</h3><p>由于field也为key关键字，所以也不能重复，重复会覆盖</p>
+<p><code>hset key field value</code>：一个一个的赋值</p>
+<p><code>hsetnx key field value</code>：不存在的话再赋值if not exists</p>
+<p><code>hmset key field1 value1 field2 value2...</code>：可一次进行多个赋值，更加实用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hmset user10 id 1 name libai age 18</span><br></pre></td></tr></table></figure>
+
+<p><code>hincrby key field num</code>：对整数的value进行num个数的增加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hget user10 id</span><br><span class="line">"1"</span><br><span class="line">127.0.0.1:6379&gt; hincrby user10 id 3</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; hget user10 id</span><br><span class="line">"4"</span><br></pre></td></tr></table></figure>
+
+<p><code>hincrfloat key field num</code>：对浮点数进行num个数的增加</p>
+<h3 id="取值-3"><a href="#取值-3" class="headerlink" title="取值"></a>取值</h3><p><code>hget key filed</code>：一个一个的取值</p>
+<p><code>hmget key field1 field2....</code>：可一次取多个值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hmget user10 id name age</span><br></pre></td></tr></table></figure>
+
+<p><code>hgetall key</code>：一次获取所有键值对</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hgetall user10</span><br></pre></td></tr></table></figure>
+
+<p><code>hkeys key</code>：查看所有的field</p>
+<p><code>hvals key</code>：查看所有的value</p>
+<h3 id="删除-3"><a href="#删除-3" class="headerlink" title="删除"></a>删除</h3><p><code>hdel key field1 field2</code>：删除hash中的指定键值对</p>
+<p><code>del key</code>：删除所有键值对</p>
+<h3 id="判断-1"><a href="#判断-1" class="headerlink" title="判断"></a>判断</h3><p><code>hexists key field</code>：判断是否有此field的键值对</p>
+<h3 id="长度-1"><a href="#长度-1" class="headerlink" title="长度"></a>长度</h3><p><code>hlen key</code>：查看键值对的个数</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>学了这些数据类型之后发现redis真的可以替代oracle，mysql这些，因为它可以存储它们所能存储的数据，而且更好。</p>
+<p>我觉得使用的最多的是hash，其次是string，然后是list，至于set和zset使用的应该比较少吧</p>
+<p>不过我还是有些不懂的，前面所学的都是针对一条记录来操作的，那么sql中那些复杂的查询语句，在redis中如何才能查询到结果呢，总不能用循环来一条一条的查吧，有没有对多列数据的操作命令呢？</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#切换数据库"><span class="toc-number">1.</span> <span class="toc-text">切换数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除与保存"><span class="toc-number">2.</span> <span class="toc-text">删除与保存</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#key键"><span class="toc-number">3.</span> <span class="toc-text">key键</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#key命令-适用于所有的数据类型的命令"><span class="toc-number">3.1.</span> <span class="toc-text">key命令:适用于所有的数据类型的命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#key命名规范"><span class="toc-number">3.2.</span> <span class="toc-text">key命名规范</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#value数据类型"><span class="toc-number">4.</span> <span class="toc-text">value数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#string"><span class="toc-number">4.1.</span> <span class="toc-text">string</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#赋值"><span class="toc-number">4.1.1.</span> <span class="toc-text">赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取值"><span class="toc-number">4.1.2.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数字递增-减"><span class="toc-number">4.1.3.</span> <span class="toc-text">数字递增&#x2F;减</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#list"><span class="toc-number">4.2.</span> <span class="toc-text">list</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#赋值-1"><span class="toc-number">4.2.1.</span> <span class="toc-text">赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加"><span class="toc-number">4.2.2.</span> <span class="toc-text">增加</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取值-1"><span class="toc-number">4.2.3.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">4.2.4.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表长度"><span class="toc-number">4.2.5.</span> <span class="toc-text">列表长度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#set"><span class="toc-number">4.3.</span> <span class="toc-text">set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加-1"><span class="toc-number">4.3.1.</span> <span class="toc-text">增加</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取值-2"><span class="toc-number">4.3.2.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断"><span class="toc-number">4.3.3.</span> <span class="toc-text">判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-1"><span class="toc-number">4.3.4.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动"><span class="toc-number">4.3.5.</span> <span class="toc-text">移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集合长度"><span class="toc-number">4.3.6.</span> <span class="toc-text">集合长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集合运算"><span class="toc-number">4.3.7.</span> <span class="toc-text">集合运算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zset"><span class="toc-number">4.4.</span> <span class="toc-text">zset</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加、更新"><span class="toc-number">4.4.1.</span> <span class="toc-text">增加、更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-number">4.4.2.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-2"><span class="toc-number">4.4.3.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#长度"><span class="toc-number">4.4.4.</span> <span class="toc-text">长度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hash"><span class="toc-number">4.5.</span> <span class="toc-text">hash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加、更新-1"><span class="toc-number">4.5.1.</span> <span class="toc-text">增加、更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取值-3"><span class="toc-number">4.5.2.</span> <span class="toc-text">取值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-3"><span class="toc-number">4.5.3.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断-1"><span class="toc-number">4.5.4.</span> <span class="toc-text">判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#长度-1"><span class="toc-number">4.5.5.</span> <span class="toc-text">长度</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&text=redis-命令" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&is_video=false&description=redis-命令" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis-命令&body=Check out this article: https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&title=redis-命令" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/12/redis-%E5%91%BD%E4%BB%A4/&name=redis-命令&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

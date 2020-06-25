@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="构造函数__init__作用：在对象创建时自动调用。不需要手动调用函数，常用于初始化一些变量，属性。使用内置__init__特殊方法 12345678910class A():    def __init__(self):        self.num &#x3D; 30    def get_num(self):        return self.num# B继承与A，可以重写A的init方法cla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python-内置函数">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="构造函数__init__作用：在对象创建时自动调用。不需要手动调用函数，常用于初始化一些变量，属性。使用内置__init__特殊方法 12345678910class A():    def __init__(self):        self.num &#x3D; 30    def get_num(self):        return self.num# B继承与A，可以重写A的init方法cla">
+<meta property="article:published_time" content="2019-11-19T15:43:13.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.367Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="一生所爱">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>python-内置函数</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/19/python-%E5%87%BD%E6%95%B0/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/18/vim-%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&text=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&is_video=false&description=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python-内置函数&body=Check out this article: https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&name=python-内置函数&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#构造函数"><span class="toc-number">1.</span> <span class="toc-text">构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#init"><span class="toc-number">1.1.</span> <span class="toc-text">__init__</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他内置方法"><span class="toc-number">2.</span> <span class="toc-text">其他内置方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数property"><span class="toc-number">2.1.</span> <span class="toc-text">函数property</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        python-内置函数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-19T15:43:13.000Z" itemprop="datePublished">2019-11-19</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E4%B8%80%E7%94%9F%E6%89%80%E7%88%B1/" rel="tag">一生所爱</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><h2 id="init"><a href="#init" class="headerlink" title="__init__"></a><code>__init__</code></h2><p>作用：在对象创建时自动调用。不需要手动调用函数，常用于初始化一些变量，属性。使用内置<code>__init__</code>特殊方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.num = <span class="number">30</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_num</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.num</span><br><span class="line"></span><br><span class="line"><span class="comment"># B继承与A，可以重写A的init方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"have not use A's init method"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果B是继承与A，同时又重写了A的init方法，但是其它的方法中需要用到初始化A的数据（self.num），那么必须包含初始化A的init语句，否则会报错。因为改写的B中没有这个变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这样写表示在B的init方法中调用A的init方法，B中其它方法如果需要使用到self.num时就不会报错</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        A.__init__(self)</span><br></pre></td></tr></table></figure>
+
+<p>上面这种写法是2.x版本写法，3.x版本写法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br></pre></td></tr></table></figure>
+
+<p>使用到了<code>super</code>函数，而且没有使用<code>self</code>，优点在于有多个超类的时候只需要写一个就行。它返回一个<code>super对象</code>，访问其属性时，它会在所有的超类中寻找。</p>
+<h1 id="其他内置方法"><a href="#其他内置方法" class="headerlink" title="其他内置方法"></a>其他内置方法</h1><p>实现序列，要求不使用get，set方法，一个对象既可以设值，也可以取值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_index</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(key, int):</span><br><span class="line">        <span class="keyword">raise</span> TypeError</span><br><span class="line">    <span class="keyword">if</span> key &lt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> IndexError</span><br><span class="line">        </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">mylist</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 初始化变量，字典</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, start=<span class="number">0</span>, step=<span class="number">1</span>)</span>:</span></span><br><span class="line">        self.start = start</span><br><span class="line">        self.step = step</span><br><span class="line">        self.changed = &#123;&#125;</span><br><span class="line">     </span><br><span class="line">    <span class="comment"># 如果只输入一个值，则查找返回值</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(key)</span>:</span></span><br><span class="line">        check_index(key)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> self.changed[key]</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> self.start + self.step * key</span><br><span class="line">      </span><br><span class="line">    <span class="comment"># 如果输入两个值，则为设置值</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span><span class="params">(key, value)</span>:</span></span><br><span class="line">        check_index(key)</span><br><span class="line">        self.changed[key] = value</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="函数property"><a href="#函数property" class="headerlink" title="函数property"></a>函数property</h2><p>这个函数就可以简化上面复杂的步骤，将set和get统一为一个属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Juice</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.count = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_count</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.count</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_count</span><span class="params">(self,num)</span>:</span></span><br><span class="line">        self.count = num</span><br><span class="line">        </span><br><span class="line">    mycount = property(get_count, set_count)</span><br><span class="line"></span><br><span class="line">c = Juice()</span><br><span class="line">c.mycount</span><br></pre></td></tr></table></figure>
+
+<p><strong>需要特别注意的是，上面代替get与set的名称不能写count，而要使用其他的名字比如mycount</strong></p>
+<p>因为最终我们调用函数的时候(如果写成了count)会写<code>c.count</code>，那么当他在执行get函数的时候，会返回一个<code>self.count</code>。self指代的是对象自身，那么就又返回到调用函数<code>c.count</code>这样就形成了递归调用。</p>
+<p>解决方法是要么修改property封装的属性名称（mycount），要么在变量前加下划线（_count/__count）。目的就是为了不形成迭代关系。</p>
+<p><code>property</code>中的参数顺序不能错：<code>property(get, set, del)</code></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#构造函数"><span class="toc-number">1.</span> <span class="toc-text">构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#init"><span class="toc-number">1.1.</span> <span class="toc-text">__init__</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他内置方法"><span class="toc-number">2.</span> <span class="toc-text">其他内置方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数property"><span class="toc-number">2.1.</span> <span class="toc-text">函数property</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&text=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&is_video=false&description=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python-内置函数&body=Check out this article: https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&title=python-内置函数" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/&name=python-内置函数&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="cat more less diff&#x2F;colordiff wc   使用linux总会有这种感觉,用起来怎么那么舒服呢?没错,真的是这样的我们在windows上想看一个文本文件里面写了什么,一般都是用记事本打开来看吧.然而这个记事本实在是有点难用.so,我们来看看linux上怎么看文本内容吧   cat(concatenate file and print on the standard out">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文本内容查看">
+<meta property="og:url" content="https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="cat more less diff&#x2F;colordiff wc   使用linux总会有这种感觉,用起来怎么那么舒服呢?没错,真的是这样的我们在windows上想看一个文本文件里面写了什么,一般都是用记事本打开来看吧.然而这个记事本实在是有点难用.so,我们来看看linux上怎么看文本内容吧   cat(concatenate file and print on the standard out">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-8cf9ef9e19b89836.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-04-25T16:01:41.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.394Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9937522-8cf9ef9e19b89836.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>文本内容查看</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/27/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/25/%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&text=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&is_video=false&description=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=文本内容查看&body=Check out this article: https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&name=文本内容查看&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        文本内容查看
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-25T16:01:41.000Z" itemprop="datePublished">2019-04-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E7%B3%BB%E7%BB%9F/" rel="tag">系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p><a href="http://music.163.com/#/m/song?id=497463179" target="_blank" rel="noopener">cat more less diff/colordiff wc </a></p>
+</blockquote>
+<p>使用linux总会有这种感觉,用起来怎么那么舒服呢?没错,真的是这样的<br>我们在windows上想看一个文本文件里面写了什么,一般都是用记事本打开来看吧.然而这个记事本实在是有点难用.so,我们来看看linux上怎么看文本内容吧</p>
+<ul>
+<li><ol>
+<li><p><code>cat</code>(concatenate file and print on the standard output) 连接文件并输出到屏幕上</p>
+<pre><code>cat 文件名</code></pre><p>这样可以显示行号</p>
+<pre><code>cat -n 文件名   </code></pre></li>
+</ol>
+</li>
+<li><ol start="2">
+<li><p><code>less/more</code> 如果文件内容比较长,那么这两个命令就有作用了,支持滚屏.其中less支持回滚与vim的简单移动操作</p>
+<pre><code>more 文件名
+less 文件名</code></pre><p>这样可以显示行号</p>
+<pre><code>less -L 文件名</code></pre></li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><ol start="3">
+<li><p>如果不想看文本内容只想知道有多少行呢? <code>wc</code> 可以数文件行数,字数,最长一行的字符数</p>
+<pre><code>wc 文件名</code></pre><p> 不仅如此, wc是支持使用pipe(管道)的.简单说只要能在屏幕输出信息的都可以作为wc的输入.比如说你可以这样:<br>数一下/bin下有多少个命令?</p>
+<pre><code>ls /bin | wc -l</code></pre><p>统计一下有多少进程?</p>
+<pre><code>ps -aux | wc -l</code></pre></li>
+</ol>
+</li>
+<li><ol start="4">
+<li><p>如何比较两个文件的差别?vim可以,但是更简单的是  <code>diff</code></p>
+<pre><code>diff -y 文件1 文件2</code></pre><p> 但是  <code>diff</code>没有颜色显示,  <code>colordiff</code> 有颜色显示,安装一下就可以用了</p>
+<pre><code>sudo pacman -S colordiff
+colordiff -y 文件1 文件2</code></pre><p> <img src="https://upload-images.jianshu.io/upload_images/9937522-8cf9ef9e19b89836.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&text=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&is_video=false&description=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=文本内容查看&body=Check out this article: https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&title=文本内容查看" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B/&name=文本内容查看&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

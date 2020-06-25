@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="where条件查询从物理磁盘上读取数据时的查询操作，只能逐行操作。    -运算符 -说明 例子    &#x3D; 等于 select  * from emp where sal &#x3D; 1000;   注意：     当运算符的优先级不确定的时候加小括号。and的优先级大于or&gt; 1select * from emp where ename &#x3D; &#39;黎明&#39; and (sal&#x3D;1000 or sal &#x3D;3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DQL_SQL语法详解">
+<meta property="og:url" content="https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="where条件查询从物理磁盘上读取数据时的查询操作，只能逐行操作。    -运算符 -说明 例子    &#x3D; 等于 select  * from emp where sal &#x3D; 1000;   注意：     当运算符的优先级不确定的时候加小括号。and的优先级大于or&gt; 1select * from emp where ename &#x3D; &#39;黎明&#39; and (sal&#x3D;1000 or sal &#x3D;3">
+<meta property="article:published_time" content="2019-07-06T13:22:22.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.354Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>DQL_SQL语法详解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/06/DQL-SQL%E5%9F%BA%E6%9C%AC%E5%86%99%E6%B3%95/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&text=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&is_video=false&description=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DQL_SQL语法详解&body=Check out this article: https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&name=DQL_SQL语法详解&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#where条件查询"><span class="toc-number">1.</span> <span class="toc-text">where条件查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#排序-order-by"><span class="toc-number">2.</span> <span class="toc-text">排序 order by</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分组函数-多行处理函数"><span class="toc-number">3.</span> <span class="toc-text">分组函数(多行处理函数)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group-by-和-having"><span class="toc-number">4.</span> <span class="toc-text">group by 和 having</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        DQL_SQL语法详解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-07-06T13:22:22.000Z" itemprop="datePublished">2019-07-06</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h4 id="where条件查询"><a href="#where条件查询" class="headerlink" title="where条件查询"></a>where条件查询</h4><p>从物理磁盘上读取数据时的查询操作，只能逐行操作。</p>
+<table>
+<thead>
+<tr>
+<th align="center">-运算符</th>
+<th align="center">-说明</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">=</td>
+<td align="center">等于</td>
+<td>select  * from emp where sal = 1000;</td>
+</tr>
+<tr>
+<td align="center">注意：</td>
+<td align="center"></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><font color=brown>当运算符的优先级不确定的时候加小括号。and的优先级大于or</font>&gt;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> emp <span class="keyword">where</span> ename = <span class="string">'黎明'</span> <span class="keyword">and</span> (sal=<span class="number">1000</span> <span class="keyword">or</span> sal =<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+
+<p> <font color=brown>%代表任意多个字符    _代表一个字符, \具有转义作用</font></p>
+<p>查询名字中带有下划线的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> emp <span class="keyword">where</span> ename <span class="keyword">like</span> <span class="string">'%\_%'</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="排序-order-by"><a href="#排序-order-by" class="headerlink" title="排序 order by"></a>排序 order by</h4><p>默认升序：<code>asc</code></p>
+<p>降序：<code>desc</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure>
+
+<p>按照工资的降序排，当工资相同时在按照名字升序排</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>,ename <span class="keyword">asc</span>;</span><br></pre></td></tr></table></figure>
+
+<p>多重排序：越靠前的字段越能起到主导作用，只有当前面的字段无法完成排序的时候才启用后面的字段。</p>
+<p><font color=brown>排序能使用字段名，还能使用数字，使用数字时需要注意当数字所在字段变化时，排序的字段将变化，所有不推荐使用</font></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,sal <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">2</span>;		<span class="comment">#注意是根据sal排序的</span></span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th>-语句</th>
+<th>-执行顺序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>select</td>
+<td>5</td>
+</tr>
+<tr>
+<td>字段</td>
+<td></td>
+</tr>
+<tr>
+<td>from</td>
+<td>1</td>
+</tr>
+<tr>
+<td>表名</td>
+<td></td>
+</tr>
+<tr>
+<td>where</td>
+<td>2</td>
+</tr>
+<tr>
+<td>条件</td>
+<td></td>
+</tr>
+<tr>
+<td>group by</td>
+<td>3</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>having</td>
+<td>4</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>order by</td>
+<td>6</td>
+</tr>
+<tr>
+<td>…….</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="分组函数-多行处理函数"><a href="#分组函数-多行处理函数" class="headerlink" title="分组函数(多行处理函数)"></a>分组函数(多行处理函数)</h4><p>所有的分组函数都是对某一组数据进行的操作</p>
+<table>
+<thead>
+<tr>
+<th>-分组函数</th>
+<th>-举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>count()</td>
+<td>select count(*) from emp;</td>
+</tr>
+<tr>
+<td>sum()</td>
+<td>select sum(sal) from emp;</td>
+</tr>
+<tr>
+<td>max()</td>
+<td>select max(sal) from emp;</td>
+</tr>
+<tr>
+<td>min()</td>
+<td>select min(sal) from emp;</td>
+</tr>
+<tr>
+<td>avg()</td>
+<td>select avg(sal) from emp;</td>
+</tr>
+</tbody></table>
+<p>多行处理函数的特点：输入多行，输出一行</p>
+<p>注意：</p>
+<p><font color=brown>分组函数会自动忽略null</font></p>
+<p><strong><em>单行处理函数：ifnull()</em></strong></p>
+<p>单行处理函数的特点：输入几行，输出几行</p>
+<p><font color=brown>所有数据库规定：只要有null参与的运算结果一定为null</font></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,(sal+<span class="keyword">ifnull</span>(comm,<span class="number">0</span>))*<span class="number">12</span> <span class="keyword">as</span> yearsal <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong><em>count(\</em>) 和 count(具体的某个字段) 的区别*</strong></p>
+<p>count(*)：不是统计某个字段中数据的个数，而是统计总记录条数（和某个字段无关）。</p>
+<p>count(具体的某个字段)：表示统计某个字段的总记录数，如果存在null，那么会被忽略。</p>
+<hr>
+<h4 id="group-by-和-having"><a href="#group-by-和-having" class="headerlink" title="group by 和 having"></a>group by 和 having</h4><p>group by：按照某个字段或者某些字段进行分组。</p>
+<p>having：对分组之后的数据进行再次过滤。没有group by就没有having，但是having可以没有</p>
+<p><font color=brown>注意：</font></p>
+<p><font color=brown>分组函数一般都会和group by联合使用，这也是分组函数的来源，并且分组函数在group by执行之后才执行</font></p>
+<p><font color=brown>当一条语句中有group by语句时，select后面只能跟分组函数和参与分组的字段</font></p>
+<p><font color=brown>能使用where过滤的，尽量使用where，效率高，不能的则使用having</font></p>
+<p><font color=brown>where后面不能使用分组函数</font></p>
+<p>查询同一部门的员工最高工资高于3000的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> deptno,<span class="keyword">max</span>(sal) <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> deptno <span class="keyword">having</span>  <span class="keyword">max</span>(sal) &gt; <span class="number">3000</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> deptno,<span class="keyword">max</span>(sal) <span class="keyword">from</span> emp <span class="keyword">where</span> sal&gt;<span class="number">3000</span> <span class="keyword">group</span> <span class="keyword">by</span> deptno; 	<span class="comment">#效率更高</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>多字段联合分组：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> deptno,job,<span class="keyword">max</span>(sal) <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> deptno,job;	<span class="comment">#每个部门不同工作岗位的最高薪资</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#where条件查询"><span class="toc-number">1.</span> <span class="toc-text">where条件查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#排序-order-by"><span class="toc-number">2.</span> <span class="toc-text">排序 order by</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分组函数-多行处理函数"><span class="toc-number">3.</span> <span class="toc-text">分组函数(多行处理函数)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group-by-和-having"><span class="toc-number">4.</span> <span class="toc-text">group by 和 having</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&text=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&is_video=false&description=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DQL_SQL语法详解&body=Check out this article: https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&title=DQL_SQL语法详解" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/&name=DQL_SQL语法详解&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

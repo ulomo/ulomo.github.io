@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1.检测win系统如果第一次安装grub后检测不到win系统，再运行一次这个命令 1grub-mkconfig -o &#x2F;boot&#x2F;grub&#x2F;grub.cfg    2.wifi连接1wifi-menu    3.用户与组可以选择将用户加入wheel组，因为系统内置这个组。 12useradd -m -G wheel -s &#x2F;bin&#x2F;bash 用户名passwd 用户名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安装基础系统之后">
+<meta property="og:url" content="https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="1.检测win系统如果第一次安装grub后检测不到win系统，再运行一次这个命令 1grub-mkconfig -o &#x2F;boot&#x2F;grub&#x2F;grub.cfg    2.wifi连接1wifi-menu    3.用户与组可以选择将用户加入wheel组，因为系统内置这个组。 12useradd -m -G wheel -s &#x2F;bin&#x2F;bash 用户名passwd 用户名">
+<meta property="article:published_time" content="2019-06-22T12:04:58.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.394Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>安装基础系统之后</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/06/26/centos%E4%B8%8Blnmp%E5%AE%89%E8%A3%85/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/10/autojump/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&text=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&is_video=false&description=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安装基础系统之后&body=Check out this article: https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&name=安装基础系统之后&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-检测win系统"><span class="toc-number">1.</span> <span class="toc-text">1.检测win系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-wifi连接"><span class="toc-number">2.</span> <span class="toc-text">2.wifi连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-用户与组"><span class="toc-number">3.</span> <span class="toc-text">3.用户与组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-设置组的权限"><span class="toc-number">4.</span> <span class="toc-text">4.设置组的权限</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-安装显示服务"><span class="toc-number">5.</span> <span class="toc-text">5.安装显示服务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#可以安装xorg"><span class="toc-number">5.1.</span> <span class="toc-text">可以安装xorg</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#或者安装wayland配合gnome用"><span class="toc-number">5.2.</span> <span class="toc-text">或者安装wayland配合gnome用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-安装显卡驱动"><span class="toc-number">6.</span> <span class="toc-text">6.安装显卡驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#inter显卡驱动"><span class="toc-number">6.1.</span> <span class="toc-text">inter显卡驱动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nvida显卡驱动"><span class="toc-number">6.2.</span> <span class="toc-text">nvida显卡驱动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#普通显卡驱动"><span class="toc-number">6.3.</span> <span class="toc-text">普通显卡驱动</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-安装声卡驱动"><span class="toc-number">7.</span> <span class="toc-text">7.安装声卡驱动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装窗口管理器（WM-window-manager）"><span class="toc-number">8.</span> <span class="toc-text">安装窗口管理器（WM window manager）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装桌面环境（DE-desktop-environment）"><span class="toc-number">9.</span> <span class="toc-text">安装桌面环境（DE desktop environment）</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        安装基础系统之后
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-06-22T12:04:58.000Z" itemprop="datePublished">2019-06-22</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h4 id="1-检测win系统"><a href="#1-检测win系统" class="headerlink" title="1.检测win系统"></a>1.检测win系统</h4><p>如果第一次安装grub后检测不到win系统，再运行一次这个命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grub-mkconfig -o &#x2F;boot&#x2F;grub&#x2F;grub.cfg</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-wifi连接"><a href="#2-wifi连接" class="headerlink" title="2.wifi连接"></a>2.wifi连接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi-menu</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-用户与组"><a href="#3-用户与组" class="headerlink" title="3.用户与组"></a>3.用户与组</h4><p>可以选择将用户加入<code>wheel</code>组，因为系统内置这个组。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m -G wheel -s /bin/bash 用户名</span><br><span class="line">passwd 用户名</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>但是我想使用<code>sudo</code>组，系统没有内置这个组，先添加这个组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">groupadd sudo</span><br></pre></td></tr></table></figure>
+
+<p>添加用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -g sudo -s /bin/bash -m 用户名</span><br></pre></td></tr></table></figure>
+
+<p><code>-g</code>是将sudo组作为主组，<code>-G</code>是将wheel组作为附属组</p>
+<hr>
+<p>将用户从某个组中移除:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpasswd -d username groupname</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>将用户加入某个组:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpasswd -a username groupname</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usermod -g groupname username</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-设置组的权限"><a href="#4-设置组的权限" class="headerlink" title="4.设置组的权限"></a>4.设置组的权限</h4><p>  这样加入之后，用户仍然使用不了<code>sudo</code>命令，因为没有设置完</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<p>取消<code>wheel</code>或者<code>sudo</code>组的注释</p>
+<h4 id="5-安装显示服务"><a href="#5-安装显示服务" class="headerlink" title="5.安装显示服务"></a>5.安装显示服务</h4><p>可以选择xorg或者wayland。现在wayland支持度已经不错了，比如gnome和kde就是默认使用wayland的。</p>
+<h5 id="可以安装xorg"><a href="#可以安装xorg" class="headerlink" title="可以安装xorg"></a>可以安装xorg</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S xorg</span><br></pre></td></tr></table></figure>
+
+<h5 id="或者安装wayland配合gnome用"><a href="#或者安装wayland配合gnome用" class="headerlink" title="或者安装wayland配合gnome用"></a>或者安装wayland配合gnome用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S wayland</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="6-安装显卡驱动"><a href="#6-安装显卡驱动" class="headerlink" title="6.安装显卡驱动"></a>6.<a href="https://wiki.archlinux.org/index.php/Xorg#Driver_installation" target="_blank" rel="noopener">安装显卡驱动</a></h4><h5 id="inter显卡驱动"><a href="#inter显卡驱动" class="headerlink" title="inter显卡驱动"></a>inter显卡驱动</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S xf86-video-intel (intel driver)</span><br></pre></td></tr></table></figure>
+
+<h5 id="nvida显卡驱动"><a href="#nvida显卡驱动" class="headerlink" title="nvida显卡驱动"></a>nvida显卡驱动</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S xf86-video-nouveau (nvidia driver)</span><br></pre></td></tr></table></figure>
+
+<h5 id="普通显卡驱动"><a href="#普通显卡驱动" class="headerlink" title="普通显卡驱动"></a>普通显卡驱动</h5><p>比较旧的硬件安装这个驱动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S xf86-video-vesa (common deriver)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="7-安装声卡驱动"><a href="#7-安装声卡驱动" class="headerlink" title="7.安装声卡驱动"></a>7.安装声卡驱动</h4><p> (include alsamixer and amixer(a shell command tool))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S alsa-utils</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<blockquote>
+<p>这里就有很多选择了，可以只安装窗口管理器（节约系统资源），也可以安装桌面环境（集成度高，开箱即用的这种）。可以体验一下无限种可能的感觉</p>
+</blockquote>
+<h4 id="安装窗口管理器（WM-window-manager）"><a href="#安装窗口管理器（WM-window-manager）" class="headerlink" title="安装窗口管理器（WM window manager）"></a>安装窗口管理器（WM window manager）</h4><p>1.1安装平铺窗口管理器，这个安装配置好了之后很好用的。当然了，配置过程相当费时间(我喜欢的组合是 xmonad and xmobar plus dmenu)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pacman -S xmonad</span><br><span class="line">pacman -S xmobar</span><br><span class="line">pacman -S dmenu</span><br></pre></td></tr></table></figure>
+
+<p>1.2.为了能够使用startx来进入窗口管理器需要安装基础的软件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -S xorg-xinit # (get the command startx)</span><br><span class="line">pacman -S xterm      #(when we type startx then this is important for that .xinitrc</span><br></pre></td></tr></table></figure>
+
+<p>  use xterm by default.and it can be changed by urxvt )<br><code># pacman -S rxvt-unioncode</code>  (i prefer this one for it can show chinese)</p>
+<p>1.3.然后还要在文件里配置一下，才可以使用startx进入窗口管理器xmond</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;etc&#x2F;X11&#x2F;xinit&#x2F;xinitrc ~&#x2F;.xinitrc</span><br></pre></td></tr></table></figure>
+
+<p>然后添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec xmonad to .xinitrc</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以进入xmond的世界了，不过没有配置的xmond是你不敢想象的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startx</span><br></pre></td></tr></table></figure>
+
+<p>   如果想开机直接进入xmond，而不用每次都敲startx，那么修改一下~/.bash_profile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim .bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>  添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if [ -z &quot;$DISPLAY&quot; ] &amp;&amp; [ -n &quot;$XDG_VTNR&quot; ] &amp;&amp; [ &quot;$XDG_VTNR&quot; -eq 1 ]; then  exec startxfi</span><br></pre></td></tr></table></figure>
+
+<p>好了，一个完整系统已经安装好了。进入xmond后的一些小的配置</p>
+<p>2.1 make super key instead of capslock<br><code>#xmodmap -pke</code>  //show key map and find capslock is 66 super_l is 133 super_r is 134<br><code>#touch .xmodmap</code> //used to set settings<br>  then add this command like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">!delete fake super key</span><br><span class="line">keycode 133 &#x3D;</span><br><span class="line">keycode 134 &#x3D;</span><br><span class="line">!change Caps_Lock to Super_L</span><br><span class="line">keycode 66 &#x3D; Super_L</span><br><span class="line">!clear lock</span><br><span class="line">clear lock</span><br><span class="line">!clear all mod_s with Super key</span><br><span class="line">clear mod4</span><br><span class="line">! add our new Super key</span><br><span class="line">add mod4 &#x3D; Super_L</span><br></pre></td></tr></table></figure>
+
+<p>  then run command to make it work<br><code>#xmodmap ./.xmodmap</code><br>  after that we can add this command (xmodmap ~/.xmodmap &amp;) to ~/.xinitrc ,then it will work every       time we log into x window</p>
+<p>2.2in order to use xbacklight to adjust backlight we should install xf86-video-intel<br><code>#pacman -S xf86-video-intel</code><br>and then run command like this to adjust screen light<br><code>#xbacklight -set 40</code></p>
+<h4 id="安装桌面环境（DE-desktop-environment）"><a href="#安装桌面环境（DE-desktop-environment）" class="headerlink" title="安装桌面环境（DE desktop environment）"></a>安装桌面环境（DE desktop environment）</h4><p>安装gnome桌面环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S gnome</span><br></pre></td></tr></table></figure>
+
+<p>安装额外的一些包，包含了许多有用的软件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S gnome-extra</span><br></pre></td></tr></table></figure>
+
+<p>安装logoin管理器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -S gdm</span><br><span class="line">systemctl enable gdm  #开启gdm服务，开机自启</span><br></pre></td></tr></table></figure>
+
+<p>安装<a href="https://www.archlinux.org/packages/?name=xorg-server-xwayland" target="_blank" rel="noopener">xorg-server-xwayland</a>来启动某些不支持wayland的应用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S xorg-server-xwayland</span><br></pre></td></tr></table></figure>
+
+<p>安装gnome的个性化设置软件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S gnome-tweak</span><br></pre></td></tr></table></figure>
+
+<p>（可选）2.6启动wayland服务，在<code>.bash_profile</code>中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if [[ -z $DISPLAY ]] &amp;&amp; [[ $(tty) &#x3D; &#x2F;dev&#x2F;tty1 ]] &amp;&amp; [[ -z $XDG_SESSION_TYPE ]]; then</span><br><span class="line">XDG_SESSION_TYPE&#x3D;wayland exec dbus-run-session gnome-session</span><br><span class="line">   fi</span><br></pre></td></tr></table></figure>
+
+
+
+<p>用了许多桌面环境，我还是比较喜欢gnome的，和windows比起来，它所占用的内存其实很小的，开机才1G而已</p>
+<hr>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-检测win系统"><span class="toc-number">1.</span> <span class="toc-text">1.检测win系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-wifi连接"><span class="toc-number">2.</span> <span class="toc-text">2.wifi连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-用户与组"><span class="toc-number">3.</span> <span class="toc-text">3.用户与组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-设置组的权限"><span class="toc-number">4.</span> <span class="toc-text">4.设置组的权限</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-安装显示服务"><span class="toc-number">5.</span> <span class="toc-text">5.安装显示服务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#可以安装xorg"><span class="toc-number">5.1.</span> <span class="toc-text">可以安装xorg</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#或者安装wayland配合gnome用"><span class="toc-number">5.2.</span> <span class="toc-text">或者安装wayland配合gnome用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-安装显卡驱动"><span class="toc-number">6.</span> <span class="toc-text">6.安装显卡驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#inter显卡驱动"><span class="toc-number">6.1.</span> <span class="toc-text">inter显卡驱动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nvida显卡驱动"><span class="toc-number">6.2.</span> <span class="toc-text">nvida显卡驱动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#普通显卡驱动"><span class="toc-number">6.3.</span> <span class="toc-text">普通显卡驱动</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-安装声卡驱动"><span class="toc-number">7.</span> <span class="toc-text">7.安装声卡驱动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装窗口管理器（WM-window-manager）"><span class="toc-number">8.</span> <span class="toc-text">安装窗口管理器（WM window manager）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装桌面环境（DE-desktop-environment）"><span class="toc-number">9.</span> <span class="toc-text">安装桌面环境（DE desktop environment）</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&text=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&is_video=false&description=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安装基础系统之后&body=Check out this article: https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&title=安装基础系统之后" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/06/22/%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E/&name=安装基础系统之后&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

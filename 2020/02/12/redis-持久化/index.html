@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="RDBredis dbtabase：在指定时间间隔内，将内存中的数据写入磁盘，相当于一个snapshot快照。恢复时将快照读入内存 工作原理： fork一个与原进程一样的进程用来进行数据备份（同步、持久化）。由于fork出来的进程的所有数据与原来的一致，所以会出现两个结果： 占用内存增加一倍，也就是说开启RDB之后，最大内存限制必须小于实际内存的一半 由于数据的备份是通过fork出来的进程，所以不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis-持久化">
+<meta property="og:url" content="https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="RDBredis dbtabase：在指定时间间隔内，将内存中的数据写入磁盘，相当于一个snapshot快照。恢复时将快照读入内存 工作原理： fork一个与原进程一样的进程用来进行数据备份（同步、持久化）。由于fork出来的进程的所有数据与原来的一致，所以会出现两个结果： 占用内存增加一倍，也就是说开启RDB之后，最大内存限制必须小于实际内存的一半 由于数据的备份是通过fork出来的进程，所以不">
+<meta property="article:published_time" content="2020-02-12T12:27:25.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.370Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>redis-持久化</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/12/redis-%E9%85%8D%E7%BD%AE/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/12/redis-%E5%91%BD%E4%BB%A4/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&text=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&is_video=false&description=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis-持久化&body=Check out this article: https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&name=redis-持久化&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RDB"><span class="toc-number">1.</span> <span class="toc-text">RDB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#工作原理："><span class="toc-number">1.1.</span> <span class="toc-text">工作原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#保存文件："><span class="toc-number">1.2.</span> <span class="toc-text">保存文件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#恢复文件："><span class="toc-number">1.3.</span> <span class="toc-text">恢复文件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#备份策略："><span class="toc-number">1.4.</span> <span class="toc-text">备份策略：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用RDB："><span class="toc-number">1.5.</span> <span class="toc-text">禁用RDB：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优势："><span class="toc-number">1.6.</span> <span class="toc-text">优势：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#劣势："><span class="toc-number">1.7.</span> <span class="toc-text">劣势：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF"><span class="toc-number">2.</span> <span class="toc-text">AOF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#思考"><span class="toc-number">2.1.</span> <span class="toc-text">思考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作原理"><span class="toc-number">2.2.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启用"><span class="toc-number">2.3.</span> <span class="toc-text">启用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#保存文件"><span class="toc-number">2.4.</span> <span class="toc-text">保存文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#恢复"><span class="toc-number">2.5.</span> <span class="toc-text">恢复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误修复"><span class="toc-number">2.6.</span> <span class="toc-text">错误修复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步策略"><span class="toc-number">2.7.</span> <span class="toc-text">同步策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF文件的重写"><span class="toc-number">2.8.</span> <span class="toc-text">AOF文件的重写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优势"><span class="toc-number">2.9.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#劣势"><span class="toc-number">2.10.</span> <span class="toc-text">劣势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        redis-持久化
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-02-12T12:27:25.000Z" itemprop="datePublished">2020-02-12</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h1><p>redis dbtabase：在指定时间间隔内，将内存中的数据写入磁盘，相当于一个snapshot快照。恢复时将快照读入内存</p>
+<h2 id="工作原理："><a href="#工作原理：" class="headerlink" title="工作原理："></a>工作原理：</h2><ol>
+<li>fork一个与原进程一样的进程用来进行数据备份（同步、持久化）。由于fork出来的进程的所有数据与原来的一致，所以会出现两个结果：<ul>
+<li>占用内存增加一倍，也就是说开启RDB之后，最大内存限制必须小于实际内存的一半</li>
+<li>由于数据的备份是通过fork出来的进程，所以不会影响父进程的io操作，确保了redis的稳定高效性</li>
+</ul>
+</li>
+</ol>
+<h2 id="保存文件："><a href="#保存文件：" class="headerlink" title="保存文件："></a>保存文件：</h2><p>备份的文件为redis.conf中指定的文件名<code>dbfilename dump.rdb</code>：dump.rdb</p>
+<p>保存的路径为redis.conf中指定的路径<code>dir /var/lib/redis</code>：/var/lib/redis</p>
+<h2 id="恢复文件："><a href="#恢复文件：" class="headerlink" title="恢复文件："></a>恢复文件：</h2><p>在redis重启后，会按照配置文件中给定dir的路径去寻找备份文件dump.rdb，并自动读入内存</p>
+<h2 id="备份策略："><a href="#备份策略：" class="headerlink" title="备份策略："></a>备份策略：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">保存	时间 操作数</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在一定时间内操作数达到规定值后，会触发数据备份</li>
+<li>在提交实务后也会触发同步，例如flushall，save等</li>
+</ol>
+<h2 id="禁用RDB："><a href="#禁用RDB：" class="headerlink" title="禁用RDB："></a>禁用RDB：</h2><p>在客户端查看配置：<code>config get save</code></p>
+<p>设置禁用：在配置文件中将save指令注释掉，同时将<code>save &quot;&quot;</code>去掉注释</p>
+<h2 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h2><ol>
+<li>数据备份是fork出来的新进程，io与主进程无关，提高了稳定性</li>
+<li>数据恢复速度快，重新将dump文件读入内存即可</li>
+</ol>
+<h2 id="劣势："><a href="#劣势：" class="headerlink" title="劣势："></a>劣势：</h2><ol>
+<li>数据备份fork出了一个子进程，内存占用会增加一倍</li>
+<li>按照备份策略，并不是所有的数据都备份到了，在出现意外时，最后一段时间的数据可能没有备份</li>
+</ol>
+<h1 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h1><p>append only file，为了弥补RDB无法保证完整备份的缺陷。</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>如何避免RDB所带来的数据丢失的问题？</p>
+<p>因为RDB备份的条件是操作数在规定时间内达到规定值才会触发，总不能通过降低触发条件，毕竟备份也很浪费计算机资源，会增加内存容量负担，cpu压缩文件带来的性能损耗。</p>
+<p>数据在内存中，要保存到磁盘中，又不可能实时同步，那样不是会降低计算机性能吗？似乎是一个不可避免的矛盾，我觉得是不是可以采用overlayfs的思想，实现不完全的同步？</p>
+<p>不过redis采用了更加高级的思想，并不是眼光局限在数据本身上，而是站在了更高的角度去看待问题。从整个过程去思考。首先是我们发出指令去插入/修改数据，然后数据才被写入内存，最后才有数据同步问题。如果我们将所有指令保存下来，那么就不会出现前面的问题了。由于指令存在重复的，便可以简化。</p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>将所有的写指令，不包括读指令写入到一个文件中，在redis重启时会读取这个文件，重新执行一遍命令，恢复所有数据。</p>
+<h2 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h2><p>默认不启用，启用修改配置为：<code>appendonly yes</code></p>
+<h2 id="保存文件"><a href="#保存文件" class="headerlink" title="保存文件"></a>保存文件</h2><p>配置文件中设置：<code>appendfilename &quot;appendonly.aof&quot;</code></p>
+<p>文件位置和dump.rdb的位置一样</p>
+<h2 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h2><p>如果同时存在appendonly.aof和dump.rdb，那么会优先读取aof文件。</p>
+<p>如果dump.rdb被删掉了，只存在appendonly.aof那么通过systemd来启动会报错，使用redis-server /etc/redis/redis.conf可以成功启动</p>
+<h2 id="错误修复"><a href="#错误修复" class="headerlink" title="错误修复"></a>错误修复</h2><p>如果由于意外情况aof文件中有一些错误数据也是无法启动的，可以通过命令<code>redis-check-aof</code>修复</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-check-aof --fix /etc/redis/appendonly.aof</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="同步策略"><a href="#同步策略" class="headerlink" title="同步策略"></a>同步策略</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">appendfsync always	# 实时同步，没必要</span><br><span class="line"></span><br><span class="line">appendfsync everysec	# 默认，首选</span><br><span class="line"></span><br><span class="line">appendfsync no	# 不同步，不选</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="AOF文件的重写"><a href="#AOF文件的重写" class="headerlink" title="AOF文件的重写"></a>AOF文件的重写</h2><p>AOF文件会越来越大，达到配置的值时会触发重写。清空之前的AOF文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto-aof-rewrite-percentage 100	# 默认为上次重写时的一倍大小时</span><br><span class="line">auto-aof-rewrite-min-size 64mb	# 默认最小为64M，业务比较大时，会设置为几个G</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><p>数据完整性好</p>
+<p>内存消耗少</p>
+<h2 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h2><ol>
+<li><p>文件大小大于dump.rdb</p>
+</li>
+<li><p>恢复速度慢于RDB</p>
+</li>
+<li><p>重启恢复时会有大量的指令执行，占用内存以及大量io操作（触发RDB）</p>
+</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>建议两种都开启</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RDB"><span class="toc-number">1.</span> <span class="toc-text">RDB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#工作原理："><span class="toc-number">1.1.</span> <span class="toc-text">工作原理：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#保存文件："><span class="toc-number">1.2.</span> <span class="toc-text">保存文件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#恢复文件："><span class="toc-number">1.3.</span> <span class="toc-text">恢复文件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#备份策略："><span class="toc-number">1.4.</span> <span class="toc-text">备份策略：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用RDB："><span class="toc-number">1.5.</span> <span class="toc-text">禁用RDB：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优势："><span class="toc-number">1.6.</span> <span class="toc-text">优势：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#劣势："><span class="toc-number">1.7.</span> <span class="toc-text">劣势：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF"><span class="toc-number">2.</span> <span class="toc-text">AOF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#思考"><span class="toc-number">2.1.</span> <span class="toc-text">思考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作原理"><span class="toc-number">2.2.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启用"><span class="toc-number">2.3.</span> <span class="toc-text">启用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#保存文件"><span class="toc-number">2.4.</span> <span class="toc-text">保存文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#恢复"><span class="toc-number">2.5.</span> <span class="toc-text">恢复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误修复"><span class="toc-number">2.6.</span> <span class="toc-text">错误修复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步策略"><span class="toc-number">2.7.</span> <span class="toc-text">同步策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF文件的重写"><span class="toc-number">2.8.</span> <span class="toc-text">AOF文件的重写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优势"><span class="toc-number">2.9.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#劣势"><span class="toc-number">2.10.</span> <span class="toc-text">劣势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&text=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&is_video=false&description=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis-持久化&body=Check out this article: https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&title=redis-持久化" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/&name=redis-持久化&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

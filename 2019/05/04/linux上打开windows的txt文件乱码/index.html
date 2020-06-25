@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="linux上打开windows的txt文件乱码windows上默认是使用的gbk编码格式，然而linux设置的默认utf-8编码格式 之前有一个错误的想法:认为utf-8编码既然是国际通用的编码格式，支持各个国家的语言，那么就应该向下兼容gbk编码才对啊？其实不是这样的。如题，windows上的txt在linux上打开不就是乱码了吗 utf-8确实是支持所有的语言，但是它也是一种编码格式，只有你用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux上打开windows的txt文件乱码">
+<meta property="og:url" content="https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="linux上打开windows的txt文件乱码windows上默认是使用的gbk编码格式，然而linux设置的默认utf-8编码格式 之前有一个错误的想法:认为utf-8编码既然是国际通用的编码格式，支持各个国家的语言，那么就应该向下兼容gbk编码才对啊？其实不是这样的。如题，windows上的txt在linux上打开不就是乱码了吗 utf-8确实是支持所有的语言，但是它也是一种编码格式，只有你用">
+<meta property="article:published_time" content="2019-05-04T09:35:19.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.360Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>linux上打开windows的txt文件乱码</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/08/netstat/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/04/archlinux%E8%87%AA%E5%8A%A8%E9%80%89%E6%8B%A9%E7%BD%91%E9%80%9F%E8%BE%83%E5%BF%AB%E7%9A%84%E6%BA%90/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&text=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&is_video=false&description=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux上打开windows的txt文件乱码&body=Check out this article: https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&name=linux上打开windows的txt文件乱码&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#linux上打开windows的txt文件乱码"><span class="toc-number">1.</span> <span class="toc-text">linux上打开windows的txt文件乱码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iconv语法："><span class="toc-number">1.1.</span> <span class="toc-text">iconv语法：</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        linux上打开windows的txt文件乱码
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-04T09:35:19.000Z" itemprop="datePublished">2019-05-04</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="linux上打开windows的txt文件乱码"><a href="#linux上打开windows的txt文件乱码" class="headerlink" title="linux上打开windows的txt文件乱码"></a>linux上打开windows的txt文件乱码</h2><p>windows上默认是使用的gbk编码格式，然而linux设置的默认utf-8编码格式</p>
+<p>之前有一个错误的想法:认为utf-8编码既然是国际通用的编码格式，支持各个国家的语言，那么就应该向下兼容gbk编码才对啊？其实不是这样的。如题，windows上的txt在linux上打开不就是乱码了吗</p>
+<p>utf-8确实是支持所有的语言，但是它也是一种编码格式，只有你用了相同的编码格式，才能显示正常</p>
+<p>乱码的本质是：<em>读取二进制的时候采用的编码和最初将字符转换成二进制时的编码不一致</em></p>
+<p>其实各种编码都是独立的，并不存在兼容问题，你使用什么编码格式生成的文字，那就必须要使用这种编码格式才能正常显示。有两种方法可以正常显示</p>
+<ol>
+<li><p>可以将编辑器设置为支持这种编码格式</p>
+<p>例如windows上gbk编码的txt，在utf-8编码的linux上要正常显示，可以将vim编辑器设置为支持gbk编码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.vimrc	#修改vimrc配置文件</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set fileencodings=utf-8,gb18030,gbk		#加入gbk支持</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用更加彻底的解决方法，将gbk格式转换为utf-8，这样所有的编辑器打开都能正常显示</p>
+<p>例如将gbk编码的1.txt转换为utf-8的2.txt</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iconv -f gbk -t utf-8 1.txt -o 2.txt</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h3 id="iconv语法："><a href="#iconv语法：" class="headerlink" title="iconv语法："></a>iconv语法：</h3><p><strong>iconv - convert text from one character encoding to another</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">inputfile	输入文件	如果不指定输入文件，那么读取标准输入</span><br><span class="line"></span><br><span class="line">outputfile	输入文件	如果不指定输出文件，那么写入标准输出</span><br><span class="line"></span><br><span class="line">-f	原编码格式	如果不指定原码格式，那么默认系统编码格式</span><br><span class="line"></span><br><span class="line">-t	转换后的编码格式	如果不指定输出编码格式，那么默认系统编码格式</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iconv [options] [-f from-encoding] [-t to-encoding] [inputfile] [-o] [outputfile]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iconv -l	#列出所有的编码格式</span><br><span class="line">iconv -c	#忽略不能转化的字符</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#linux上打开windows的txt文件乱码"><span class="toc-number">1.</span> <span class="toc-text">linux上打开windows的txt文件乱码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iconv语法："><span class="toc-number">1.1.</span> <span class="toc-text">iconv语法：</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&text=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&is_video=false&description=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux上打开windows的txt文件乱码&body=Check out this article: https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&title=linux上打开windows的txt文件乱码" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/04/linux%E4%B8%8A%E6%89%93%E5%BC%80windows%E7%9A%84txt%E6%96%87%E4%BB%B6%E4%B9%B1%E7%A0%81/&name=linux上打开windows的txt文件乱码&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

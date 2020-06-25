@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="替换123456:[range]substitute&#x2F;from&#x2F;to&#x2F;[flags]#range指定范围#substitute可以简写为s#用to替换from#flag指定行范围和操作  flag1.对一行中的第一个出现的进行替换： 1:s&#x2F;a&#x2F;b    2.对一行中出现的所有a进行替换： 需要使用到g（global）这个参数，有这个参数的话表示对一行的操作 12#使用flag：g:s&#x2F;a&#x2F;b&#x2F;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim-替换">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="替换123456:[range]substitute&#x2F;from&#x2F;to&#x2F;[flags]#range指定范围#substitute可以简写为s#用to替换from#flag指定行范围和操作  flag1.对一行中的第一个出现的进行替换： 1:s&#x2F;a&#x2F;b    2.对一行中出现的所有a进行替换： 需要使用到g（global）这个参数，有这个参数的话表示对一行的操作 12#使用flag：g:s&#x2F;a&#x2F;b&#x2F;g">
+<meta property="article:published_time" content="2019-11-11T15:55:03.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.380Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>vim-替换</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/18/vim-%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/11/vim-%E5%AF%84%E5%AD%98%E5%99%A8/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&text=vim-替换" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&is_video=false&description=vim-替换" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vim-替换&body=Check out this article: https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&name=vim-替换&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#替换"><span class="toc-number">1.</span> <span class="toc-text">替换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#flag"><span class="toc-number">1.1.</span> <span class="toc-text">flag</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#from"><span class="toc-number">1.2.</span> <span class="toc-text">from</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#range"><span class="toc-number">1.3.</span> <span class="toc-text">range</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局命令-global"><span class="toc-number">1.4.</span> <span class="toc-text">全局命令:global</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        vim-替换
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-11T15:55:03.000Z" itemprop="datePublished">2019-11-11</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">:[range]substitute/from/to/[flags]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">range指定范围</span></span><br><span class="line"><span class="meta">#</span><span class="bash">substitute可以简写为s</span></span><br><span class="line"><span class="meta">#</span><span class="bash">用to替换from</span></span><br><span class="line"><span class="meta">#</span><span class="bash">flag指定行范围和操作</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h2><p>1.对一行中的第一个出现的进行替换：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:s/a/b</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.对一行中出现的所有a进行替换：</p>
+<p>需要使用到g（global）这个参数，有这个参数的话表示对一行的操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">使用flag：g</span></span><br><span class="line">:s/a/b/g</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3.对文中的所有a进行替换操作：</p>
+<p>需要使用到<code>%</code>，它表示的是此文件名</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/a/b/g</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4.查看文中有多少个a</p>
+<p>一般来说我们在替换一个东西之前都需要看一下它出现了多少次</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">使用flag：n</span></span><br><span class="line">:%s/a/b/gn			#它并不会执行替换操作，仅仅打印出现次数</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.每次替换之前都让我们确认一次</p>
+<p>这样可以选择那些不进行替换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">使用到了flag：c</span></span><br><span class="line">:%s/a/b/gc</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">这里面出现的几个参数</span></span><br><span class="line">y	替换</span><br><span class="line">n	跳过这个</span><br><span class="line">a	剩下的全部替换</span><br><span class="line">q	结束替换，剩下的不进行替换，之前的保留</span><br><span class="line">l	与q的区别在于当前这个替换之后在结束替换</span><br></pre></td></tr></table></figure>
+
+
+
+<p>6.打印最后修改的行</p>
+<p>感觉这个作用不是很大</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">使用到了flag：p</span></span><br><span class="line">:%s/a/b/gp</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="from"><a href="#from" class="headerlink" title="from"></a>from</h2><p>from支持正则表达式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line">	:%s/^the/these/g	#将所有行首是the的替换为these</span><br></pre></td></tr></table></figure>
+
+<p>如果替换中出现了<code>/</code>这个字符，需要转义</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/\/home/\/root/g		#将所有/home开头的替换为/root</span><br></pre></td></tr></table></figure>
+
+<p>当然了，其实不需要写这么复杂，有<code>+</code>替代<code>/</code>，这和perl有点像啊</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s+/home+/root+g</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="range"><a href="#range" class="headerlink" title="range"></a>range</h2><p>1.没有range，只对当前行操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:s/a/b/g</span><br></pre></td></tr></table></figure>
+
+<p>2.指定全文的范围</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/a/b/g</span><br></pre></td></tr></table></figure>
+
+<p>3.某行到某行之间</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> m到n行，闭区间[m,n]</span></span><br><span class="line">:m,ns/a/b/g</span><br></pre></td></tr></table></figure>
+
+<p>4.当前行到最后一行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">当前行使用点，这个点不能少</span></span><br><span class="line">:.,$/a/b/g</span><br></pre></td></tr></table></figure>
+
+<p>5.支持相对定位</p>
+<p>那么这个参考位置就是光标所在的当前行<code>.</code>了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:-5,.s/a/b/g	#前五行到当前行的所有a替换为b</span><br><span class="line">:-5,+4s/a/b/g	#前五行到后四行行的所有a替换为b</span><br><span class="line">:.,+4s/a/b/g	#当前行到后四行的所有a替换为b</span><br></pre></td></tr></table></figure>
+
+<p>6.还可以通过搜索模式来指定作用范围</p>
+<p>这种也类似与第五种，只是这里没有明确的行数，需要它自己去找。在vim中查找使用的就是<code>？</code>（向文章前查找，<code>/</code>向文章后查找），?与/总是成对出现</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">这里就是寻找当前行之前以the开头的，以及当前行之后以this开头的范围间的haha并替换为hehe</span></span><br><span class="line">:?^the?,/^this/s+haha+hehe+g</span><br></pre></td></tr></table></figure>
+
+<p>7.混搭5与6中的搜索定位功能</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">这样加上数字之后表示不替换匹配到的行本身</span></span><br><span class="line">:?^the?+1,/^this/-1s+haha+hehe+g</span><br></pre></td></tr></table></figure>
+
+<p>8.还可以通过visual模式去指定要操作的行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">shift</span>+v选择好范围后，使用冒号，范围则已经指定好了</span></span><br><span class="line">:'&lt;,'&gt;s/g/b/g</span><br></pre></td></tr></table></figure>
+
+<p>这里是使用到了标记来指定范围，所以，以后我们同样可以使用自己的标记来指定范围。有点秀啊这个</p>
+<p>9.第五点是手动输入开始结束位置，这个更厉害</p>
+<p>当然默认是以当前行为一个开始范围，好像没有向文章开头的快捷做法，因为-已近被占用了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">当前行之后的五行</span></span><br><span class="line">5:		#输入这个以后，范围已近指定好了</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="全局命令-global"><a href="#全局命令-global" class="headerlink" title="全局命令:global"></a>全局命令:global</h2><p>前面的替换都是通过指定范围（数字或者匹配），然后在进行替换这些操作</p>
+<p>但是global不仅做到了这些，它默认是作用域全文，首先通过匹配到某些行，然后对这些行进行操作。相比于之前的多了一个定位。针对的不是范围操作，而是找到指定行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[range]global/&#123;pattern&#125;/&#123;command&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line"><span class="meta">	#</span><span class="bash">将所有以//开头的中所有foobar替换为barfoo</span></span><br><span class="line">	:g+^//+s/foobar/barfoo/g</span><br><span class="line"><span class="meta">	#</span><span class="bash">将所有以<span class="keyword">if</span>开头的，中所有的[替换为&lt;</span></span><br><span class="line">	:g/^if/+s+\[+\&lt;+g		#特殊符号需要转义</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#替换"><span class="toc-number">1.</span> <span class="toc-text">替换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#flag"><span class="toc-number">1.1.</span> <span class="toc-text">flag</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#from"><span class="toc-number">1.2.</span> <span class="toc-text">from</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#range"><span class="toc-number">1.3.</span> <span class="toc-text">range</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局命令-global"><span class="toc-number">1.4.</span> <span class="toc-text">全局命令:global</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&text=vim-替换" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&is_video=false&description=vim-替换" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vim-替换&body=Check out this article: https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&title=vim-替换" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/11/vim-%E6%9B%BF%E6%8D%A2/&name=vim-替换&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

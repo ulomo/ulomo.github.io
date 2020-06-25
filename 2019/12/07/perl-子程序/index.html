@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="自从学完reference就感觉轻松了不少！  subroutine子程序（函数）： 一个代码块。A Perl function or subroutine is a group of statements that together perform a specific task perl中可以放到任意位置，并不像shell中必须放到最开头。还可以跨文件访问：使用use或do或require">
+<meta property="og:type" content="article">
+<meta property="og:title" content="perl-子程序">
+<meta property="og:url" content="https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="自从学完reference就感觉轻松了不少！  subroutine子程序（函数）： 一个代码块。A Perl function or subroutine is a group of statements that together perform a specific task perl中可以放到任意位置，并不像shell中必须放到最开头。还可以跨文件访问：使用use或do或require">
+<meta property="article:published_time" content="2019-12-07T15:40:17.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.364Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="like">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>perl-子程序</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/08/perl-%E6%A8%A1%E5%9D%97/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/07/perl-reference/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&text=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&is_video=false&description=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=perl-子程序&body=Check out this article: https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&name=perl-子程序&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#subroutine"><span class="toc-number">1.</span> <span class="toc-text">subroutine</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#子程序（函数）："><span class="toc-number">1.1.</span> <span class="toc-text">子程序（函数）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法："><span class="toc-number">1.2.</span> <span class="toc-text">语法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用："><span class="toc-number">1.3.</span> <span class="toc-text">调用：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#传参"><span class="toc-number">2.</span> <span class="toc-text">传参</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#返回值"><span class="toc-number">3.</span> <span class="toc-text">返回值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参数校验"><span class="toc-number">4.</span> <span class="toc-text">参数校验</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        perl-子程序
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-12-07T15:40:17.000Z" itemprop="datePublished">2019-12-07</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/like/" rel="tag">like</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>自从学完reference就感觉轻松了不少！</p>
+</blockquote>
+<h1 id="subroutine"><a href="#subroutine" class="headerlink" title="subroutine"></a>subroutine</h1><h2 id="子程序（函数）："><a href="#子程序（函数）：" class="headerlink" title="子程序（函数）："></a>子程序（函数）：</h2><ul>
+<li>一个代码块。A Perl function or subroutine is a group of statements that together perform a specific task</li>
+<li>perl中可以放到任意位置，并不像shell中必须放到最开头。还可以跨文件访问：使用<code>use</code>或<code>do</code>或<code>require</code></li>
+</ul>
+<h2 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h2><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">NAME</span>  <span class="title">PROTOTYPES</span> <span class="title">ATTRIBUTES</span> <span class="title">BLOCK</span></span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>sub：表示这是一个函数</p>
+</li>
+<li><p>name：函数名称，它有自己独立的命名空间，所以可以使用已有的标量变量的名称，并不冲突。</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">$scale = <span class="string">'iu'</span>;</span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">scale</span> = </span>&#123;....&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>prototypes：函数期望什么参数，并不常用</p>
+</li>
+<li><p>attribute：属性，包含了<code>locked</code>, <code>method</code>and <code>lvalue</code>，并不常用</p>
+</li>
+<li><p>block：放函数主体</p>
+</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">say_something</span></span>&#123;</span><br><span class="line">     <span class="keyword">print</span> <span class="string">"Hi, this is the first subroutine\n"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="调用："><a href="#调用：" class="headerlink" title="调用："></a>调用：</h2><p>使用<code>&amp;subroutine_name</code>或者<code>subroutine_name()</code></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&amp;say_something;</span><br><span class="line">say_something();</span><br></pre></td></tr></table></figure>
+
+<p>但是<code>&amp;</code>更为通用，比如说在reference时：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$say_somethingRef = \&amp;say_something;</span><br></pre></td></tr></table></figure>
+
+<p>dereference：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;\$say_somethingRef</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h1><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">test</span></span>&#123;</span><br><span class="line">    <span class="keyword">foreach</span> (@_)&#123;</span><br><span class="line">        <span class="keyword">print</span> $_,<span class="string">"\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>&amp;subroutine_name</code>写法时：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接将参数传过去，其它的写法不行</span></span><br><span class="line">&amp;test(<span class="number">1</span>..<span class="number">9</span>);</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>subroutine_name()</code>写法时：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 各种都支持</span></span><br><span class="line"><span class="comment"># 直接传参数</span></span><br><span class="line">test(<span class="number">1</span>..<span class="number">9</span>);</span><br><span class="line"><span class="comment"># 通过数组</span></span><br><span class="line">@list = (<span class="number">1</span>..<span class="number">9</span>);</span><br><span class="line">test(@list);</span><br><span class="line"><span class="comment"># 通过reference</span></span><br><span class="line">$list = \@list;</span><br><span class="line">test($list);</span><br><span class="line"><span class="comment"># 通过dereference</span></span><br><span class="line">$list = \@list;</span><br><span class="line">test(@$list);</span><br></pre></td></tr></table></figure>
+
+<p>注意点：</p>
+<ol>
+<li><p>由于在函数外定义的变量为全局变量，所以如果在函数中对其数据就行了修改，会影响原始数据，这个与python差别就很大了。这被称为通过reference传值</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">getreference</span></span>&#123;</span><br><span class="line">	$_[<span class="number">0</span>] = <span class="string">'iu'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>那么如何避免修改函数外部的变量，定义函数内部的变量，将函数外部传进来的值重新变为函数内部的。这被称为通过value传值</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">getvalue</span></span>&#123;</span><br><span class="line">	<span class="keyword">my</span> @list = @_;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"><span class="comment"># 将两个列表合并为一个</span></span><br><span class="line"></span><br><span class="line">@one = (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">@two = (<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>);</span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">conn</span></span>&#123;</span><br><span class="line">    <span class="keyword">foreach</span> (@_)&#123;</span><br><span class="line">       <span class="keyword">push</span>(@three,$_); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> @three;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@list = conn(@one,@two);</span><br><span class="line"><span class="keyword">print</span> @list,<span class="string">"\n"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>当然，如果要是合并两个数组，并不需要这么写，可以直接合并</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@one = (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">@two = (<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>);</span><br><span class="line">@there = (@one,@two);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h1><ol>
+<li><p>默认返回最后一个执行的语句。不需要写<code>return</code></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> &amp;say_hi , <span class="string">"\n"</span>;</span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">say_hi</span></span>&#123;</span><br><span class="line">    <span class="keyword">my</span> $name = <span class="string">'Bob'</span>;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Hi $name \n"</span>;</span><br><span class="line">    $name;	<span class="comment">#默认返回这个语句</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>也可以使用<code>return</code>来显式的说明要返回值，return可以写在函数内部任意位置，但是return之后的语句不会执行</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">say_hi</span></span>&#123;</span><br><span class="line">    <span class="keyword">my</span> $name = <span class="string">'Bob'</span>;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Hi $name \n"</span>;</span><br><span class="line">    <span class="keyword">return</span> $name;   <span class="comment">#用return返回值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h1 id="参数校验"><a href="#参数校验" class="headerlink" title="参数校验"></a>参数校验</h1><p>我们一般会在函数中对传进来的值进行校验，如果不存在那么就返回一个<code>undef</code>，可以配合调用函数时的<code>if</code>检测是否传值正确。</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">test</span></span>&#123;</span><br><span class="line">	<span class="comment">#使用shift取到一个参数</span></span><br><span class="line">    $arg = <span class="keyword">shift</span>;</span><br><span class="line">    <span class="comment">#进行判断</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">undef</span> <span class="keyword">unless</span> <span class="keyword">defined</span> $arg;</span><br><span class="line">    <span class="keyword">foreach</span> (@_)&#123;</span><br><span class="line">        <span class="keyword">print</span> $_,<span class="string">"\n"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@list = (<span class="number">1</span>..<span class="number">9</span>);</span><br><span class="line">$test = test(@list);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">defined</span> $test)&#123;</span><br><span class="line">    <span class="keyword">print</span> $test;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"undeined"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 也可以简化写为</span></span><br><span class="line"><span class="keyword">print</span> $test <span class="keyword">if</span>(<span class="keyword">defined</span> $test);</span><br></pre></td></tr></table></figure>
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#subroutine"><span class="toc-number">1.</span> <span class="toc-text">subroutine</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#子程序（函数）："><span class="toc-number">1.1.</span> <span class="toc-text">子程序（函数）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法："><span class="toc-number">1.2.</span> <span class="toc-text">语法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用："><span class="toc-number">1.3.</span> <span class="toc-text">调用：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#传参"><span class="toc-number">2.</span> <span class="toc-text">传参</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#返回值"><span class="toc-number">3.</span> <span class="toc-text">返回值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参数校验"><span class="toc-number">4.</span> <span class="toc-text">参数校验</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&text=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&is_video=false&description=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=perl-子程序&body=Check out this article: https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&title=perl-子程序" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/12/07/perl-%E5%AD%90%E7%A8%8B%E5%BA%8F/&name=perl-子程序&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

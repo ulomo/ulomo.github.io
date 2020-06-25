@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="shell练习  将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。如下是ss.txt这个源文件      源文件          账号     端口     密码     加密方式     更新时间     国家 103.29.70.102     32206     271ed59da9a79a5b7f1dcc8cd7a0e6b2     aes-256-cfb     22:12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell练习-取数据作为参数">
+<meta property="og:url" content="https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="shell练习  将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。如下是ss.txt这个源文件      源文件          账号     端口     密码     加密方式     更新时间     国家 103.29.70.102     32206     271ed59da9a79a5b7f1dcc8cd7a0e6b2     aes-256-cfb     22:12">
+<meta property="article:published_time" content="2019-08-27T12:06:31.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.377Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>shell练习-取数据作为参数</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/27/xclip-%E9%9D%9E%E5%B8%B8%E5%A5%BD%E7%94%A8%E7%9A%84%E5%89%AA%E5%88%87%E6%9D%BF/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/08/16/linux%E4%BD%BF%E7%94%A8ss%E4%BB%A3%E7%90%86/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&text=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&is_video=false&description=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell练习-取数据作为参数&body=Check out this article: https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&name=shell练习-取数据作为参数&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。"><span class="toc-number">1.</span> <span class="toc-text">将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#改写语句"><span class="toc-number">2.</span> <span class="toc-text">改写语句</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        shell练习-取数据作为参数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-08-27T12:06:31.000Z" itemprop="datePublished">2019-08-27</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>shell练习</p>
+</blockquote>
+<h4 id="将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。"><a href="#将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。" class="headerlink" title="将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。"></a>将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。</h4><p>如下是ss.txt这个源文件</p>
+<details>
+    <summary>源文件<展开折叠></summary>
+    <pre><code>
+    账号     端口     密码     加密方式     更新时间     国家
+103.29.70.102     32206     271ed59da9a79a5b7f1dcc8cd7a0e6b2     aes-256-cfb     22:12:13     JP
+139.162.6.191     32206     271ed59da9a79a5b7f1dcc8cd7a0e6b2     aes-256-cfb     22:12:13     SG
+172.104.92.92     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:15     JP
+165.22.106.38     12268     ssx.re-59709346     aes-256-cfb     22:12:07     SG
+54.65.244.39     14522     y0AaQPuaNFBW     aes-256-cfb     22:12:18     JP
+172.105.113.18     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:11     SG
+13.115.199.68     44471     a0WEQjO9wNTy     aes-256-cfb     22:12:19     JP
+172.104.62.144     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:09     SG
+139.162.120.199     48431     qid3bMhMQpbc     aes-256-cfb     22:12:11     JP
+45.56.89.181     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:13     US
+172.105.213.172     44011     iCZHrjR4PImm     aes-256-cfb     22:12:15     JP
+3.112.46.32     17542     yd0Us2nFg0o5     aes-256-cfb     22:12:12     JP
+172.104.117.45     24041     tiphUJcfPUkG     aes-256-cfb     22:12:15     JP
+54.248.40.96     48365     1Xb1uGAM4ffg     aes-256-cfb     22:12:16     JP
+172.104.47.67     14255     f55.fun-00046768     aes-256-cfb     22:12:06     SG
+172.105.193.166     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:13     JP
+211.75.79.233     16505     QozzuzLs2W32     aes-256-cfb     22:12:11     TW
+165.22.59.104     16306     isx.yt-47347286     aes-256-cfb     22:12:06     SG
+139.162.102.56     10867     p89g3kMzd94m     aes-256-cfb     22:12:12     JP
+176.58.97.137     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:06     GB
+5.189.224.159     993     Chup@k@br@     chacha20-ietf     22:12:13     RU
+172.104.131.24     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:07     DE
+172.105.192.135     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:02:12     JP
+138.68.211.85     11224     isx.yt-00202608     aes-256-cfb     22:12:05     US
+138.68.215.166     11603     ssx.re-80935336     aes-256-cfb     22:12:06     US
+5.101.49.19     18573     h4z9hVfhkb0W     aes-256-cfb     22:12:14     RU
+18.179.7.182     27695     moofZtTrfHCu     aes-256-cfb     22:12:19     JP
+52.198.243.129     20083     QyfsL3tHOiJX     aes-256-cfb     22:12:19     JP
+46.173.215.146     48888     t.me/ssrquiz     aes-128-ctr     22:12:15     RU
+23.239.20.120     8097     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:13     US
+172.104.94.102     49366     PyzeIgaoZ4Ir     aes-256-cfb     22:12:16     JP
+172.105.198.126     40549     5iZmgqWK3QlY     aes-256-cfb     22:12:15     JP
+172.105.234.136     24224     DkRvqDnYlgKZ     aes-256-cfb     22:12:11     JP
+172.105.114.11     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:13     SG
+172.105.71.82     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:10     DE
+52.194.229.149     25259     WExlGsrCGidB     aes-256-cfb     22:12:19     JP
+23.160.192.53     52133     eeiee.co     aes-256-cfb     22:12:11     US
+45.33.59.129     8097     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:12     US
+3.113.8.196     23381     qNHokwOiFO1V     aes-256-cfb     22:12:13     JP
+138.68.217.183     13007     isx.yt-45887006     aes-256-cfb     22:12:05     US
+139.162.25.76     12175     f55.fun-96432133     aes-256-cfb     22:12:05     SG
+172.104.70.233     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:08     JP
+172.104.86.60     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:16     JP
+172.104.98.136     29876     o4TVlJhZSCQ1     aes-256-cfb     22:12:13     JP
+172.104.178.58     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:13     SG
+139.162.164.200     32206     271ed59da9a79a5b7f1dcc8cd7a0e6b2     aes-256-cfb     22:12:12     DE
+139.162.25.148     8097     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:15     SG
+172.105.217.74     49981     LLrOehWMQ2kC     aes-256-cfb     22:12:15     JP
+45.33.40.51     39888     d2yk9yMQsiPS     aes-256-cfb     22:12:06     US
+172.104.74.179     17698     rSrZ95bYtaIU     aes-256-cfb     22:12:16     JP
+52.199.152.115     30678     WCwcvzRS4UJQ     aes-256-cfb     22:12:15     JP
+172.105.6.200     32206     271ed59da9a79a5b7f1dcc8cd7a0e6b2     aes-256-cfb     22:12:10     CA
+138.68.217.45     14590     isx.yt-07667754     aes-256-cfb     22:12:05     US
+45.77.199.186     2133     bbaaz     aes-256-cfb     22:12:12     US
+172.105.113.22     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:13     SG
+172.105.194.153     16013     hSpcjEqvUDXW     aes-256-cfb     22:12:13     JP
+45.77.234.231     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:13     AU
+167.71.125.213     18785     ssx.re-86329544     aes-256-cfb     22:12:06     US
+172.104.152.149     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:07     DE
+172.105.47.186     32206     271ed59da9a79a5b7f1dcc8cd7a0e6b2     aes-256-cfb     22:12:14     IN
+103.29.70.219     32206     271ed59da9a79a5b7f1dcc8cd7a0e6b2     aes-256-cfb     22:12:15     JP
+139.162.118.71     41680     vET9vDlWVDhq     aes-256-cfb     22:12:11     JP
+172.105.201.165     44295     ALXIkliM9l33     aes-256-cfb     22:12:13     JP
+45.79.91.64     8097     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     21:52:13     US
+97.107.142.183     19648     f55.fun-17292566     aes-256-cfb     22:12:04     US
+172.104.149.56     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:14     DE
+172.105.239.252     39912     3wwJMpNXLUF8     aes-256-cfb     22:12:16     JP
+172.105.217.183     10361     oRdqMLDzcrDV     aes-256-cfb     22:12:14     JP
+172.105.205.148     29049     iPcTTGSBfDto     aes-256-cfb     22:12:11     JP
+185.224.249.93     9028     9eeJ2fwnZA5Fxgz8     aes-256-cfb     22:12:12     RU
+172.104.77.248     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:08     JP
+139.162.112.34     46324     a93BIc3gZrBi     aes-256-cfb     22:12:06     JP
+172.104.117.113     35823     4eBdQR4UIdNj     aes-256-cfb     22:12:07     JP
+165.22.255.98     15693     isx.yt-51150396     aes-256-cfb     22:12:06     SG
+139.162.15.45     8099     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:13     SG
+172.104.85.200     35163     ckucY7iIFn6e     aes-256-cfb     22:12:15     JP
+23.92.27.200     8097     eIW0Dnk69454e6nSwuspv9DmS201tQ0D     aes-256-cfb     22:12:16     US
+172.105.115.99     13628     f55.fun-10235911     aes-256-cfb     22:12:06     SG
+167.71.201.26     12431     isx.yt-09693680     aes-256-cfb     22:12:06     SG
+</code></pre>
+</details>
+
+<h4 id="改写语句"><a href="#改写语句" class="headerlink" title="改写语句"></a>改写语句</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cat ss.txt | while read line                                        </span><br><span class="line">do</span><br><span class="line">a=`echo $line|awk '&#123;print $1&#125;'`</span><br><span class="line">b=`echo $line|awk '&#123;print $2&#125;'`</span><br><span class="line">c=`echo $line|awk '&#123;print $3&#125;'`</span><br><span class="line">echo "sslocal -s $a -p $b -k $c" &gt;&gt; account.txt</span><br><span class="line">done</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#通过管道以及循环将数据一行一行的给变量line</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#然后通过awk取出每个需要的值，存入变量</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#将变量回插入echo的输出语句中，追加写入文件</span></span></span><br></pre></td></tr></table></figure>
+
+<p>得到命令格式的输出</p>
+<details>
+    <summary>命令格式输出<展开折叠></summary>
+        <pre><code>
+sslocal -s 103.29.70.102 -p 32206 -k 271ed59da9a79a5b7f1dcc8cd7a0e6b2
+sslocal -s 139.162.6.191 -p 32206 -k 271ed59da9a79a5b7f1dcc8cd7a0e6b2
+sslocal -s 172.104.92.92 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 165.22.106.38 -p 12268 -k ssx.re-59709346
+sslocal -s 54.65.244.39 -p 14522 -k y0AaQPuaNFBW
+sslocal -s 172.105.113.18 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 13.115.199.68 -p 44471 -k a0WEQjO9wNTy
+sslocal -s 172.104.62.144 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 139.162.120.199 -p 48431 -k qid3bMhMQpbc
+sslocal -s 45.56.89.181 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.105.213.172 -p 44011 -k iCZHrjR4PImm
+sslocal -s 3.112.46.32 -p 17542 -k yd0Us2nFg0o5
+sslocal -s 172.104.117.45 -p 24041 -k tiphUJcfPUkG
+sslocal -s 54.248.40.96 -p 48365 -k 1Xb1uGAM4ffg
+sslocal -s 172.104.47.67 -p 14255 -k f55.fun-00046768
+sslocal -s 172.105.193.166 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 211.75.79.233 -p 16505 -k QozzuzLs2W32
+sslocal -s 165.22.59.104 -p 16306 -k isx.yt-47347286
+sslocal -s 139.162.102.56 -p 10867 -k p89g3kMzd94m
+sslocal -s 176.58.97.137 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 5.189.224.159 -p 993 -k Chup@k@br@
+sslocal -s 172.104.131.24 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.105.192.135 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 138.68.211.85 -p 11224 -k isx.yt-00202608
+sslocal -s 138.68.215.166 -p 11603 -k ssx.re-80935336
+sslocal -s 5.101.49.19 -p 18573 -k h4z9hVfhkb0W
+sslocal -s 18.179.7.182 -p 27695 -k moofZtTrfHCu
+sslocal -s 52.198.243.129 -p 20083 -k QyfsL3tHOiJX
+sslocal -s 46.173.215.146 -p 48888 -k t.me/ssrquiz
+sslocal -s 23.239.20.120 -p 8097 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.104.94.102 -p 49366 -k PyzeIgaoZ4Ir
+sslocal -s 172.105.198.126 -p 40549 -k 5iZmgqWK3QlY
+sslocal -s 172.105.234.136 -p 24224 -k DkRvqDnYlgKZ
+sslocal -s 172.105.114.11 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.105.71.82 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 52.194.229.149 -p 25259 -k WExlGsrCGidB
+sslocal -s 23.160.192.53 -p 52133 -k eeiee.co
+sslocal -s 45.33.59.129 -p 8097 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 3.113.8.196 -p 23381 -k qNHokwOiFO1V
+sslocal -s 138.68.217.183 -p 13007 -k isx.yt-45887006
+sslocal -s 139.162.25.76 -p 12175 -k f55.fun-96432133
+sslocal -s 172.104.70.233 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.104.86.60 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.104.98.136 -p 29876 -k o4TVlJhZSCQ1
+sslocal -s 172.104.178.58 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 139.162.164.200 -p 32206 -k 271ed59da9a79a5b7f1dcc8cd7a0e6b2
+sslocal -s 139.162.25.148 -p 8097 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.105.217.74 -p 49981 -k LLrOehWMQ2kC
+sslocal -s 45.33.40.51 -p 39888 -k d2yk9yMQsiPS
+sslocal -s 172.104.74.179 -p 17698 -k rSrZ95bYtaIU
+sslocal -s 52.199.152.115 -p 30678 -k WCwcvzRS4UJQ
+sslocal -s 172.105.6.200 -p 32206 -k 271ed59da9a79a5b7f1dcc8cd7a0e6b2
+sslocal -s 138.68.217.45 -p 14590 -k isx.yt-07667754
+sslocal -s 45.77.199.186 -p 2133 -k bbaaz
+sslocal -s 172.105.113.22 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.105.194.153 -p 16013 -k hSpcjEqvUDXW
+sslocal -s 45.77.234.231 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 167.71.125.213 -p 18785 -k ssx.re-86329544
+sslocal -s 172.104.152.149 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.105.47.186 -p 32206 -k 271ed59da9a79a5b7f1dcc8cd7a0e6b2
+sslocal -s 103.29.70.219 -p 32206 -k 271ed59da9a79a5b7f1dcc8cd7a0e6b2
+sslocal -s 139.162.118.71 -p 41680 -k vET9vDlWVDhq
+sslocal -s 172.105.201.165 -p 44295 -k ALXIkliM9l33
+sslocal -s 45.79.91.64 -p 8097 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 97.107.142.183 -p 19648 -k f55.fun-17292566
+sslocal -s 172.104.149.56 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.105.239.252 -p 39912 -k 3wwJMpNXLUF8
+sslocal -s 172.105.217.183 -p 10361 -k oRdqMLDzcrDV
+sslocal -s 172.105.205.148 -p 29049 -k iPcTTGSBfDto
+sslocal -s 185.224.249.93 -p 9028 -k 9eeJ2fwnZA5Fxgz8
+sslocal -s 172.104.77.248 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 139.162.112.34 -p 46324 -k a93BIc3gZrBi
+sslocal -s 172.104.117.113 -p 35823 -k 4eBdQR4UIdNj
+sslocal -s 165.22.255.98 -p 15693 -k isx.yt-51150396
+sslocal -s 139.162.15.45 -p 8099 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.104.85.200 -p 35163 -k ckucY7iIFn6e
+sslocal -s 23.92.27.200 -p 8097 -k eIW0Dnk69454e6nSwuspv9DmS201tQ0D
+sslocal -s 172.105.115.99 -p 13628 -k f55.fun-10235911
+sslocal -s 167.71.201.26 -p 12431 -k isx.yt-09693680
+        </code></pre>
+</details>
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。"><span class="toc-number">1.</span> <span class="toc-text">将网页上复制下来的ss帐号写成命令形式，将数据带入命令中。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#改写语句"><span class="toc-number">2.</span> <span class="toc-text">改写语句</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&text=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&is_video=false&description=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell练习-取数据作为参数&body=Check out this article: https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&title=shell练习-取数据作为参数" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/08/27/shell%E7%BB%83%E4%B9%A0-%E5%8F%96%E6%95%B0%E6%8D%AE%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0/&name=shell练习-取数据作为参数&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="好像很久之前使用过git，但是不怎么常用，所以也快忘光了，这次决定写写笔记。还有就是将自己写的脚本用git管理，并托管到github上去。相信就会用的比较熟了。  git作用 git是咱linux的创始人linus写出来的一个版本控制管理软件。它当然主要作用就是帮助我们管理文件了，优点就是无论修改了啥它都会有一个记录，而且我们可以回退到修改之前，并不需要备份操作。当然了它还可以多人协作，不过这功">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git使用">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="好像很久之前使用过git，但是不怎么常用，所以也快忘光了，这次决定写写笔记。还有就是将自己写的脚本用git管理，并托管到github上去。相信就会用的比较熟了。  git作用 git是咱linux的创始人linus写出来的一个版本控制管理软件。它当然主要作用就是帮助我们管理文件了，优点就是无论修改了啥它都会有一个记录，而且我们可以回退到修改之前，并不需要备份操作。当然了它还可以多人协作，不过这功">
+<meta property="article:published_time" content="2019-11-30T10:02:23.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.357Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>git使用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/30/shell-%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/28/python-%E7%9B%AE%E5%BD%95%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&text=git使用" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&is_video=false&description=git使用" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=git使用&body=Check out this article: https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&name=git使用&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#git作用"><span class="toc-number">1.</span> <span class="toc-text">git作用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git使用"><span class="toc-number">2.</span> <span class="toc-text">git使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-number">2.1.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加name和email"><span class="toc-number">2.2.</span> <span class="toc-text">添加name和email</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加入git管理"><span class="toc-number">2.3.</span> <span class="toc-text">加入git管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交修改"><span class="toc-number">2.4.</span> <span class="toc-text">提交修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指定忽略文件"><span class="toc-number">2.5.</span> <span class="toc-text">指定忽略文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本回退与恢复"><span class="toc-number">2.6.</span> <span class="toc-text">版本回退与恢复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正确添加以及恢复"><span class="toc-number">2.7.</span> <span class="toc-text">正确添加以及恢复</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#连接github"><span class="toc-number">3.</span> <span class="toc-text">连接github</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#create-a-new-repository-on-the-command-line"><span class="toc-number">3.0.1.</span> <span class="toc-text">create a new repository on the command line</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#push-an-existing-repository-from-the-command-line"><span class="toc-number">3.0.2.</span> <span class="toc-text">push an existing repository from the command line</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从github克隆已近存在的仓库"><span class="toc-number">4.</span> <span class="toc-text">从github克隆已近存在的仓库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建分支"><span class="toc-number">5.</span> <span class="toc-text">创建分支</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分支使用原则及解决冲突"><span class="toc-number">6.</span> <span class="toc-text">分支使用原则及解决冲突</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#将当前分支临时存储起来"><span class="toc-number">7.</span> <span class="toc-text">将当前分支临时存储起来</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#远程多人协作的push与pull"><span class="toc-number">8.</span> <span class="toc-text">远程多人协作的push与pull</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#标签"><span class="toc-number">9.</span> <span class="toc-text">标签</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#命令设置别名"><span class="toc-number">10.</span> <span class="toc-text">命令设置别名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#搭建自己的git服务器"><span class="toc-number">11.</span> <span class="toc-text">搭建自己的git服务器</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        git使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-30T10:02:23.000Z" itemprop="datePublished">2019-11-30</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/git/" rel="tag">git</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>好像很久之前使用过git，但是不怎么常用，所以也快忘光了，这次决定写写笔记。还有就是将自己写的脚本用git管理，并托管到github上去。相信就会用的比较熟了。</p>
+</blockquote>
+<h1 id="git作用"><a href="#git作用" class="headerlink" title="git作用"></a>git作用</h1><ul>
+<li><p>git是咱linux的创始人linus写出来的一个版本控制管理软件。它当然主要作用就是帮助我们管理文件了，优点就是无论修改了啥它都会有一个记录，而且我们可以回退到修改之前，并不需要备份操作。当然了它还可以多人协作，不过这功能估计一时半会我也用不上。</p>
+</li>
+<li><p>还有一点就是git就是一个运行在本地的软件而已，并不需要联网，它就可以帮我们管理文件了，初始化后会在目录下创建一个<code>.git</code>的目录，是它用来进行版本控制的。不要把它和github搞混了。</p>
+</li>
+<li><p>它与github的关系就是，我们可以通过配置，将本地的文件push到github上面去，相当于云端备份了，当然了传到github上面去后，就可以给别人看了。别人pull后就和我们拥有的一模一样，这就是所谓的多人协作。</p>
+</li>
+</ul>
+<hr>
+<h1 id="git使用"><a href="#git使用" class="headerlink" title="git使用"></a>git使用</h1><p>git的使用除了pull与push到github上之外，大多数命令都是用来在本地操作的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">git init					#初始化</span><br><span class="line">git status					#查看状态</span><br><span class="line">	git checkout			#撤销修改</span><br><span class="line">git add 					#添加到暂存区</span><br><span class="line">	git restore				#从暂存区撤销到修改状态</span><br><span class="line">	git checkout			#撤销修改</span><br><span class="line">git commit					#添加修改到分支</span><br><span class="line">git log						#查看修改log</span><br><span class="line">git reflog					#查看所有log</span><br><span class="line">	git reset				#版本回退</span><br><span class="line">	</span><br><span class="line">git branch					#查看分支</span><br><span class="line">git branch branchname		#创建分支</span><br><span class="line">git checkout branchname		#进入分支</span><br><span class="line">git checkout -b branchname	#创建分支并进入分支</span><br><span class="line">git merge branchname		#合并分支</span><br><span class="line">git branch -d branchname	#删除分支</span><br><span class="line"></span><br><span class="line">git tag						#显示标签</span><br><span class="line">git tag tagname				#创建标签</span><br><span class="line">git tag -d ragname			#删除标签</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p>在一个想要使用git来进行版本控制的目录下运行这个命令就可以了。它会在目录下生成一个<code>.git</code>的目录，里面的文件我们一般都不需要改，因为那是它记录我们的所有操作的。这个目录既可以是新建的，也可以是已经有文件的，都没有关系了。</p>
+<h2 id="添加name和email"><a href="#添加name和email" class="headerlink" title="添加name和email"></a>添加name和email</h2><p>其实不添加也行，添加了在多人协作时，可以找到你嘛</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name 'somename'</span><br><span class="line">git config --global user.email 'xxxxx@qq.com'</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="加入git管理"><a href="#加入git管理" class="headerlink" title="加入git管理"></a>加入git管理</h2><p>前面已经初始化git了，接下来就是告诉git那些东西是要交给它管理的。</p>
+<ul>
+<li><p>这个是使用的最多的一个命令了，用来查看现在的状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后交给git管理</p>
+<p>可以加入目录，文件等</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add 文件/目录</span><br></pre></td></tr></table></figure>
+
+<p>也可以将所有东西一次加入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add *	</span><br><span class="line"><span class="meta">#</span><span class="bash"> or</span></span><br><span class="line">git add .</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>凡是新增文件之后都需要将文件add给git repository，否则git的状态就是一个叉叉，看着不舒服。</p>
+</li>
+</ul>
+<h2 id="提交修改"><a href="#提交修改" class="headerlink" title="提交修改"></a>提交修改</h2><p>当我们对文件或者目录做出了修改之后，就需要对修改进行一次提交</p>
+<ul>
+<li><p>可以查看一下状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>看到有对文件的修改，如果我们想看看具体修改了那些东西可以使用diff</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进行提交，对子目录的修改等都视为git repository操作，所有随便哪里都可以提交</p>
+<ul>
+<li><p>可以添加指定的文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch 1.txt</span><br><span class="line">git add 1.txt</span><br><span class="line">git commit 1.txt -m 'add a new file'</span><br></pre></td></tr></table></figure>
+
+<p><code>-m</code>对这次提交的一个说明，如果不写的话，他也会打开一个vi编辑器让你输入。当然了，我的电脑上没有安装vi，所以还是写<code>-m</code>比较简单。否则它也打不开啊</p>
+</li>
+<li><p>提交所有</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git commit * -m 'add a new file'</span><br><span class="line"><span class="meta">#</span><span class="bash"> or</span></span><br><span class="line">git commit . -m 'add a new file'</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="指定忽略文件"><a href="#指定忽略文件" class="headerlink" title="指定忽略文件"></a>指定忽略文件</h2><p>由于我们每次修改了之后都是使用星号，不会去指定那个文件，然后进行提交。所以如果有不想提交的目录或者文件怎么办，当然是可以的。我们可以告诉git，那些文件或者目录你不要去管。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .gitignore</span><br></pre></td></tr></table></figure>
+
+<p>然后将要忽略的目录或者文件名写到里面就行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim .gitignore</span><br><span class="line">1.txt</span><br><span class="line">2.txt</span><br><span class="line">Music</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="版本回退与恢复"><a href="#版本回退与恢复" class="headerlink" title="版本回退与恢复"></a>版本回退与恢复</h2><p>既然是版本控制，那么回退就是它的主要功能了</p>
+<ul>
+<li><p>查看历史版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上面是包含了详细信息，如果只看简单的信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --pretty=oneline</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>回退到上一个版本使用<code>HEAD^</code>，上上个<code>HEAD^^</code>，回退10个版本<code>HEAD～5</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这样找到回退的几个版本还行，但是如果需要回退的版本比较多，当然就不可能一个一个去数了，<code>git reflog</code>可以查看版本数字，以及唯一索引</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>比如要回退到某一版本以前，可以找到对应的数字标示，比如HEAD@{20}</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD@&#123;20&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或者使用这个唯一索引，比如为</span></span><br><span class="line">git reset --hard 4761129</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<hr>
+<p>如果回退之后又想恢复怎么办，只要指定唯一的标识符，就可以恢复。</p>
+<ul>
+<li><p>查看log</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>随便那个版本，只要指定唯一标示，都可恢复</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">同上，上面已经写过了</span></span><br><span class="line">git reset --hard HEAD@&#123;20&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或者使用这个唯一索引，比如为</span></span><br><span class="line">git reset --hard 4761129</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="正确添加以及恢复"><a href="#正确添加以及恢复" class="headerlink" title="正确添加以及恢复"></a>正确添加以及恢复</h2><ul>
+<li><p>修改了文件还未添加到暂存区</p>
+<ul>
+<li><code>git checkout</code>将修改的恢复</li>
+</ul>
+</li>
+<li><p><code>git add</code>将修改后的文件添加到了暂存区stage</p>
+<ul>
+<li><code>git restore</code>从暂存区取回</li>
+</ul>
+</li>
+<li><p><code>git commit</code>将暂存区文件添加到分支master</p>
+<ul>
+<li><code>git reset</code>版本恢复</li>
+</ul>
+</li>
+</ul>
+<p>注意点：如果修改了文件，并没有add到暂存区，直接commit后，就会直接添加到分支了，所以只能用git reset来版本回退了</p>
+<h1 id="连接github"><a href="#连接github" class="headerlink" title="连接github"></a>连接github</h1><p>生成连接的ssh密匙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+
+<p>然后将 <code>id_rsa.pub</code>中的内容复制到github的密匙中</p>
+<p>与github连接：</p>
+<ul>
+<li><h3 id="create-a-new-repository-on-the-command-line"><a href="#create-a-new-repository-on-the-command-line" class="headerlink" title="create a new repository on the command line"></a>create a new repository on the command line</h3><p>本地先新建git仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo "# dailyScript" &gt;&gt; README.md</span><br><span class="line">git init</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m "first commit"</span><br><span class="line">git remote add origin https://github.com/ulomo/dailyScript.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><h3 id="push-an-existing-repository-from-the-command-line"><a href="#push-an-existing-repository-from-the-command-line" class="headerlink" title="push an existing repository from the command line"></a>push an existing repository from the command line</h3><p>本地已近有git仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://github.com/ulomo/dailyScript.git</span><br><span class="line">git push -u origin master</span><br><span class="line"><span class="meta">#</span><span class="bash">输入github的用户名和密码就可以成功推送了</span></span><br><span class="line">Username for 'https://github.com': ulomo</span><br><span class="line">Password for 'https://ulomo@github.com': </span><br><span class="line">Enumerating objects: 79, done.</span><br><span class="line">Counting objects: 100% (79/79), done.</span><br><span class="line">Delta compression using up to 8 threads</span><br><span class="line">Compressing objects: 100% (71/71), done.</span><br><span class="line">Writing objects: 100% (79/79), 10.26 KiB | 700.00 KiB/s, done.</span><br><span class="line">Total 79 (delta 24), reused 0 (delta 0)</span><br><span class="line">remote: Resolving deltas: 100% (24/24), done.</span><br><span class="line">To https://github.com/ulomo/dailyScript.git</span><br><span class="line"> * [new branch]      master -&gt; master</span><br><span class="line">Branch 'master' set up to track remote branch 'master' from 'origin'.</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h1 id="从github克隆已近存在的仓库"><a href="#从github克隆已近存在的仓库" class="headerlink" title="从github克隆已近存在的仓库"></a>从github克隆已近存在的仓库</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a>创建分支</h1><ul>
+<li><p>新建</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch 分支名字</span><br><span class="line"><span class="meta">#</span><span class="bash"> or</span></span><br><span class="line">git checkout -b 分支名字</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>切换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout 分支名字</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看分支</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合并分支</p>
+<p>这种合并不会形成一个commit，(fast forward模式)所以如果删掉分支之后，分支是不可修复的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge 分支名字</span><br></pre></td></tr></table></figure>
+
+<p>这种就会形成一个commit，即使把分支删了，仍然可以回退分支</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --no-ff -m 'merge branch'</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>删除分支</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d 分支名字</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h1 id="分支使用原则及解决冲突"><a href="#分支使用原则及解决冲突" class="headerlink" title="分支使用原则及解决冲突"></a>分支使用原则及解决冲突</h1><ul>
+<li><p>创建的master分支用来merge其他分支</p>
+</li>
+<li><p>主要工作都在其它创建的分支上，如果也修改了master，提交的时候就会出现矛盾，太麻烦了也。</p>
+</li>
+<li><p>只有一个master分支和另外一个副分支的话，副分支修改，主分支merge，相安无事。</p>
+</li>
+<li><p>如果有多个分支，那么就会涉及冲突问题。</p>
+<ul>
+<li><p>首先需要明白merge到底做了些啥：</p>
+<ol>
+<li><p>如果只有一个分支，可以理解为HEAD指针位置发生了变化</p>
+</li>
+<li><p>如果存在多分支，可以理解为master需要融合你想要提交给master的东西的（自己分支可以不包含全部master分支，master分支也不一定就包含全部自己的部分），所有相同的不同的在就全部包含这次子分支提交的信息中，至于说提交过后master又融合了其它分支信息造成的与自己分支信息不同，这就不是master该管的了，因为自己的commit已经提交，也与master融合。</p>
+</li>
+</ol>
+</li>
+<li><p>遇到冲突怎么解决：</p>
+<p>冲突是什么造成的，就是内容不同造成的，那么融合做了什么，无非就是合并信息，那么只要把不同的地方修改成相同的。这些不同的信息，会有提示，按照提示进行修改就行。修改完后，再提交修改，这就等于进行了融合。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m 'merge branch add/change some information'</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="将当前分支临时存储起来"><a href="#将当前分支临时存储起来" class="headerlink" title="将当前分支临时存储起来"></a>将当前分支临时存储起来</h1><p>如果分支内容没有完成，还不能提交。而我们又需要到别的分支去，那我们就要将当前状态存储起来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br></pre></td></tr></table></figure>
+
+<p>查看存储的stash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash list</span><br></pre></td></tr></table></figure>
+
+<p>重新读取存储的内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash apply stash@&#123;数字&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 然后手动删除存储的状态</span></span><br><span class="line">git stash drop</span><br></pre></td></tr></table></figure>
+
+<p>下面这种方式就可以取出内容的同时，删掉stash状态，因为用了<code>pop</code>啊</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="远程多人协作的push与pull"><a href="#远程多人协作的push与pull" class="headerlink" title="远程多人协作的push与pull"></a>远程多人协作的push与pull</h1><p>查看远程信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<p>推送到远程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git push origion master</span><br><span class="line"><span class="meta">#</span><span class="bash">也可以推送其它分支,比如创建了一个<span class="built_in">test</span>的分支</span></span><br><span class="line">git push origion test</span><br></pre></td></tr></table></figure>
+
+<p>远程克隆到本地</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone 地址</span><br></pre></td></tr></table></figure>
+
+<p>这样克隆下来的，只能看到master分支信息。</p>
+<p>使用远程的非master分支，比如test分支：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b test origin/test</span><br></pre></td></tr></table></figure>
+
+<p>这样修改之后push也是无法成功的，因为可能别人以及提交过了。</p>
+<p>所以先将最新的版本pull下来，直接pull也是会报错的，需要指定使用的分支</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --set-upstream test origin/test</span><br></pre></td></tr></table></figure>
+
+<p>再pull下来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
+
+<p>然后在本地将master分支与test分支的冲突解决掉，才能push成功。</p>
+<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><p>为什么需要标签呢？有commit不就行了吗？也不是说不行，但是想想我们是不是经常会对分支进行提交，对master进行合并，这样的话，commit信息就比较多了。而标签就是在某个特定时候对整个版本库的一个标记。比如版本发布使用的v1.0，v2.0。但是如果标签打的和commit一样多的话，也就没有意义了。</p>
+<ul>
+<li><p>进入要打标签的分支，一般是master</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打标签</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag [-a] 标签 [-m] 说明		#-a指定标签名</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag [-s] 标签 [-m] 说明		#-s用私匙签名标签</span><br></pre></td></tr></table></figure>
+
+<p>eg：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git tag -a v1.0 -m '版本1'</span><br><span class="line">git tag -s v1.0 -m '版本1'</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看标签</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show v1.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对之前的某个commit打标签</p>
+<ul>
+<li><p>查看commit编号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打标签</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -a v1.0 编号 -m '版本1'</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>删除标签</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git tag -d 标签名</span><br><span class="line">eg：</span><br><span class="line">	git tag -d v1.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>push标签到远程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">推送所有标签</span></span><br><span class="line">git push origin --tags</span><br><span class="line"><span class="meta">#</span><span class="bash">推送特定标签</span></span><br><span class="line">git push origin 标签名</span><br><span class="line">eg：</span><br><span class="line">	git push origin v1.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除远程标签</p>
+<ul>
+<li><p>先删除本地标签</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -d v1.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在同步远程进行删除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git push origin :refs/tags/标签名</span><br><span class="line">eg：</span><br><span class="line">	git push origin :refs/tags/v1.0</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="命令设置别名"><a href="#命令设置别名" class="headerlink" title="命令设置别名"></a>命令设置别名</h1><p>如果觉得命令太难记，还可以设置别名。例如将commit设置为cm</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.cm commit</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="搭建自己的git服务器"><a href="#搭建自己的git服务器" class="headerlink" title="搭建自己的git服务器"></a>搭建自己的git服务器</h1><ol>
+<li><p>在服务器上安装git</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加入git用户，目的是权限管理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd git -m /home/git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入允许连接的ssh key认证密匙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br><span class="line">touch ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+<p>将需要连接git仓库的电脑的<code>~/.ssh/id_rsa.pub</code>中的信息放入上面创建的文件中</p>
+</li>
+<li><p>创建git仓库目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 随便创建个目录</span></span><br><span class="line">mkdir ~/git_repository</span><br><span class="line">cd ~/git_repository</span><br><span class="line"><span class="meta">#</span><span class="bash"> 给仓库取个名字</span></span><br><span class="line">git init --bare somename.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将权限全部给到git</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R git:git somename.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>禁止shell登录git，为了安全</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/passwd</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改shell为git-shell</span></span><br><span class="line">eg:</span><br><span class="line">	git:x:1001:1001:,,,:/home/git:/usr/bin/git-shell</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>克隆仓库到自己电脑</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@server:/home/git/git_repository/somename.git</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#git作用"><span class="toc-number">1.</span> <span class="toc-text">git作用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git使用"><span class="toc-number">2.</span> <span class="toc-text">git使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化"><span class="toc-number">2.1.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加name和email"><span class="toc-number">2.2.</span> <span class="toc-text">添加name和email</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加入git管理"><span class="toc-number">2.3.</span> <span class="toc-text">加入git管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交修改"><span class="toc-number">2.4.</span> <span class="toc-text">提交修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指定忽略文件"><span class="toc-number">2.5.</span> <span class="toc-text">指定忽略文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本回退与恢复"><span class="toc-number">2.6.</span> <span class="toc-text">版本回退与恢复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正确添加以及恢复"><span class="toc-number">2.7.</span> <span class="toc-text">正确添加以及恢复</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#连接github"><span class="toc-number">3.</span> <span class="toc-text">连接github</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#create-a-new-repository-on-the-command-line"><span class="toc-number">3.0.1.</span> <span class="toc-text">create a new repository on the command line</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#push-an-existing-repository-from-the-command-line"><span class="toc-number">3.0.2.</span> <span class="toc-text">push an existing repository from the command line</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从github克隆已近存在的仓库"><span class="toc-number">4.</span> <span class="toc-text">从github克隆已近存在的仓库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建分支"><span class="toc-number">5.</span> <span class="toc-text">创建分支</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分支使用原则及解决冲突"><span class="toc-number">6.</span> <span class="toc-text">分支使用原则及解决冲突</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#将当前分支临时存储起来"><span class="toc-number">7.</span> <span class="toc-text">将当前分支临时存储起来</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#远程多人协作的push与pull"><span class="toc-number">8.</span> <span class="toc-text">远程多人协作的push与pull</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#标签"><span class="toc-number">9.</span> <span class="toc-text">标签</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#命令设置别名"><span class="toc-number">10.</span> <span class="toc-text">命令设置别名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#搭建自己的git服务器"><span class="toc-number">11.</span> <span class="toc-text">搭建自己的git服务器</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&text=git使用" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&is_video=false&description=git使用" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=git使用&body=Check out this article: https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&title=git使用" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/30/git%E4%BD%BF%E7%94%A8/&name=git使用&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

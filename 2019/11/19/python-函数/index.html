@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="函数：意义：复用代码，用在需要重复调用的地方。 123def somefunction(someargs):    ...    return somevalue  1.大部分情况下函数是为了返回一个值的，用return来返回，当然也可以什么都不返回（没有return）。 2.函数传参需要写一些参数到括号中，当然也可以不传参，那么括号中不写参数。 命名规则全部采用小写，有多个单词时，用下划线连接。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python-函数">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="函数：意义：复用代码，用在需要重复调用的地方。 123def somefunction(someargs):    ...    return somevalue  1.大部分情况下函数是为了返回一个值的，用return来返回，当然也可以什么都不返回（没有return）。 2.函数传参需要写一些参数到括号中，当然也可以不传参，那么括号中不写参数。 命名规则全部采用小写，有多个单词时，用下划线连接。">
+<meta property="article:published_time" content="2019-11-19T15:43:48.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.367Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="一生所爱">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>python-函数</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/19/python-%E5%8C%85/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/19/python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&text=python-函数" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&is_video=false&description=python-函数" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python-函数&body=Check out this article: https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&name=python-函数&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#函数："><span class="toc-number">1.</span> <span class="toc-text">函数：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#命名规则"><span class="toc-number">1.1.</span> <span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数修改："><span class="toc-number">1.2.</span> <span class="toc-text">参数修改：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#位置参数，关键字参数"><span class="toc-number">1.3.</span> <span class="toc-text">位置参数，关键字参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#收集参数"><span class="toc-number">1.4.</span> <span class="toc-text">收集参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分解参数"><span class="toc-number">1.5.</span> <span class="toc-text">分解参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#作用域"><span class="toc-number">1.6.</span> <span class="toc-text">作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闭包"><span class="toc-number">1.7.</span> <span class="toc-text">闭包</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        python-函数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-19T15:43:48.000Z" itemprop="datePublished">2019-11-19</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E4%B8%80%E7%94%9F%E6%89%80%E7%88%B1/" rel="tag">一生所爱</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h1><p>意义：复用代码，用在需要重复调用的地方。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">somefunction</span><span class="params">(someargs)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> somevalue</span><br></pre></td></tr></table></figure>
+
+<p>1.大部分情况下函数是为了返回一个值的，用<code>return</code>来返回，当然也可以什么都不返回（没有return）。</p>
+<p>2.函数传参需要写一些参数到括号中，当然也可以不传参，那么括号中不写参数。</p>
+<h2 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h2><p>全部采用小写，有多个单词时，用下划线连接。私有函数，可以使用下划线开头。</p>
+<h2 id="参数修改："><a href="#参数修改：" class="headerlink" title="参数修改："></a>参数修改：</h2><p>传参之后对参数（传进来的变量）的修改：python中没法通过赋值这种方式来修改参数，只能通过修改参数对象本身的方式。（涉及参数作用域）</p>
+<p>函数内部的作用域与函数外部的作用域不同，内部的作用域对函数外部没有影响，前提是不修改值。</p>
+<p>如果只是对变量重新赋值，那么是相同值的不同引用，但是如果修改了值，那么函数外部的值也会变化。</p>
+<p>如果参数本身不可修改，那么修改参数的方法：将参数变为可变的，比如放入列表中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">change_value</span><span class="params">(x)</span>:</span></span><br><span class="line">    x[<span class="number">0</span>]=x[<span class="number">0</span>]+<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"><span class="comment">#需要将列表作为参数传入：</span></span><br><span class="line">a=[<span class="number">10</span>]</span><br><span class="line">changeValue(a)</span><br><span class="line"><span class="comment">#结果为[11],同时a也被修改为[11]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="位置参数，关键字参数"><a href="#位置参数，关键字参数" class="headerlink" title="位置参数，关键字参数"></a>位置参数，关键字参数</h2><p>参数分为位置参数和关键字参数，上面的都是位置参数。</p>
+<p>关键字参数：使用名称指定的参数</p>
+<p>关键字参数的优点：可以设置默认值，所以调用函数可以不传入参数（不会报错），或者传入部分参数都是可以的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">total</span><span class="params">(num1=<span class="number">0</span>,num2=<span class="number">0</span>)</span>:</span></span><br><span class="line">    total=num1+num2</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">print(total())			<span class="comment">#返回0</span></span><br><span class="line">print(total(<span class="number">1</span>,<span class="number">2</span>))		<span class="comment">#返回3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="收集参数"><a href="#收集参数" class="headerlink" title="收集参数"></a>收集参数</h2><p>如果传入参数个数不定，将不定个参数放入元组（参数前面加一个星号）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(*num)</span>:</span></span><br><span class="line">    sum=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> num:</span><br><span class="line">        sum=sum+i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>))</span><br><span class="line">print(sum(<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">9</span>))</span><br></pre></td></tr></table></figure>
+
+<p>星号之前的所有位置参数会放入元组，之后的即使是位置参数，也会被作为关键字参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这个如果没有给出className会报错</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">our_class</span><span class="params">(*studentName,className)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> className,studentName</span><br><span class="line">print(ourclass(<span class="number">1</span>,<span class="number">2</span>,className=<span class="string">'one'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#这个因为已经给了默认值，所以即使不写className也不会报错</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ourClass</span><span class="params">(*studentName,className=<span class="string">'xiaofendui'</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> className,studentName</span><br><span class="line">print(courclass(<span class="number">1</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p>如果要将关键字参数也放入元组，那么加两个星号</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">courclass</span><span class="params">(**studentname,classname=<span class="string">'xiaofendui'</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> classname,studentname</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ourclass</span><span class="params">(**studentname,classname)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> classname,studentname</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="分解参数"><a href="#分解参数" class="headerlink" title="分解参数"></a>分解参数</h2><p>前面写的是函数如何接受不确定个数的参数，但是如果传进来的参数是一个数组或者字典呢？同样也可以在传入参数中分解参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count</span><span class="params">(x,y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x+y</span><br><span class="line">print(count(*a))</span><br></pre></td></tr></table></figure>
+
+<p>一个星号可以分解数组，两个星号可以分解字典</p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>namespace调用每一个函数时都会创建一个局部命名空间，只要不修改传入变量的值，函数外部的变量不会变。</p>
+<p>函数中可以调用全局变量，但是普通的直接调用容易引起问题，比如函数中存在同名参数或变量。所以需要global访问全局变量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime <span class="keyword">as</span> dt</span><br><span class="line"></span><br><span class="line">today=dt.datetime.now().strftime(<span class="string">"%F"</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_time</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> globals()[<span class="string">"today"</span>]</span><br><span class="line">print(get_time())</span><br><span class="line"><span class="number">2019</span><span class="number">-11</span><span class="number">-14</span></span><br></pre></td></tr></table></figure>
+
+<p>函数内部改变外部变量的方法除了前面说的改变值本身之外，还可以显式的引用全局变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">2</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">change</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> x</span><br><span class="line">    x+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">print(change())</span><br><span class="line"><span class="number">3</span></span><br><span class="line">print(x)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>1.嵌套在函数中的内部函数。</p>
+<p>2.外部作用域的变量可被内部函数使用</p>
+<p>3.修改外部作用域变量使用<code>nonlocal</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mult</span><span class="params">(a)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">plus</span><span class="params">(b)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> a * b	<span class="comment">#不能挨着写？？？？</span></span><br><span class="line">    <span class="keyword">return</span> plus</span><br><span class="line">print(mult(<span class="number">2</span>)(<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#函数："><span class="toc-number">1.</span> <span class="toc-text">函数：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#命名规则"><span class="toc-number">1.1.</span> <span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数修改："><span class="toc-number">1.2.</span> <span class="toc-text">参数修改：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#位置参数，关键字参数"><span class="toc-number">1.3.</span> <span class="toc-text">位置参数，关键字参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#收集参数"><span class="toc-number">1.4.</span> <span class="toc-text">收集参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分解参数"><span class="toc-number">1.5.</span> <span class="toc-text">分解参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#作用域"><span class="toc-number">1.6.</span> <span class="toc-text">作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闭包"><span class="toc-number">1.7.</span> <span class="toc-text">闭包</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&text=python-函数" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&is_video=false&description=python-函数" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python-函数&body=Check out this article: https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&title=python-函数" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/19/python-%E5%87%BD%E6%95%B0/&name=python-函数&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

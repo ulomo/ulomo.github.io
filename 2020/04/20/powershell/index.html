@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="同学说他在windows下需要找到文件中包含给出字符的那些文件，非常浪费时间。其实在shell中一个find+grep就可以搞定这个事情了。但是在windows上，确实有点麻烦，毕竟我也不会powershell，虽然很久很久之前学过一段时间，但是感觉好难，所以今天打算再学习一下，原因：无聊  powershell下载由于我是日常使用linux的，所以不想再打开windows用了，其实也可以开虚拟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="powershell">
+<meta property="og:url" content="https://ulomo.github.io/2020/04/20/powershell/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="同学说他在windows下需要找到文件中包含给出字符的那些文件，非常浪费时间。其实在shell中一个find+grep就可以搞定这个事情了。但是在windows上，确实有点麻烦，毕竟我也不会powershell，虽然很久很久之前学过一段时间，但是感觉好难，所以今天打算再学习一下，原因：无聊  powershell下载由于我是日常使用linux的，所以不想再打开windows用了，其实也可以开虚拟">
+<meta property="article:published_time" content="2020-04-20T07:48:17.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.367Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="windows">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>powershell</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/21/ranger%E5%9B%BE%E6%A0%87/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/18/pandas/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/04/20/powershell/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/04/20/powershell/&text=powershell" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/04/20/powershell/&is_video=false&description=powershell" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=powershell&body=Check out this article: https://ulomo.github.io/2020/04/20/powershell/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/04/20/powershell/&name=powershell&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#powershell"><span class="toc-number">1.</span> <span class="toc-text">powershell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载"><span class="toc-number">1.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#学习网址"><span class="toc-number">1.2.</span> <span class="toc-text">学习网址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还是开虚拟机算了"><span class="toc-number">1.3.</span> <span class="toc-text">还是开虚拟机算了</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">1.4.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#帮助"><span class="toc-number">1.5.</span> <span class="toc-text">帮助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令命名格式"><span class="toc-number">1.6.</span> <span class="toc-text">命令命名格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令参数"><span class="toc-number">1.7.</span> <span class="toc-text">命令参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令别名及配置文件"><span class="toc-number">1.8.</span> <span class="toc-text">命令别名及配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义初始化路径"><span class="toc-number">1.9.</span> <span class="toc-text">自定义初始化路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pipe"><span class="toc-number">1.10.</span> <span class="toc-text">pipe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量"><span class="toc-number">1.11.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#string"><span class="toc-number">1.12.</span> <span class="toc-text">string</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-number">1.13.</span> <span class="toc-text">数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hash"><span class="toc-number">1.14.</span> <span class="toc-text">hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环"><span class="toc-number">1.15.</span> <span class="toc-text">循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件"><span class="toc-number">1.16.</span> <span class="toc-text">条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">1.17.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">1.18.</span> <span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#取消终端输出"><span class="toc-number">1.19.</span> <span class="toc-text">取消终端输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化输出"><span class="toc-number">1.20.</span> <span class="toc-text">格式化输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正则表达式"><span class="toc-number">1.21.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">1.22.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">1.23.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        powershell
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-04-20T07:48:17.000Z" itemprop="datePublished">2020-04-20</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/windows/" rel="tag">windows</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>同学说他在windows下需要找到文件中包含给出字符的那些文件，非常浪费时间。其实在shell中一个find+grep就可以搞定这个事情了。但是在windows上，确实有点麻烦，毕竟我也不会powershell，虽然很久很久之前学过一段时间，但是感觉好难，所以今天打算再学习一下，原因：无聊</p>
+</blockquote>
+<h1 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>由于我是日常使用linux的，所以不想再打开windows用了，其实也可以开虚拟机用。但是我发现可以在linux中安装powershell，因为这个powershell现在已经可以跨平台使用了。但是我的archlinux就算了，所以我把它安装到raspberry上。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 官方给出的操作步骤，但是wget从github下载速度太慢了</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Update package lists</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Install libunwind8 and libssl1.0</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Regex is used to ensure that we <span class="keyword">do</span> not install libssl1.0-dev, as it is a variant that is not required</span></span><br><span class="line">sudo apt-get install '^libssl1.0.[0-9]$' libunwind8 -y</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Download and extract PowerShell</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Grab the latest tar.gz</span></span><br><span class="line">wget https://github.com/PowerShell/PowerShell/releases/download/v7.0.0/powershell-7.0.0-linux-arm32.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Make folder to put powershell</span></span><br><span class="line">mkdir ~/powershell</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Unpack the tar.gz file</span></span><br><span class="line">tar -xvf ./powershell-7.0.0-linux-arm32.tar.gz -C ~/powershell</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Start PowerShell</span></span><br><span class="line">~/powershell/pwsh</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Start PowerShell from bash with sudo to create a symbolic link</span></span><br><span class="line">sudo ~/powershell/pwsh -c New-Item -ItemType SymbolicLink -Path "/usr/bin/pwsh" -Target "$PSHOME/pwsh" -Force</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="学习网址"><a href="#学习网址" class="headerlink" title="学习网址"></a>学习网址</h2><p><a href="https://docs.microsoft.com/en-us/powershell/scripting/learn/understanding-important-powershell-concepts?view=powershell-7" target="_blank" rel="noopener">微软官网</a></p>
+<p><a href="http://powershelltutorial.net/Home/PowerShell-Basics" target="_blank" rel="noopener">在线学习</a></p>
+<h2 id="还是开虚拟机算了"><a href="#还是开虚拟机算了" class="headerlink" title="还是开虚拟机算了"></a>还是开虚拟机算了</h2><p>哈，下了一个晚上，一看，还没下完，算了，开虚拟机玩</p>
+<p>在用powershell时需要以管理员运行，否则很多命令是没有权限的。</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ol>
+<li>一切皆对象：powershell不同与linux的shell，linux shell是基于文本的，有各种不同的工具都可以对文本进行各种操作达到需要的目的。但是powershell是对象，所有输出都是对象，那么思考方式就不一样了，对象都有方法和属性。</li>
+<li>powershell使用了许多c#的语法</li>
+<li>powershell脚本以<code>.ps1</code>结尾，可直接在powershell中调用</li>
+</ol>
+<h2 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h2><p>其实我最大的心得就是帮助文档是最重要的东西，使用好它，不用记命令都行。</p>
+<ul>
+<li><p>使用<code>man command</code>来获取帮助信息，那么首先需要更新帮助信息，<code>update-help</code>，man其实是help的一个别名</p>
+</li>
+<li><p>使用<code>command -?</code>获取帮助</p>
+</li>
+<li><p><code>get-help command -example</code></p>
+</li>
+</ul>
+<h2 id="命令命名格式"><a href="#命令命名格式" class="headerlink" title="命令命名格式"></a>命令命名格式</h2><p>powershell使用verb-noun动-名词的命名格式，所以还是比较好记的。</p>
+<p>比如需要查询所有以get开头的命令：<code>get-command -verb get</code>，查询所有包含service的命令：<code>get-command -noun service</code></p>
+<h2 id="命令参数"><a href="#命令参数" class="headerlink" title="命令参数"></a>命令参数</h2><p>与linux shell一样，powershell的参数也是用<code>-</code>标识。其实很多都是借鉴的shell，比如说pipe</p>
+<h2 id="命令别名及配置文件"><a href="#命令别名及配置文件" class="headerlink" title="命令别名及配置文件"></a>命令别名及配置文件</h2><p>在powershell中可以使用很多熟悉的linux命令，比如：ls，pwd，ps，cd，echo，rm，rmdir，mv，mount，diff，curl，wget，cp，cat等等，并不是它真的有这些linux命令，而是用了alias，我们输入<code>alias</code>即可查看所有的别名</p>
+<p>设置自己的别名举例：<code>set-alias grep select-string</code>。这样就可以将查找字符映射为熟悉的grep，但是怎么保存这个别名呢？</p>
+<ol>
+<li><p>首先找到配置文件位置</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="variable">$profile</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看配置文件是否存在</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test-path</span> <span class="variable">$profile</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建文件</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">new-item</span> <span class="literal">-Path</span> <span class="variable">$profile</span> <span class="literal">-ItemType</span> file <span class="literal">-force</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将配置写入文件</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"alias grep select-string"</span> &gt; <span class="variable">$profile</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>给权限</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看默认权限</span></span><br><span class="line">PS C:\Users\narcissus&gt; <span class="built_in">Get-ExecutionPolicy</span>                                                                                             Restricted</span><br></pre></td></tr></table></figure>
+
+<p>Restricted权限会阻止打开powershell时去读取配置文件的，所以需要修改，可以在<a href="https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7" target="_blank" rel="noopener">这里</a>查看各种权限意义</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改权限,remotesigned会要求从网上下载的必须要签名否则不能运行，但是本机的可以</span></span><br><span class="line"><span class="built_in">Set-ExecutionPolicy</span> <span class="literal">-ExecutionPolicy</span> RemoteSigned</span><br></pre></td></tr></table></figure>
+
+<p>The acceptable execution policy values are as follows:</p>
+<ul>
+<li><strong>AllSigned</strong>. Requires that all scripts and configuration files are signed by a trusted publisher, including scripts written on the local computer.</li>
+<li><strong>Bypass</strong>. Nothing is blocked and there are no warnings or prompts.</li>
+<li><strong>Default</strong>. Sets the default execution policy. <strong>Restricted</strong> for Windows clients or <strong>RemoteSigned</strong> for Windows servers.</li>
+<li><strong>RemoteSigned</strong>. Requires that all scripts and configuration files downloaded from the Internet are signed by a trusted publisher. The default execution policy for Windows server computers.</li>
+<li><strong>Restricted</strong>. Doesn’t load configuration files or run scripts. The default execution policy Windows client computers.</li>
+<li><strong>Undefined</strong>. No execution policy is set for the scope. Removes an assigned execution policy from a scope that is not set by a Group Policy. If the execution policy in all scopes is <strong>Undefined</strong>, the effective execution policy is <strong>Restricted</strong>.</li>
+<li><strong>Unrestricted</strong>. Beginning in PowerShell 6.0, this is the default execution policy for non-Windows computers and can’t be changed. Loads all configuration files and runs all scripts. If you run an unsigned script that was downloaded from the internet, you’re prompted for permission before it runs.</li>
+</ul>
+</li>
+<li><p>然后就可以随意使用grep了</p>
+</li>
+</ol>
+<h2 id="自定义初始化路径"><a href="#自定义初始化路径" class="headerlink" title="自定义初始化路径"></a>自定义初始化路径</h2><p>每次打开powershell的时候，目录都不在home目录，想修改为home目录</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"cd <span class="variable">$home</span>"</span> &gt;&gt; <span class="variable">$profile</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="pipe"><a href="#pipe" class="headerlink" title="pipe"></a>pipe</h2><p>可以将前一个命令的输出，作为后一个命令的输入。不同于linux的shell，powershell的所有输出都是对象，而在控制台显示的信息仅仅是对象的一部分信息，那么可以通过调用对象的方法来查看更多信息。</p>
+<p><code>-inputobject</code>获取到对象</p>
+<p><code>$_</code>代表传递过来的默认变量（对象）</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看每个进程名以及所属公司：ps通过管道过来的数据都是对象，直接使用ps是看不到这些数据的，但是可以通过对象得到这些数据</span></span><br><span class="line">ps | echo <span class="literal">-InputObject</span> &#123;<span class="variable">$_</span>.ProcessName + <span class="string">'--&gt;'</span> + <span class="variable">$_</span>.Company&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>类似于perl，变量声明需要在变量名前加<code>$</code>,变量的引用同样需要<code>$</code></p>
+<p>例如配置文件：$profile</p>
+<p>通过pipe传递过来的变量默认为<code>$_</code>：<code>get-item ./* | foreach {write-output $_; sleep 1}</code></p>
+<p>字符拼接：<code>+</code></p>
+<h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><p>字符串具有许多的方法</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span> = (ipconfig)</span><br><span class="line"><span class="variable">$a</span>.replace(<span class="string">'0'</span>,<span class="number">1</span>)</span><br><span class="line"><span class="variable">$a</span>.split(<span class="string">'.'</span>)</span><br><span class="line"><span class="variable">$a</span>.count</span><br><span class="line"><span class="variable">$a</span>.length</span><br></pre></td></tr></table></figure>
+
+<p>输出，支持颜色</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">write-host</span> <span class="variable">$a</span> <span class="literal">-backgroundcolor</span> black <span class="literal">-foregroundcolor</span> white</span><br></pre></td></tr></table></figure>
+
+<p>​    </p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$list</span> = <span class="selector-tag">@</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line"><span class="variable">$list</span> = <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span></span><br><span class="line"><span class="variable">$list</span> = <span class="number">1</span>..<span class="number">4</span></span><br><span class="line"><span class="built_in">write-output</span> <span class="variable">$list</span></span><br></pre></td></tr></table></figure>
+
+<p>我们知道在powershell中一切都是对象，那么数组就具有很多方法和属性可调用</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$p</span> = <span class="selector-tag">@</span>(<span class="built_in">get-process</span>)</span><br><span class="line"><span class="variable">$p</span>.count</span><br><span class="line"><span class="variable">$p</span>.length</span><br><span class="line"><span class="variable">$p</span>[<span class="type">index</span>]</span><br><span class="line"><span class="variable">$p</span>[<span class="number">1</span>]</span><br><span class="line"><span class="variable">$p</span>[<span class="number">1</span>] = <span class="string">'0'</span></span><br><span class="line"><span class="variable">$p</span>.contains(<span class="number">0</span>)</span><br><span class="line"><span class="variable">$p</span> <span class="operator">-notcontains</span>(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这种方式创建的array无法修改<code>$list.isfixedsize</code>为True</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">system.collections.arraylist</span>]<span class="variable">$list</span> = <span class="number">1</span>..<span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p>这样创建的就是可变长度的list</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$list</span>.remove(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$hash</span> = <span class="selector-tag">@</span>&#123;<span class="string">'A'</span>=<span class="number">1</span>; <span class="string">'B'</span>=<span class="number">2</span>; <span class="string">'C'</span>=<span class="number">3</span>&#125;</span><br><span class="line"><span class="variable">$hash</span>[<span class="string">'A'</span>]</span><br><span class="line"><span class="variable">$hash</span>.count</span><br><span class="line"><span class="variable">$hash</span>.keys</span><br><span class="line"><span class="variable">$hash</span>.values</span><br><span class="line"><span class="variable">$hash</span>.containskey(<span class="string">'A'</span>)</span><br><span class="line"><span class="variable">$hash</span>.containsvalue(<span class="number">2</span>)</span><br><span class="line"><span class="variable">$hash</span>.remove(<span class="string">'C'</span>)</span><br><span class="line"><span class="variable">$hash</span>[<span class="string">'C'</span>] = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><ul>
+<li>while</li>
+<li>for</li>
+<li>foreach</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (condition)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">while</span> (condition)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (condition)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span> (condition)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>举例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$i</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> (<span class="variable">$i</span> <span class="operator">-lt</span> <span class="number">5</span>)&#123;</span><br><span class="line">	<span class="built_in">write-output</span> <span class="variable">$i</span></span><br><span class="line">	<span class="variable">$i</span>++</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="variable">$i</span>=<span class="number">0</span>;<span class="variable">$i</span> <span class="operator">-lt</span> <span class="number">5</span>;<span class="variable">$i</span>++)&#123;</span><br><span class="line">	<span class="built_in">write-output</span> <span class="variable">$i</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span> (<span class="variable">$file</span> <span class="keyword">in</span> (<span class="built_in">get-item</span> ./*).fullname) &#123;</span><br><span class="line">	<span class="built_in">write-output</span> <span class="variable">$file</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (condition)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">elseif</span> (condition)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>数字与字符比较都用<code>-eq -gt -lt</code>等等。不过字符比较时默认忽略大小写，如果要考虑大小写添加<code>-c</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="string">'ABC'</span> <span class="operator">-ceq</span> <span class="string">'Abc'</span>)&#123;echo <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>逻辑运算：<code>-and -or -not</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="number">2</span> <span class="operator">-gt</span> <span class="number">1</span> <span class="operator">-and</span> <span class="number">3</span> <span class="operator">-lt</span> <span class="number">4</span>)&#123;echo <span class="string">'ok'</span>&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="keyword">Function</span><span class="title">Name</span> <span class="params">(parameters)</span></span></span><br><span class="line">    &#123;</span><br><span class="line">    <span class="comment">#script block</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">Remove-Item</span> <span class="string">"C:\doentexist\file.txt"</span> <span class="literal">-ErrorAction</span> Stop</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> [<span class="type">System.Management.Automation.ItemNotFoundException</span>] &#123;</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">"item not found"</span> <span class="literal">-ForegroundColor</span> red</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> &#123;</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">"undefined errors"</span> <span class="literal">-ForegroundColor</span> orange</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="variable">$error</span>[<span class="number">0</span>] <span class="literal">-ForegroundColor</span> orange</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="string">"Finally block"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="取消终端输出"><a href="#取消终端输出" class="headerlink" title="取消终端输出"></a>取消终端输出</h2><p>不像在linux可以重定向到/dev/null，powershell中是输出给到<code>out-null</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">system.collections.arraylist</span>]<span class="variable">$list</span> = <span class="selector-tag">@</span>()</span><br><span class="line"><span class="comment"># list在添加值的时候会输出index，为了不输出可以这么做</span></span><br><span class="line"><span class="variable">$list</span>.add(<span class="number">1</span>) | <span class="built_in">out-null</span></span><br></pre></td></tr></table></figure>
+
+<p>其实还可以将输出赋值给一个变量</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$null</span> = (<span class="variable">$list</span>.add(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">get-childitem</span> | <span class="built_in">format-table</span></span><br><span class="line"><span class="built_in">get-childitem</span> | <span class="built_in">format-list</span></span><br><span class="line"><span class="built_in">get-childitem</span> | <span class="built_in">format-wide</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 会返回True/False</span></span><br><span class="line">[<span class="type">regex</span>]::isMatch(<span class="variable">$i</span>,<span class="string">"txt"</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前路径下txt文件，虽然可以用get-item *txt</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$i</span> <span class="keyword">in</span> (<span class="built_in">get-item</span> ./*).Name)&#123;<span class="keyword">if</span> ([<span class="type">regex</span>]::isMatch(<span class="variable">$i</span>,<span class="string">"txt"</span>) <span class="operator">-eq</span> <span class="string">'True'</span>)&#123;echo <span class="variable">$i</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>select-string 匹配</p>
+<p>stop-computer 关机</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看每个进程名以及所属公司：ps通过管道过来的数据都是对象，直接使用ps是看不到这些数据的，但是可以通过对象得到这些数据</span></span><br><span class="line">ps | echo <span class="literal">-InputObject</span> &#123;<span class="variable">$_</span>.ProcessName + <span class="string">'--&gt;'</span> + <span class="variable">$_</span>.Company&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程数：ps命令是没有count参数的，但是其输出对象有这个方法</span></span><br><span class="line">echo (ps).count</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每个一秒逐行打印文件数据</span></span><br><span class="line">cat .\cmd.txt | <span class="keyword">foreach</span> &#123;echo <span class="variable">$_</span>;sleep <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下面这个就是实现给定条件文本，然后在许多文件中去找是否存在，对存在的数据进行复制。类似与linux的grep|cp的组合功能</span></span><br><span class="line"><span class="comment"># 需要对没有搜索到的条件进行打印，这个确实有点难，因为不是每个文件都包含这个条件，那么循环中既有找到的，也有找不到的</span></span><br><span class="line"><span class="comment"># 其实只要对找得到的，找不到的都做一个标记，将结果放进一个集合，然后找一个找到标记都没有的，那就是真的找不到的</span></span><br><span class="line"><span class="comment"># 将内容保存为search_txt.ps1，然后就可以直接在powershell中直接调用了，很方便</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义条件的文本</span></span><br><span class="line"><span class="variable">$condition</span> = <span class="string">'cmd.txt'</span></span><br><span class="line"><span class="comment"># 定义复制到哪的路径</span></span><br><span class="line"><span class="variable">$destition</span> = <span class="string">'~/Desktop/new'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$con</span> <span class="keyword">in</span> (<span class="built_in">get-content</span> <span class="variable">$condition</span>))&#123;</span><br><span class="line">    [<span class="type">system.collections.arraylist</span>]<span class="variable">$list</span> = <span class="selector-tag">@</span>()</span><br><span class="line">    <span class="comment"># 将文件夹，及不需要搜索的文件加入-exclude后面，逗号分隔</span></span><br><span class="line">    <span class="keyword">foreach</span> (<span class="variable">$file</span> <span class="keyword">in</span> (<span class="built_in">get-item</span> ./* <span class="literal">-exclude</span> <span class="string">'new'</span>,<span class="string">'install.sh'</span>).fullname)&#123;</span><br><span class="line">        <span class="keyword">if</span> ((<span class="built_in">select-string</span> <span class="variable">$con</span> <span class="variable">$file</span>).count <span class="operator">-gt</span> <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="variable">$null</span> = <span class="variable">$list</span>.add(<span class="string">'ok'</span>)</span><br><span class="line">            <span class="built_in">copy-item</span> <span class="variable">$file</span> <span class="variable">$destition</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$null</span> = <span class="variable">$list</span>.add(<span class="string">'no'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$list</span>.Contains(<span class="string">'ok'</span>))&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment"># 输出未找到的条件</span></span><br><span class="line">        <span class="built_in">write-host</span> [<span class="variable">$con</span>] not find <span class="keyword">in</span> files <span class="literal">-BackgroundColor</span> DarkCyan</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>powershell学习起来比linux shell简单多了，因为所有命令都是通过verb-noun这种方式来表示的，可以很轻易的查到。另外所有命令都有使用例子，真的很简单。虽然命令很多，但是却可以现学现用。如果花与学习linux shell相同时间，powershell一定玩的很溜，但是我不学了，好累突然。哈哈，我觉得我学的已经可以了，写个脚本什么的没问题了。反正一切皆对象，只要是同一类对象，根本就不用去记忆，直接调用就行了，反正方法都一样。现在想想大二时候刚开始学电脑的我，那个时候的我觉得这个东西太难了，学的也很慢，而且没学懂，变量都不会用。所以说学习的确是一个厚积薄发的过程，只有不断的学习新东西，学到更多的东西，才会越来越觉得简单。真的现在看到群里那些小伙伴提的问题我觉得好简单啊，虽然有很多不会的东西，但是去百度搜一下，然后就可以直接拿来用了，毫无违和感。我又飘了！</p>
+<p>突然收到一条短信，我收到快递了，可是我没买东西，我发现这是一个最可怕的东西，该来的还是来了</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#powershell"><span class="toc-number">1.</span> <span class="toc-text">powershell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载"><span class="toc-number">1.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#学习网址"><span class="toc-number">1.2.</span> <span class="toc-text">学习网址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还是开虚拟机算了"><span class="toc-number">1.3.</span> <span class="toc-text">还是开虚拟机算了</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">1.4.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#帮助"><span class="toc-number">1.5.</span> <span class="toc-text">帮助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令命名格式"><span class="toc-number">1.6.</span> <span class="toc-text">命令命名格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令参数"><span class="toc-number">1.7.</span> <span class="toc-text">命令参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令别名及配置文件"><span class="toc-number">1.8.</span> <span class="toc-text">命令别名及配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义初始化路径"><span class="toc-number">1.9.</span> <span class="toc-text">自定义初始化路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pipe"><span class="toc-number">1.10.</span> <span class="toc-text">pipe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量"><span class="toc-number">1.11.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#string"><span class="toc-number">1.12.</span> <span class="toc-text">string</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-number">1.13.</span> <span class="toc-text">数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hash"><span class="toc-number">1.14.</span> <span class="toc-text">hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环"><span class="toc-number">1.15.</span> <span class="toc-text">循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件"><span class="toc-number">1.16.</span> <span class="toc-text">条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">1.17.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">1.18.</span> <span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#取消终端输出"><span class="toc-number">1.19.</span> <span class="toc-text">取消终端输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化输出"><span class="toc-number">1.20.</span> <span class="toc-text">格式化输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正则表达式"><span class="toc-number">1.21.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">1.22.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">1.23.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/04/20/powershell/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/04/20/powershell/&text=powershell" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/04/20/powershell/&is_video=false&description=powershell" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=powershell&body=Check out this article: https://ulomo.github.io/2020/04/20/powershell/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/04/20/powershell/&title=powershell" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/04/20/powershell/&name=powershell&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

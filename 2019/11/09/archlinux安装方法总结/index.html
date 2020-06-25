@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="重启之前从使用archlinux起快三年了吧，安装步骤基本没什么变化，而这次应该是史无前例。怎么说呢，arch变的更好了，因为从安装上就能看出arch更加简化其基础系统了，这也是arch的初衷，给用户最大的选择。这一次连内核都是可选项目了，firmware，dhcpcd，nano等许多都是要自己手动选择的。不过这次我的安装并不是那么顺利，问题可能在于显卡驱动吧，或者我少安装了一些必要的软件吗？然后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="archlinux安装方法总结">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="重启之前从使用archlinux起快三年了吧，安装步骤基本没什么变化，而这次应该是史无前例。怎么说呢，arch变的更好了，因为从安装上就能看出arch更加简化其基础系统了，这也是arch的初衷，给用户最大的选择。这一次连内核都是可选项目了，firmware，dhcpcd，nano等许多都是要自己手动选择的。不过这次我的安装并不是那么顺利，问题可能在于显卡驱动吧，或者我少安装了一些必要的软件吗？然后">
+<meta property="article:published_time" content="2019-11-09T12:38:56.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.354Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>archlinux安装方法总结</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/11/linux%E4%B8%8B%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95%E7%9A%AE%E8%82%A4%E5%AE%89%E8%A3%85/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/10/13/RE%E6%AD%A3%E5%88%99/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&text=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&is_video=false&description=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=archlinux安装方法总结&body=Check out this article: https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&name=archlinux安装方法总结&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#重启之前"><span class="toc-number">1.</span> <span class="toc-text">重启之前</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在基础系统的安装方面"><span class="toc-number">1.1.</span> <span class="toc-text">在基础系统的安装方面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接网咯："><span class="toc-number">1.2.</span> <span class="toc-text">连接网咯：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置静态ip："><span class="toc-number">1.3.</span> <span class="toc-text">设置静态ip：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重启之后"><span class="toc-number">2.</span> <span class="toc-text">重启之后</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#由于很多东西base都不提供了，连man手册都没有"><span class="toc-number">2.1.</span> <span class="toc-text">由于很多东西base都不提供了，连man手册都没有</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改grub-theme"><span class="toc-number">2.2.</span> <span class="toc-text">修改grub theme</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启boot-message"><span class="toc-number">2.3.</span> <span class="toc-text">开启boot message</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加用户，加入组"><span class="toc-number">2.4.</span> <span class="toc-text">添加用户，加入组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装显示服务"><span class="toc-number">2.5.</span> <span class="toc-text">安装显示服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装窗口管理器"><span class="toc-number">2.6.</span> <span class="toc-text">安装窗口管理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进入桌面环境"><span class="toc-number">2.7.</span> <span class="toc-text">进入桌面环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pacman下载命令结果颜色显示"><span class="toc-number">2.8.</span> <span class="toc-text">pacman下载命令结果颜色显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加镜像服务器"><span class="toc-number">2.9.</span> <span class="toc-text">添加镜像服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装aur下载软件yay"><span class="toc-number">2.10.</span> <span class="toc-text">安装aur下载软件yay</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载常用软件"><span class="toc-number">2.11.</span> <span class="toc-text">下载常用软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装输入法："><span class="toc-number">2.12.</span> <span class="toc-text">安装输入法：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装google拼音输入"><span class="toc-number">2.12.1.</span> <span class="toc-text">安装google拼音输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#还是搜狗输入法好用啊"><span class="toc-number">2.12.2.</span> <span class="toc-text">还是搜狗输入法好用啊</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用触摸板，碍事"><span class="toc-number">2.13.</span> <span class="toc-text">禁用触摸板，碍事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置鼠标样式为指针"><span class="toc-number">2.14.</span> <span class="toc-text">设置鼠标样式为指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#挂载ntfs格式文件时让普通用户有权限"><span class="toc-number">2.15.</span> <span class="toc-text">挂载ntfs格式文件时让普通用户有权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装终端复制软件（剪切板）"><span class="toc-number">2.16.</span> <span class="toc-text">安装终端复制软件（剪切板）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装xmonad的其它必须配件"><span class="toc-number">2.17.</span> <span class="toc-text">安装xmonad的其它必须配件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#状态栏：polybar"><span class="toc-number">2.17.1.</span> <span class="toc-text">状态栏：polybar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索软件"><span class="toc-number">2.17.2.</span> <span class="toc-text">搜索软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装渐变及设置透明效果的软件"><span class="toc-number">2.17.3.</span> <span class="toc-text">安装渐变及设置透明效果的软件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用shoadowsocks上google"><span class="toc-number">2.18.</span> <span class="toc-text">使用shoadowsocks上google</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装终端翻译软件"><span class="toc-number">2.19.</span> <span class="toc-text">安装终端翻译软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装网页下载工具，并实现终端在线命令"><span class="toc-number">2.20.</span> <span class="toc-text">安装网页下载工具，并实现终端在线命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装virtualbox"><span class="toc-number">2.21.</span> <span class="toc-text">安装virtualbox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蓝牙安装配置"><span class="toc-number">2.22.</span> <span class="toc-text">蓝牙安装配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决xorg问题"><span class="toc-number">2.23.</span> <span class="toc-text">解决xorg问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装系统之后博客迁移"><span class="toc-number">2.24.</span> <span class="toc-text">安装系统之后博客迁移</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        archlinux安装方法总结
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-09T12:38:56.000Z" itemprop="datePublished">2019-11-09</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="重启之前"><a href="#重启之前" class="headerlink" title="重启之前"></a>重启之前</h1><p>从使用archlinux起快三年了吧，安装步骤基本没什么变化，而这次应该是史无前例。怎么说呢，arch变的更好了，因为从安装上就能看出arch更加简化其基础系统了，这也是arch的初衷，给用户最大的选择。这一次连内核都是可选项目了，firmware，dhcpcd，nano等许多都是要自己手动选择的。不过这次我的安装并不是那么顺利，问题可能在于显卡驱动吧，或者我少安装了一些必要的软件吗？然后加上xmonad这次也在升级，导致我的topbar的配置也不起作用了。两个事情叠在一起真的是有点头疼。</p>
+<h2 id="在基础系统的安装方面"><a href="#在基础系统的安装方面" class="headerlink" title="在基础系统的安装方面"></a>在基础系统的安装方面</h2><p>按照archwiki上的步骤就足够了，为什么不写，因为发现步骤变了，所以没有一个特定的方法。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S wpa_supplicant dialog netctl dhcpcd</span><br></pre></td></tr></table></figure>
+
+<p>在安装dhcpcd的时候会有一个选择项，需要选择默认的，否则连接网络会出错</p>
+<h2 id="连接网咯："><a href="#连接网咯：" class="headerlink" title="连接网咯："></a>连接网咯：</h2><p>这里用到了dhcpcd来获取动态ip，同时使用了netctl（wifi-menu是其中一个组件）网络管理器，netctl同样可以设置静态ip（没有选择标配的NetworkManager大块头，因为我一个用WM的安装它没多大必要。当然了如果是安装DE的话，这个还是标配）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wifi-menu</span><br></pre></td></tr></table></figure>
+
+<p>连接成功后，会在<code>/etc/netctl</code>目录下生成对应的连接配置文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/netctl</span><br><span class="line">netctl enable 连接的配置文件名	#这里需要写文件名，而不是路径</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以自动连接了。</p>
+<h2 id="设置静态ip："><a href="#设置静态ip：" class="headerlink" title="设置静态ip："></a>设置静态ip：</h2><p>同样使用netctl网络管理器来设置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">netctl网络管理软件的example目录下包括了配置文件模板，复制过去再修改即可</span></span><br><span class="line">sudo cp /etc/netctl/examples/wireless-wpa-static /etc/netctl</span><br><span class="line"><span class="meta">#</span><span class="bash">修改为如下即可，需要注意的地方是ip后面必须接一个/24，否则可能连接不上</span></span><br><span class="line">Description='A simple WPA encrypted wireless connection using a static IP'</span><br><span class="line">Interface=wlo1</span><br><span class="line">Connection=wireless</span><br><span class="line">Security=wpa</span><br><span class="line">ESSID='wifi名字'</span><br><span class="line">Key='thepasswd'</span><br><span class="line">IP=static</span><br><span class="line">Address='192.168.0.104/24'</span><br><span class="line">Gateway='192.168.0.1'</span><br><span class="line">DNS=('114.114.114.114')</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">修改完配置文件之后就是需要让它生效并自动启动了，由于之前已经配置了自动启动另一个wifi连接，所以需要将另外一个禁用，否则会报错</span></span><br><span class="line">netctl disable 之前的wifi配置文件名</span><br><span class="line">netctl enable wireless-wpa-static</span><br><span class="line"><span class="meta">#</span><span class="bash">然后可以重启服务，或者重启电脑</span></span><br><span class="line">netctl restart wireless-wpa-static</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<h1 id="重启之后"><a href="#重启之后" class="headerlink" title="重启之后"></a>重启之后</h1><h2 id="由于很多东西base都不提供了，连man手册都没有"><a href="#由于很多东西base都不提供了，连man手册都没有" class="headerlink" title="由于很多东西base都不提供了，连man手册都没有"></a>由于很多东西base都不提供了，连man手册都没有</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S vim			#喜欢的编辑器，vi不默认提供，反正我也不用</span><br><span class="line">sudo pacman -S man			#安装了才能用man命令</span><br><span class="line">sudo pacman -S sudo			#安装了才能用sudo命令</span><br><span class="line">sudo pacman -S fish			#shell，尝试这个，不按照zsh了</span><br></pre></td></tr></table></figure>
+
+<p>将<code>.vimrc</code>配置文件复制到～/下，其它扩展复制到<code>~/.vim</code>下</p>
+<p>fish的配置，基于网页的配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fish_config</span><br></pre></td></tr></table></figure>
+
+<p>用了几天的fish之后发现还是zsh比较适合我，主要原因就是fish的shell语法和bash，zsh这些差异太大了，而我还是用通用的吧，所以还是用zsh了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S zsh oh-my-zsh-git</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="修改grub-theme"><a href="#修改grub-theme" class="headerlink" title="修改grub theme"></a>修改grub theme</h2><p>可以去网上下载gnomelook.org，或者安装本地已经下载好的，主题名字：arch-silence-master</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">unzip arch-silence-master.zip					#解压</span><br><span class="line">sudo mv arch-silence-master /boot/grub/theme/	#移动到theme目录下</span><br><span class="line">sudo vim /etc/default/grub						#配置文件位置</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改为如下：</span></span><br><span class="line">GRUB_THEME="/boot/grub/themes/arch-silence-master/theme/theme.txt"</span><br><span class="line"><span class="meta">#</span><span class="bash">上面的配置文件修改好了就可以使用grub-mkconfig命令生成gurb.cfg配置文件</span></span><br><span class="line">sudo grub-mkcofig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="开启boot-message"><a href="#开启boot-message" class="headerlink" title="开启boot message"></a>开启boot message</h2><p>现在grub默认关闭了boot message，启动之后就看不到加载的一些信息，可以开启它</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">同样是在gurb的配置文件中修改</span></span><br><span class="line">sudo vim /etc/default/grub</span><br><span class="line"><span class="meta">#</span><span class="bash">默认设置为了这个</span></span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"</span><br><span class="line"><span class="meta">#</span><span class="bash">将quiet去掉即可，loglevel分为0-7个等级，7是最为详细的debug信息</span></span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3"</span><br><span class="line"><span class="meta">#</span><span class="bash">最后重新生成配置文件（其实也可以直接在配置文件中改，但是下次生成的时候会覆盖修改的地方）</span></span><br><span class="line">sudo grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="添加用户，加入组"><a href="#添加用户，加入组" class="headerlink" title="添加用户，加入组"></a>添加用户，加入组</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">groupadd sudo				#添加sudo组</span><br><span class="line">vim /etc/sudoers			#取消sudo前面的注释</span><br><span class="line">useradd -m -G sudo -s /usr/bin/fish narcissus</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装显示服务"><a href="#安装显示服务" class="headerlink" title="安装显示服务"></a>安装显示服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S xorg-server		#安装xorg</span><br><span class="line">sudo pacman -S xf86-video-vesa	#发现intel或者invidia都很卡，只能用这个</span><br><span class="line">sudo pacman -S pulseaudio pulseaudio-alsa	#声音驱动</span><br><span class="line">sudo pacman -S xorg-xinit		#安装了才能用startx进入GUI</span><br><span class="line">sudo pacman -S xorg-xbacklight	#安装了才能调节屏幕亮度，但是我发现这个我也用不了了</span><br><span class="line"><span class="meta">#</span><span class="bash">手动调节背光</span></span><br><span class="line">vim /sys/class/backlight/intel_backlight</span><br></pre></td></tr></table></figure>
+
+<p>后来发现好多东西都缺，所以干脆一次性把xorg全安装了(全部安装也才100M不到)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装窗口管理器"><a href="#安装窗口管理器" class="headerlink" title="安装窗口管理器"></a>安装窗口管理器</h2><p>简简单单的就好，不需要桌面环境，gnome虽然豪华，但是耗资源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">我发现现在这个也有问题，之前的配置有问题了，不知道是不是因为升级了版本0.15的原因</span></span><br><span class="line">sudo pacman -S xmonad xmonad-contrib	</span><br><span class="line">sudo pacman -S xterm			#xmonad默认使用xterm，需要安装</span><br><span class="line"><span class="meta">#</span><span class="bash">将xterm的配置文件.Xresources复制到～/下</span></span><br><span class="line">xrdb ~/.Xresources				#使配置生效</span><br></pre></td></tr></table></figure>
+
+<p>复制xmonad配置文件然后编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.xmonad/xmonad.hs		#配置文件位置</span><br><span class="line">xmonad --recompile</span><br></pre></td></tr></table></figure>
+
+<p>设置登录xmond</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /etc/X11/xinit/xinitrc ～/.xinitrc	#复制配置文件</span><br><span class="line">exec xmonad			#添加启动xmonad</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="进入桌面环境"><a href="#进入桌面环境" class="headerlink" title="进入桌面环境"></a>进入桌面环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startx				#进入xmonad</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="pacman下载命令结果颜色显示"><a href="#pacman下载命令结果颜色显示" class="headerlink" title="pacman下载命令结果颜色显示"></a>pacman下载命令结果颜色显示</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/pacman.conf #uncomment color，让pacman搜索出来的结果显示颜色</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="添加镜像服务器"><a href="#添加镜像服务器" class="headerlink" title="添加镜像服务器"></a>添加镜像服务器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 添加china服务器（网易），这样下载速度快一些，而且可以用国内的仓库中的软件</span></span></span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://mirrors.163.com/archlinux-cn/$arch</span><br></pre></td></tr></table></figure>
+
+<p>安装keyring</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S archlinuxcn-keyring</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装aur下载软件yay"><a href="#安装aur下载软件yay" class="headerlink" title="安装aur下载软件yay"></a>安装aur下载软件<code>yay</code></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S yay</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="下载常用软件"><a href="#下载常用软件" class="headerlink" title="下载常用软件"></a>下载常用软件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S screenfetch	#查看系统参数</span><br><span class="line">sudo pacman -S htop			#资源管理器</span><br><span class="line">sudo pacman -S feh			#查看图片，设置桌面背景图</span><br><span class="line"></span><br><span class="line">sudo pacman -S ranger		#终端文件浏览器，图片是基于w3m显示的</span><br><span class="line">sudo pacman -S w3m			#终端浏览器，安装这个后ranger才能显示图片</span><br><span class="line"></span><br><span class="line">sudo pacman -S typora		#markdown编辑器</span><br><span class="line"></span><br><span class="line">sudo pacman -S firefox		#浏览器</span><br><span class="line">sudo pacman -S wqy-microhei	#浏览器显示中文</span><br><span class="line"></span><br><span class="line">sudo pacman -S openssh		#使用ssh远程连接服务器</span><br><span class="line">sudo pacman -S mplayer		#视频软件</span><br><span class="line"></span><br><span class="line">sudo pacman -S baidupcs-go	#百度云终端下载软件，不限速</span><br><span class="line"></span><br><span class="line">sudo pacman -S netease-cloud-music	#网易云播放器</span><br><span class="line"></span><br><span class="line">sudo pacman -S ttf-iosevka	#安装字体</span><br><span class="line">sudo pacman -S flameshot	#安装截图软件</span><br><span class="line">sudo pacman -S unzip		#解压软件zip格式</span><br><span class="line"></span><br><span class="line">sudo pacman -S dbeaver		#数据库sql</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S obs-studio	#录屏软件</span><br><span class="line">    libfdk-aac: FDK AAC codec support</span><br><span class="line">    libxcomposite: XComposite capture support [installed]</span><br><span class="line">    libva-intel-driver: hardware encoding</span><br><span class="line">    libva-mesa-driver: hardware encoding</span><br><span class="line">    luajit: scripting support</span><br><span class="line">    python: scripting support [installed]</span><br><span class="line">    vlc: VLC Media Source support</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装输入法："><a href="#安装输入法：" class="headerlink" title="安装输入法："></a>安装输入法：</h2><h3 id="安装google拼音输入"><a href="#安装google拼音输入" class="headerlink" title="安装google拼音输入"></a>安装google拼音输入</h3><p>发现搜狗输入法太矫情，明明就是按照文档步骤走的，可是总有点问题，所以安装google输入法了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S fcitx fcitx-configtool fcitx-im fcitx-googlepinyin</span><br></pre></td></tr></table></figure>
+
+<p>添加配置文件，这个文件很重要，如果没有它，那么在terminal中用不了中文输入（包括vim中）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.pam_environment</span><br><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br></pre></td></tr></table></figure>
+
+<p>添加启动命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.xinitrc</span><br><span class="line">fcitx &gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="还是搜狗输入法好用啊"><a href="#还是搜狗输入法好用啊" class="headerlink" title="还是搜狗输入法好用啊"></a>还是搜狗输入法好用啊</h3><p>我好像打脸了，用了几天的google输入法，又想念搜狗输入法的联想和记忆输入了。不是搜狗输入法矫情，是我的问题，我承认是我的问题：）</p>
+<p>这也是第一次发现wiki需要更新了啊，在关于汉语输入法这里真的需要更新一下了，因为发现fcitx-qt4被移出了fcitx-im包。同时fcitx被这个fcitx-lilydjwg-git取代了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">安装wiki上说的安装fcitx-im就应该包含qt4的，其实之前安装的时候本来就又qt4的，只是现在没了</span></span><br><span class="line">narcissus ~&gt; sudo pacman -S fcitx-im                                 </span><br><span class="line">:: There are 4 members in group fcitx-im:</span><br><span class="line">:: Repository community</span><br><span class="line">   1) fcitx  2) fcitx-gtk2  3) fcitx-gtk3  4) fcitx-qt5</span><br><span class="line"><span class="meta">#</span><span class="bash">之前没有注意看，确实少了一个qt4的包</span></span><br></pre></td></tr></table></figure>
+
+<p>所以从这里开始才是搜狗输入法的正确安装方法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S fcitx-gtk2 fcitx-gtk3 fcitx-qt4 fcitx-qt5</span><br><span class="line">resolving dependencies...</span><br><span class="line">looking for conflicting packages...</span><br><span class="line">warning: removing 'fcitx-gtk2' from target list because it conflicts with 'fcitx-lilydjwg-git'</span><br><span class="line">warning: removing 'fcitx-gtk3' from target list because it conflicts with 'fcitx-lilydjwg-git'</span><br><span class="line">:: fcitx-lilydjwg-git and fcitx are in conflict. Remove fcitx? [y/N] y</span><br><span class="line"></span><br><span class="line">Packages (3) fcitx-4.2.9.7-1 [removal]  fcitx-lilydjwg-git-2:4.2.9.7.20191107-1  fcitx-qt5-1.2.3-11</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S fcitx-sogoupinyin fcitx-configtool</span><br></pre></td></tr></table></figure>
+
+<p>然后打开fcitx-configtool将搜狗输入法加入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">添加环境变量这里写到了本地，也可以写入系统环境变量/etc/environment</span></span><br><span class="line">vim ~/.pam_environment</span><br><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">加入xinit启动</span></span><br><span class="line">vim ~/.xinitrc</span><br><span class="line">fcitx &gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<p>最后需要退出登录或者重启一下，就可以使用搜狗输入法了</p>
+<h2 id="禁用触摸板，碍事"><a href="#禁用触摸板，碍事" class="headerlink" title="禁用触摸板，碍事"></a>禁用触摸板，碍事</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S xorg-xinput</span><br></pre></td></tr></table></figure>
+
+<p>添加启动自动禁用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim .xinitrc</span><br><span class="line">xinput disable 14</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xinput enable 14		#想要启动也很简单</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="设置鼠标样式为指针"><a href="#设置鼠标样式为指针" class="headerlink" title="设置鼠标样式为指针"></a>设置鼠标样式为指针</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S xorg-xsetroot</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim .xinitrc</span><br><span class="line">xsetroot -cursor_name left_ptr</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="挂载ntfs格式文件时让普通用户有权限"><a href="#挂载ntfs格式文件时让普通用户有权限" class="headerlink" title="挂载ntfs格式文件时让普通用户有权限"></a>挂载ntfs格式文件时让普通用户有权限</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S ntfs-3g		#标准挂载ntfs格式文件</span><br><span class="line">eg:</span><br><span class="line">	sudo mount -t ntfs-3g /dev/sda1 /mnt</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装终端复制软件（剪切板）"><a href="#安装终端复制软件（剪切板）" class="headerlink" title="安装终端复制软件（剪切板）"></a>安装终端复制软件（剪切板）</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S xclip</span><br><span class="line">使用eg：</span><br><span class="line">	echo "some text" | xclip</span><br><span class="line">	xclip -o</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装xmonad的其它必须配件"><a href="#安装xmonad的其它必须配件" class="headerlink" title="安装xmonad的其它必须配件"></a>安装xmonad的其它必须配件</h2><p>其实也不是必须配件，只是我的配置都是基于下面这些的，不安装有些功能都没有，所以也勉强算个三件套吧</p>
+<h3 id="状态栏：polybar"><a href="#状态栏：polybar" class="headerlink" title="状态栏：polybar"></a>状态栏：polybar</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S polybar</span><br><span class="line">sudo pacman -S awesome-terminal-fonts		#安装这个之后才能显示图标</span><br></pre></td></tr></table></figure>
+
+<p>然后将配置文件复制到对应目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.config/polybar/config</span><br></pre></td></tr></table></figure>
+
+<p>添加自动启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim .xinitrc</span><br><span class="line">polybar mybar &gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="搜索软件"><a href="#搜索软件" class="headerlink" title="搜索软件"></a>搜索软件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S rofi</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装渐变及设置透明效果的软件"><a href="#安装渐变及设置透明效果的软件" class="headerlink" title="安装渐变及设置透明效果的软件"></a>安装渐变及设置透明效果的软件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S compton</span><br></pre></td></tr></table></figure>
+
+<p>添加自动自动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim .xinitrc</span><br><span class="line">compton &gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="使用shoadowsocks上google"><a href="#使用shoadowsocks上google" class="headerlink" title="使用shoadowsocks上google"></a>使用shoadowsocks上google</h2><p>安装shadowsocks代理以及proxychains协议转换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S proxychains-ng shadowsocks</span><br></pre></td></tr></table></figure>
+
+<p>修改proxychains配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/proxychains.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">socks4         127.0.0.1 9050		<span class="comment">#注释</span></span></span><br><span class="line">socks5  127.0.0.1 1080				#添加</span><br></pre></td></tr></table></figure>
+
+<p>添加本地域名解析</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash">添加</span></span><br><span class="line">104.31.74.55  youneed.win</span><br><span class="line">104.31.74.54  www.youneed.win</span><br></pre></td></tr></table></figure>
+
+<p><em>添加脚本变量路径</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim .xinitrc</span><br><span class="line">export PATH=$PATH:~/.local/bin</span><br></pre></td></tr></table></figure>
+
+<p>在<code>~/.local/bin</code>下建立软链接，指向脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.local/bin</span><br><span class="line">ln -s ~/Documents/script/shell/shadowshocks.sh sslink</span><br></pre></td></tr></table></figure>
+
+<p>运行脚本启动代理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxychains firefox		#浏览器代理</span><br><span class="line">proxychains bash		#终端代理</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装终端翻译软件"><a href="#安装终端翻译软件" class="headerlink" title="安装终端翻译软件"></a>安装终端翻译软件</h2><p>这两个脚本（manual，translate）都有声音，要使用amixer命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S alsa-utils		#安装之后可以使用amixer命令</span><br><span class="line">sudo pacman -S ydcv-rs-git</span><br></pre></td></tr></table></figure>
+
+<p>并将脚本<code>translate</code>复制到<code>~/.local/bin</code>下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">脚本：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">翻译单词并拼读出来</span></span><br><span class="line"><span class="meta">#</span><span class="bash">author:narcissus</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">获取系统音量大小</span></span><br><span class="line">volume=`amixer sget Master | tr -d '[a-zA-Z][:punct:]' | awk '&#123;print $2&#125;' | sed -n '$p'`</span><br><span class="line"><span class="meta">#</span><span class="bash">通过在线语音拼读</span></span><br><span class="line">mplayer -volume $&#123;volume&#125; http://dict.youdao.com/dictvoice\?audio\=$&#123;1&#125; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">通过ydcv程序来对单词进行翻译</span></span><br><span class="line">ydcv $&#123;1&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装网页下载工具，并实现终端在线命令"><a href="#安装网页下载工具，并实现终端在线命令" class="headerlink" title="安装网页下载工具，并实现终端在线命令"></a>安装网页下载工具，并实现终端在线命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S curl</span><br></pre></td></tr></table></figure>
+
+<p>将脚本<code>manual</code>复制到<code>~/.local/bin</code>下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">脚本：</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">ps:之前使用的是<span class="built_in">help</span>命名的，但是fish shell中的帮助信息为<span class="built_in">help</span>与这个脚本名冲突了，所以改为了manual</span></span><br><span class="line">curl cht.sh/$&#123;1&#125;</span><br><span class="line">volume=`amixer sget Master | tr -d '[a-zA-Z][:punct:]' | awk '&#123;print $2&#125;' | sed -n '$p'`</span><br><span class="line">mplayer -volume $&#123;volume&#125; http://dict.youdao.com/dictvoice\?audio\=find%20following%20commands%20of%20$&#123;1&#125; &gt;/dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装virtualbox"><a href="#安装virtualbox" class="headerlink" title="安装virtualbox"></a>安装virtualbox</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">由于使用的是linux内核，所以选择virtualbox-host-modules-arch </span></span><br><span class="line">sudo pacman -S virtualbox virtualbox-host-modules-arch </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">可选安装组件</span></span><br><span class="line">Optional dependencies for virtualbox</span><br><span class="line">    vde2: Virtual Distributed Ethernet support</span><br><span class="line">    virtualbox-guest-iso: Guest Additions CD</span><br><span class="line">    image</span><br><span class="line">    virtualbox-ext-vnc: VNC server support</span><br><span class="line">    virtualbox-sdk: Developer kit</span><br></pre></td></tr></table></figure>
+
+<p>在启动虚拟机之前，需要加载模块</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modprobe vboxdrv</span><br></pre></td></tr></table></figure>
+
+<p>启动virtualbox的几种方式：</p>
+<p>1.GUI图形界面的启动，这也是大部分时候都在使用的方式，即运行virtualbox软件</p>
+<p>2.命令启动，即使用命令无界面启动。后来发现这种方式启动和xmonad很搭，因为不会存在热键冲突的问题，那么xmonad中的所有窗口操作的快捷键依然有效。大爱啊</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vboxsdl --startvm 'kali linux'		#由于系统名字中有空格，所以要使用引号</span><br></pre></td></tr></table></figure>
+
+<p>3.同样是命令启动，但这种大多数时候是作为服务器使用的方式，即没有任何界面，只能通过ssh去连接主机（就像在windows中使用xshell一个意思）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vboxheadless -s 'kali linux'</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="蓝牙安装配置"><a href="#蓝牙安装配置" class="headerlink" title="蓝牙安装配置"></a>蓝牙安装配置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装软件：</span></span><br><span class="line">sudo pacman -S bluez		#提供协议</span><br><span class="line">sudo pacman -S bluez-utils	#提供bluetoothctl组件</span><br></pre></td></tr></table></figure>
+
+<p>查看内核是否加载btusb驱动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep btusb</span><br></pre></td></tr></table></figure>
+
+<p>没有的话手动加载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo modprobe btusb</span><br></pre></td></tr></table></figure>
+
+<p>启动蓝牙服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start bluetooth.service</span><br></pre></td></tr></table></figure>
+
+<p>开始连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bluetoothctl		#控制界面</span><br><span class="line">agent on			</span><br><span class="line">power on			#每次启动都要设置，因为关闭后会自动断电</span><br><span class="line">scan on				#扫描</span><br><span class="line">pair 设备mac地址		#匹配</span><br><span class="line">connect 设备mac地址		#连接</span><br><span class="line">trust 设备mac地址		#加入信任</span><br></pre></td></tr></table></figure>
+
+<p>安装声音支持</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S pulseaudio-bluetooth</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="解决xorg问题"><a href="#解决xorg问题" class="headerlink" title="解决xorg问题"></a>解决xorg问题</h2><p>自从安装系统之后就发现一个问题，那就是xorg每次启动都要花个20多秒。所以首先是查看日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">xorg的日志在家目录下</span></span><br><span class="line">vim .local/share/xorg/Xorg.0.log</span><br><span class="line"><span class="meta">#</span><span class="bash">然后查看EE报错的地方，发现每次都是在启动nouveau驱动的时候卡了20多秒，然后启动失败了</span></span><br><span class="line"><span class="meta">#</span><span class="bash">原因是我没有安装nouveau驱动，没有安装的原因就是安装之后启动倒是挺迅速的，但是退出xorg之后，或者想要关机的时候就会卡住。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">我想为什么就不能让它不去检测这个驱动呢？终于google到了答案：就是强制让xorg使用intel显卡，而忽略n卡</span></span><br><span class="line"></span><br><span class="line">cd /etc/X11/xorg.conf.d/</span><br><span class="line">touch nonvidia.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">添加如下代码：</span></span><br><span class="line">Section "Device"</span><br><span class="line">    Identifier  "Intel Card"</span><br><span class="line">    Driver      "intel"</span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section "Device"</span><br><span class="line">    Identifier  "Nvidia Card"</span><br><span class="line">    Driver      "nouveau"</span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section "Screen"</span><br><span class="line">    Identifier  "My Screen"</span><br><span class="line">    Device      "Intel Card"</span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
+
+<p>然后reboot，startx，果然一下子就打开了图形界面，虽然查看了一下日志，依然有报错，但是它直接跳过之后的等待以及检测了。以上介绍在wiki上也有讲，只是我不知道咋写啊。这也算是基本完成了系统安装以及之后的错误修复了吧！</p>
+<h2 id="安装系统之后博客迁移"><a href="#安装系统之后博客迁移" class="headerlink" title="安装系统之后博客迁移"></a>安装系统之后博客迁移</h2><p>安装必要软件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">这些都要安装</span></span><br><span class="line">sudo pacman -S git nodejs npm</span><br><span class="line">sudo npm install -g hexo-cli</span><br><span class="line">npm install --save hexo-deployer-git</span><br><span class="line">npm audit fix</span><br><span class="line">npm audit fix --force</span><br><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<p>当然我又安装了这个加密插件，结果我错了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-blog-encrypt	#然后我哭了</span><br></pre></td></tr></table></figure>
+
+<p>搞了半天老是报错，什么tostring不能为空，我的密码明明有啊，查看了一下js配置文件，发现确实有password.tostring()这个</p>
+<p>然后我用数字做密码试了一下不报错，但是我之前加密的文章全部没加密了？我觉得这是一个bug，至少前面应该做一下判断。所以去你的加密，索性不用了，然后一切都好了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>然后在github设置中将sshkey添加进去</p>
+<p>当然这后面还有两步，如果没有这两步，推送的时候会提示的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email "2935549510@qq.com"</span><br><span class="line">git config --global user.name "narcissus"</span><br></pre></td></tr></table></figure>
+
+<p>再编译，推送</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>好了，先到这了。累了啊，心累。现在的生活怎么说呢，不能让自己停下来，要一直忙的没有心思去想，可是有时候还是在想做这一切又是为了什么呢？生活中总有很多事情让人觉得不满意，不顺心。之前总有一种错误的想法，那就是做it的人呢都是和我一样的，没有什么其它的想法，能想到的无非就是技术，最多还包括女朋友吧。可是我发现并不是这样，人呢，在哪里都是形形色色的。听别人说这个人有点凶，说话确实是这样，但是后来发现这人倒是挺直爽。另一个人看上去笑眯眯的很和蔼，可是却在背地里说你的坏话。人呢，果真是相处久了才了解啊。我应该是很冷的那种人，因为我相信用心感受到的比用眼睛更加真实。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#重启之前"><span class="toc-number">1.</span> <span class="toc-text">重启之前</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在基础系统的安装方面"><span class="toc-number">1.1.</span> <span class="toc-text">在基础系统的安装方面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接网咯："><span class="toc-number">1.2.</span> <span class="toc-text">连接网咯：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置静态ip："><span class="toc-number">1.3.</span> <span class="toc-text">设置静态ip：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重启之后"><span class="toc-number">2.</span> <span class="toc-text">重启之后</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#由于很多东西base都不提供了，连man手册都没有"><span class="toc-number">2.1.</span> <span class="toc-text">由于很多东西base都不提供了，连man手册都没有</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改grub-theme"><span class="toc-number">2.2.</span> <span class="toc-text">修改grub theme</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启boot-message"><span class="toc-number">2.3.</span> <span class="toc-text">开启boot message</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加用户，加入组"><span class="toc-number">2.4.</span> <span class="toc-text">添加用户，加入组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装显示服务"><span class="toc-number">2.5.</span> <span class="toc-text">安装显示服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装窗口管理器"><span class="toc-number">2.6.</span> <span class="toc-text">安装窗口管理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进入桌面环境"><span class="toc-number">2.7.</span> <span class="toc-text">进入桌面环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pacman下载命令结果颜色显示"><span class="toc-number">2.8.</span> <span class="toc-text">pacman下载命令结果颜色显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加镜像服务器"><span class="toc-number">2.9.</span> <span class="toc-text">添加镜像服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装aur下载软件yay"><span class="toc-number">2.10.</span> <span class="toc-text">安装aur下载软件yay</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载常用软件"><span class="toc-number">2.11.</span> <span class="toc-text">下载常用软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装输入法："><span class="toc-number">2.12.</span> <span class="toc-text">安装输入法：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装google拼音输入"><span class="toc-number">2.12.1.</span> <span class="toc-text">安装google拼音输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#还是搜狗输入法好用啊"><span class="toc-number">2.12.2.</span> <span class="toc-text">还是搜狗输入法好用啊</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用触摸板，碍事"><span class="toc-number">2.13.</span> <span class="toc-text">禁用触摸板，碍事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置鼠标样式为指针"><span class="toc-number">2.14.</span> <span class="toc-text">设置鼠标样式为指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#挂载ntfs格式文件时让普通用户有权限"><span class="toc-number">2.15.</span> <span class="toc-text">挂载ntfs格式文件时让普通用户有权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装终端复制软件（剪切板）"><span class="toc-number">2.16.</span> <span class="toc-text">安装终端复制软件（剪切板）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装xmonad的其它必须配件"><span class="toc-number">2.17.</span> <span class="toc-text">安装xmonad的其它必须配件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#状态栏：polybar"><span class="toc-number">2.17.1.</span> <span class="toc-text">状态栏：polybar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索软件"><span class="toc-number">2.17.2.</span> <span class="toc-text">搜索软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装渐变及设置透明效果的软件"><span class="toc-number">2.17.3.</span> <span class="toc-text">安装渐变及设置透明效果的软件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用shoadowsocks上google"><span class="toc-number">2.18.</span> <span class="toc-text">使用shoadowsocks上google</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装终端翻译软件"><span class="toc-number">2.19.</span> <span class="toc-text">安装终端翻译软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装网页下载工具，并实现终端在线命令"><span class="toc-number">2.20.</span> <span class="toc-text">安装网页下载工具，并实现终端在线命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装virtualbox"><span class="toc-number">2.21.</span> <span class="toc-text">安装virtualbox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#蓝牙安装配置"><span class="toc-number">2.22.</span> <span class="toc-text">蓝牙安装配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决xorg问题"><span class="toc-number">2.23.</span> <span class="toc-text">解决xorg问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装系统之后博客迁移"><span class="toc-number">2.24.</span> <span class="toc-text">安装系统之后博客迁移</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&text=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&is_video=false&description=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=archlinux安装方法总结&body=Check out this article: https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&title=archlinux安装方法总结" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/09/archlinux%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/&name=archlinux安装方法总结&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

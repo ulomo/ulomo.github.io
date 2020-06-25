@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="此树，昔年汝去时栽之。十年生死两隔，今已亭亭如盖矣。卿卿，十年之日为你报了仇。你可愿，如梦一见   软件研发组织和流程 #####软件研发相关要素  人员：只有合适的人员借助合适的工具经过合适的过程才能研发出高质量的软件 过程 工具：工具为人员和过程服务，起辅助作用，起关键作用的是人员和过程   #####基本软件研发流程  瀑布模型：应用的最为广泛的一种模型，也是最容易理解和掌握的模型，然而他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试-软件研发组织和流程">
+<meta property="og:url" content="https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="此树，昔年汝去时栽之。十年生死两隔，今已亭亭如盖矣。卿卿，十年之日为你报了仇。你可愿，如梦一见   软件研发组织和流程 #####软件研发相关要素  人员：只有合适的人员借助合适的工具经过合适的过程才能研发出高质量的软件 过程 工具：工具为人员和过程服务，起辅助作用，起关键作用的是人员和过程   #####基本软件研发流程  瀑布模型：应用的最为广泛的一种模型，也是最容易理解和掌握的模型，然而他">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-d819985182b2d183.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-4a328dd1138d9e29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-3758a89c785f1b98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-2e45f98e1b26f56f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-05-01T17:50:27.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.397Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9937522-d819985182b2d183.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>测试-软件研发组织和流程</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E4%B8%AD%E5%BC%95%E5%85%A5%E7%BC%BA%E9%99%B7%E7%9A%84%E5%8E%9F%E5%9B%A0/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&text=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&is_video=false&description=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试-软件研发组织和流程&body=Check out this article: https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&name=测试-软件研发组织和流程&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#软件研发组织和流程"><span class="toc-number">1.</span> <span class="toc-text">软件研发组织和流程</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        测试-软件研发组织和流程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-01T17:50:27.000Z" itemprop="datePublished">2019-05-01</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p><a href="http://music.163.com/video?id=78BD764FD77D1EBC8A9780E28AEB5333&userid=1388867694" target="_blank" rel="noopener">此树，昔年汝去时栽之。十年生死两隔，今已亭亭如盖矣。卿卿，十年之日为你报了仇。你可愿，如梦一见</a></p>
+</blockquote>
+<ul>
+<li><h3 id="软件研发组织和流程"><a href="#软件研发组织和流程" class="headerlink" title="软件研发组织和流程"></a>软件研发组织和流程</h3><ul>
+<li><p>#####软件研发相关要素</p>
+<ul>
+<li>人员：只有合适的人员借助合适的工具经过合适的过程才能研发出高质量的软件</li>
+<li>过程</li>
+<li>工具：工具为人员和过程服务，起辅助作用，起关键作用的是人员和过程</li>
+</ul>
+</li>
+<li><p>#####基本软件研发流程</p>
+<ul>
+<li><p><strong>瀑布模型</strong>：应用的最为广泛的一种模型，也是最容易理解和掌握的模型，然而他的缺陷也是显而易见的。（人员闲置）<br><img src="https://upload-images.jianshu.io/upload_images/9937522-d819985182b2d183.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>优点：简单</li>
+<li>缺点：测试介入较晚，人员闲置严重，后续工作跟不上。项目开发完成后才招测试人员，那么可能是瀑布模型，不适合需求频繁变更的项目。不适合于大的项目，适用于小规模传统项目业务研发。</li>
+</ul>
+</li>
+<li><p><strong>螺旋模型</strong>:综合了基本的瀑布式模型和演化/渐增原型方法（技术储备不足）。<br><img src="https://upload-images.jianshu.io/upload_images/9937522-4a328dd1138d9e29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>与瀑布不同点：螺旋模型有替代方案，是多个瀑布模型的并行集合。充分考虑了风险问题，故设计了替代方案。</li>
+<li>优点：充分考虑风险，抗风险能力强</li>
+<li>缺点：成本太高，需要专业的风险分析专家参与</li>
+<li>适用范围：与生命财产相关的系统。</li>
+<li><code>理解：</code><ul>
+<li>1.软件分多个版本开发，每个版本就是一次螺旋。</li>
+<li>2.每个版本按照这样的顺序进行：<ul>
+<li>1）确定软件目标，选取定实施方案，弄清项目开发的限制条件；（图中左上象限）</li>
+<li>2）分析所选取方案，考虑如何识别和消除风险；（图中右上象限）</li>
+<li>3）实施软件开发；（图中右下象限）</li>
+<li>4）评价开发工作，提出修正建议，调整计划。（图中右下象限、左下象限）</li>
+</ul>
+</li>
+<li>3.需求不是一次获取和实现的，通过多个螺旋来完善。</li>
+<li>4.计划也不是一次成型的，每次螺旋都需要调整。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>RUP流程</strong>：所有工作流在各个阶段都有体现<br><img src="https://upload-images.jianshu.io/upload_images/9937522-3758a89c785f1b98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>优点：<ul>
+<li>1、RUP的思想打破了“需求-设计-编码-测试”这样的传统瀑布模式，需求、设计、编码、测试这些工作其实一直都在进行的，只是不同时间比重不一样。这个思想是和实际情况非常吻合。</li>
+<li>2、用户可在早期提出变更并进行修复，从而有效控制变更风险及代价（往往都是局部变更）</li>
+<li>3、可在早期增强用户的信心（看到了半成品）</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>1、要有专业的架构师（架构师的职责），当功能与功能之间联系太过紧密的话，不太使用rup模型，比如登陆与注册的联系</li>
+<li>2、已经确定了的功能将不允许变更，但由于因为设计引起的内在联系引起的变更是无法控制的。</li>
+</ul>
+</li>
+<li>适用范围：<ul>
+<li>大型复杂的项目研发，耦合度较低的系统。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>IPD流程</strong>：从整个产品角度出发，不仅仅针对研发<br><img src="https://upload-images.jianshu.io/upload_images/9937522-2e45f98e1b26f56f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>优点：<ul>
+<li>1、将软硬件研发及生产、销售等各个部门有效整合，集中在一个平台下统一管理，提高了决策的准确性及时效性。</li>
+<li>2、利于各部门关键数据的共享</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>1、管理成本高</li>
+<li>2、部门之间的协调关系较复杂</li>
+</ul>
+</li>
+<li>适用范围：<ul>
+<li>大型软硬件集成厂商</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#软件研发组织和流程"><span class="toc-number">1.</span> <span class="toc-text">软件研发组织和流程</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&text=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&is_video=false&description=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试-软件研发组织和流程&body=Check out this article: https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&title=测试-软件研发组织和流程" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/&name=测试-软件研发组织和流程&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

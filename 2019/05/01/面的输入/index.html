@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="建模可以从线开始生成面，也可以直接从面开始，也可以直接画一个体。具体从哪里开始取决于那种方式最简单。    曲面:  1 SrfPt ：从点开始生成面（指定3或4个点）2 PlanarSrf ：从线生成面，这些线要在同一平面且闭合   3 NetworkSrf ：线生成面，可以用于不在同一平面的线，线之间要有交点，即有相交的部分4 Loft ：线生成面，可以用于不在同一平面的线，线之间没有交集，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面的输入">
+<meta property="og:url" content="https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="建模可以从线开始生成面，也可以直接从面开始，也可以直接画一个体。具体从哪里开始取决于那种方式最简单。    曲面:  1 SrfPt ：从点开始生成面（指定3或4个点）2 PlanarSrf ：从线生成面，这些线要在同一平面且闭合   3 NetworkSrf ：线生成面，可以用于不在同一平面的线，线之间要有交点，即有相交的部分4 Loft ：线生成面，可以用于不在同一平面的线，线之间没有交集，">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-f5d86abd668c3e3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-99a97b086b049a2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-05-01T18:05:27.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.397Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9937522-f5d86abd668c3e3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>面的输入</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/01/windows%E4%BD%BF%E7%94%A8cmd%E6%93%8D%E4%BD%9Cmysql/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/01/%E9%9D%A2%E7%9A%84%E7%BC%96%E8%BE%91/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&text=面的输入" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&is_video=false&description=面的输入" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=面的输入&body=Check out this article: https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&name=面的输入&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        面的输入
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-01T18:05:27.000Z" itemprop="datePublished">2019-05-01</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <hr>
+<p><strong>建模可以从线开始生成面，也可以直接从面开始，也可以直接画一个体。具体从哪里开始取决于那种方式最简单。</strong></p>
+<hr>
+<p><img src="https://upload-images.jianshu.io/upload_images/9937522-f5d86abd668c3e3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="从曲线生成面"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9937522-99a97b086b049a2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="从曲面生成曲面"></p>
+<p>曲面:</p>
+<blockquote>
+<p>1 SrfPt ：从点开始生成面（指定3或4个点）<br>2 PlanarSrf ：从线生成面，这些线要在同一平面且闭合</p>
+</blockquote>
+<blockquote>
+<p>3 NetworkSrf ：线生成面，可以用于不在同一平面的线，线之间要有交点，即有相交的部分<br>4 Loft ：线生成面，可以用于不在同一平面的线，线之间没有交集，即有空隙<br>5 EdgeSrf ：线生成面，可以用于不在同一平面的线，从3或4根线生成，这些线最好是相互连接，闭合，这样生成的面就会以这些线为边缘，否则生成的面不规则<br>6 Patch ：线生成面，可以用于不在同一平面的线，由一些相交的线生成</p>
+</blockquote>
+<blockquote>
+<p>7 Plane ：生成矩形平面<br>8 CutPlane ：用矩形平面对其他部分进行切割</p>
+</blockquote>
+<blockquote>
+<p>9 PictureFrame ：将图片放到矩形平面中，并可以对其进行渲染（平面可以打开其控制点F10进行变形）</p>
+</blockquote>
+<blockquote>
+<p>10 ExtrudeCrv ：将线框/曲线挤出成面<br>11 ExtrudeCrvAlongCrv ：将线框/曲线沿着线挤出成面<br>12 ExtrudeCrvTapered ：将线框/曲线渐变缩小挤出成面<br>13 ExtrudeCrvToPoint ：将线框/曲线挤出至一点<br>14 Ribbon ：将线框/曲线延伸成带状，环状<br>15  Fin ：将线框/曲线沿着曲面的法线方向挤出</p>
+</blockquote>
+<blockquote>
+<p>16 Sweep1 ：同11<br>17 Sweep2 ：将线框或曲线沿着两条线流动成面</p>
+</blockquote>
+<blockquote>
+<p>18 Revolve ：将线框或曲线进行任意角度旋转</p>
+</blockquote>
+<blockquote>
+<p>19 Drape ：制作布料效果</p>
+</blockquote>
+<blockquote>
+<p>20 HeightField ：通过图片灰度制造起伏的效果，适合做凹凸不平的地面</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&text=面的输入" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&is_video=false&description=面的输入" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=面的输入&body=Check out this article: https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&title=面的输入" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/01/%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5/&name=面的输入&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

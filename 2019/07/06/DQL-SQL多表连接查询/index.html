@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="多表联合查询：一般一个业务都会对应多张表，避免出现数据冗余  连接查询分类：按连接方式    分类 细分    内连接（inner join） 等值连接    非等值连接    自连接   外连接（left join ; right join） 左外连接    右外连接   全连接    在表的连接查询方面有一种现象被成为：笛卡尔积现象（笛卡尔乘积现象） 案例：找出每个员工的部门名称，要求显示员">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DQL_SQL多表连接查询">
+<meta property="og:url" content="https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="多表联合查询：一般一个业务都会对应多张表，避免出现数据冗余  连接查询分类：按连接方式    分类 细分    内连接（inner join） 等值连接    非等值连接    自连接   外连接（left join ; right join） 左外连接    右外连接   全连接    在表的连接查询方面有一种现象被成为：笛卡尔积现象（笛卡尔乘积现象） 案例：找出每个员工的部门名称，要求显示员">
+<meta property="article:published_time" content="2019-07-06T13:23:30.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.354Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>DQL_SQL多表连接查询</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/06/DQL-%E5%AD%90%E6%9F%A5%E8%AF%A2/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/06/DQL-SQL%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&text=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&is_video=false&description=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DQL_SQL多表连接查询&body=Check out this article: https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&name=DQL_SQL多表连接查询&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#连接查询"><span class="toc-number">1.</span> <span class="toc-text">连接查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内连接—–等值连接"><span class="toc-number">2.</span> <span class="toc-text">内连接—–等值连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内连接—–非等值连接"><span class="toc-number">3.</span> <span class="toc-text">内连接—–非等值连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内连接—–自连接"><span class="toc-number">4.</span> <span class="toc-text">内连接—–自连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多表连接"><span class="toc-number">5.</span> <span class="toc-text">多表连接</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        DQL_SQL多表连接查询
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-07-06T13:23:30.000Z" itemprop="datePublished">2019-07-06</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>多表联合查询：一般一个业务都会对应多张表，避免出现数据冗余</p>
+</blockquote>
+<h4 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h4><p>分类：按连接方式</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>细分</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内连接（inner join）</td>
+<td>等值连接</td>
+</tr>
+<tr>
+<td></td>
+<td>非等值连接</td>
+</tr>
+<tr>
+<td></td>
+<td>自连接</td>
+</tr>
+<tr>
+<td>外连接（left join ; right join）</td>
+<td>左外连接</td>
+</tr>
+<tr>
+<td></td>
+<td>右外连接</td>
+</tr>
+<tr>
+<td>全连接</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>在表的连接查询方面有一种现象被成为：笛卡尔积现象（笛卡尔乘积现象）</strong></p>
+<p>案例：找出每个员工的部门名称，要求显示员工名和部门名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> e.ename,d.dname <span class="keyword">from</span> emp e,dept d;</span><br></pre></td></tr></table></figure>
+
+<p>当两张表进行连接查询时，如果没有任何条件限制，最终查询结果为两张表的乘积</p>
+<p><strong>表的别名好处：执行效率高，指定在那张表中查询；可读性好</strong></p>
+<p><strong>避免笛卡尔积现象</strong></p>
+<p>添加条件进行过滤，但是匹配次数仍然没变，只是显示的是过滤后的记录 </p>
+<hr>
+<h4 id="内连接—–等值连接"><a href="#内连接—–等值连接" class="headerlink" title="内连接—–等值连接"></a>内连接—–等值连接</h4><p><em>最大特点：条件是等量关系</em></p>
+<p>找出每个员工的部门名称，要求显示员工名和部门名</p>
+<p>sql92（旧语法）,where后添加条件为and，关系不明确</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> e.ename,d.dname <span class="keyword">from</span> emp e ,dept d <span class="keyword">where</span> e.deptno=d.deptno;</span><br></pre></td></tr></table></figure>
+
+<p>sql99（新语法），后面可以添加where过滤条件，inner可省略</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> e.ename,d.dname <span class="keyword">from</span> emp e <span class="keyword">inner</span> <span class="keyword">join</span> dept d <span class="keyword">on</span> e.deptno=d.deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="内连接—–非等值连接"><a href="#内连接—–非等值连接" class="headerlink" title="内连接—–非等值连接"></a>内连接—–非等值连接</h4><p><em>最大特点：连接条件中的关系是非等量关系,inner可省略</em></p>
+<p>案例：找出每个员工的工资等级，要求显示员工名，工资，工资等级</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">	e.ename,e.sal,s.grade </span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">	emp e </span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span> </span><br><span class="line">	salgrade s </span><br><span class="line"><span class="keyword">on</span> </span><br><span class="line">	e.sal <span class="keyword">between</span> s.losal <span class="keyword">and</span> s.hisal;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="内连接—–自连接"><a href="#内连接—–自连接" class="headerlink" title="内连接—–自连接"></a>内连接—–自连接</h4><p><em>最大特点：一张表看做两张表，自己连接自己，inner可省略</em></p>
+<p>案例：找出每个员工的上级领导，要求显示员工名和对应的上级 的领导名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">	a.ename <span class="keyword">as</span> <span class="string">'员工名'</span> ,b.ename <span class="keyword">as</span> <span class="string">'领导名'</span> </span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">	emp a </span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span> </span><br><span class="line">	emp b </span><br><span class="line"><span class="keyword">on</span> </span><br><span class="line">	a.mgr=b.empno;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<hr>
+<p>####　外连接</p>
+<p><em>内连接：两张表没有主副之分</em>，<code>inner</code> 可省略</p>
+<p><em>外连接：一张为主表，一张为副表，当副表中没有数据和主表中数据匹配，副表自动模拟出null与之匹配</em>，<code>outer</code> 可省略</p>
+<p>左连接：左外连接，左边的表为主表</p>
+<p>右连接：右外连接，右边的表为主表</p>
+<p>案例：找出每个员工的上级领导（所有员工必须查询出）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">	a.ename <span class="keyword">as</span> <span class="string">'员工名'</span> ,b.ename <span class="keyword">as</span> <span class="string">'领导名'</span> </span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">	emp a </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">outer</span> <span class="keyword">join</span> </span><br><span class="line">	emp b </span><br><span class="line"><span class="keyword">on</span> </span><br><span class="line">	a.mgr=b.empno;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>案例：找出没有员工的部门</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">	d.*</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">	emp e</span><br><span class="line"><span class="keyword">right</span> <span class="keyword">join</span></span><br><span class="line">	dept d</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">	e.deptno=d.deptno</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">	e.empno <span class="keyword">is</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<hr>
+<h4 id="多表连接"><a href="#多表连接" class="headerlink" title="多表连接"></a>多表连接</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	...</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">	a</span><br><span class="line"><span class="keyword">join</span></span><br><span class="line">	b</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">	...</span><br><span class="line"><span class="keyword">join</span></span><br><span class="line">	c</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">	...</span><br></pre></td></tr></table></figure>
+
+<p>表示a表与b表先连接查询，然后a表再与c表连接查询</p>
+<p>案例：找出每一个员工的部门名称，工资等级</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	e.ename,d.dname,s.grade</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">	emp e</span><br><span class="line"><span class="keyword">join</span></span><br><span class="line">	dept d</span><br><span class="line"><span class="keyword">on</span> </span><br><span class="line">	e.deptno=d.deptno</span><br><span class="line"><span class="keyword">join</span> </span><br><span class="line">	salgrade s</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">	e.sal <span class="keyword">between</span> s.local <span class="keyword">and</span> s.hisal;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>案例：找出每一个员工的部门名称，工资等级，以及上级领导</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	e.ename <span class="keyword">as</span> <span class="string">'员工'</span>,d.dname,s.grade,e1.ename <span class="keyword">as</span> <span class="string">'领导'</span></span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">	emp e</span><br><span class="line"><span class="keyword">join</span></span><br><span class="line">	dept d</span><br><span class="line"><span class="keyword">on</span> </span><br><span class="line">	e.deptno=d.deptno</span><br><span class="line"><span class="keyword">join</span> </span><br><span class="line">	salgrade s</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">	e.sal <span class="keyword">between</span> s.local <span class="keyword">and</span> s.hisal</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span></span><br><span class="line">	emp e1</span><br><span class="line"><span class="keyword">on</span>	</span><br><span class="line">	e.mgr=e1.empno;</span><br></pre></td></tr></table></figure>
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#连接查询"><span class="toc-number">1.</span> <span class="toc-text">连接查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内连接—–等值连接"><span class="toc-number">2.</span> <span class="toc-text">内连接—–等值连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内连接—–非等值连接"><span class="toc-number">3.</span> <span class="toc-text">内连接—–非等值连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内连接—–自连接"><span class="toc-number">4.</span> <span class="toc-text">内连接—–自连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多表连接"><span class="toc-number">5.</span> <span class="toc-text">多表连接</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&text=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&is_video=false&description=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DQL_SQL多表连接查询&body=Check out this article: https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&title=DQL_SQL多表连接查询" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/07/06/DQL-SQL%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/&name=DQL_SQL多表连接查询&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

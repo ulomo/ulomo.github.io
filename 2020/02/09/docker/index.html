@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Docker   docker优点： 启动速度很快  运行需要的内存占用小  可移植性很好： 比如我们做了一个web app，按照以前的做法，自然是先写代码，再测试，然后在实际的环境中去运行。然后实际的环境与测试的环境并不一致，这就会出现很多问题。而docker不同，它把代码，运行的环境，依赖这些统统封装好了，打包为一个image，在实际的环境中只要安装docker，跑一下这个image就可以了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker">
+<meta property="og:url" content="https://ulomo.github.io/2020/02/09/docker/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="Docker   docker优点： 启动速度很快  运行需要的内存占用小  可移植性很好： 比如我们做了一个web app，按照以前的做法，自然是先写代码，再测试，然后在实际的环境中去运行。然后实际的环境与测试的环境并不一致，这就会出现很多问题。而docker不同，它把代码，运行的环境，依赖这些统统封装好了，打包为一个image，在实际的环境中只要安装docker，跑一下这个image就可以了">
+<meta property="article:published_time" content="2020-02-09T11:42:51.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.354Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>docker</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/26/archlinux-autologin/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/09/docker/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/09/docker/&text=docker" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/09/docker/&is_video=false&description=docker" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=docker&body=Check out this article: https://ulomo.github.io/2020/02/09/docker/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/09/docker/&name=docker&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#docker优点："><span class="toc-number">1.</span> <span class="toc-text">docker优点：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-vs-virtual-machine"><span class="toc-number">2.</span> <span class="toc-text">docker vs virtual machine</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#image-and-docker-container"><span class="toc-number">3.</span> <span class="toc-text">image and docker container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker安装"><span class="toc-number">4.</span> <span class="toc-text">docker安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#添加国内镜像地址"><span class="toc-number">5.</span> <span class="toc-text">添加国内镜像地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动docker服务"><span class="toc-number">6.</span> <span class="toc-text">启动docker服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#搜索需要的image"><span class="toc-number">7.</span> <span class="toc-text">搜索需要的image</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载image"><span class="toc-number">8.</span> <span class="toc-text">下载image</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看已下载的images"><span class="toc-number">9.</span> <span class="toc-text">查看已下载的images</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看镜像信息"><span class="toc-number">10.</span> <span class="toc-text">查看镜像信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除已下载images"><span class="toc-number">11.</span> <span class="toc-text">删除已下载images</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行container"><span class="toc-number">12.</span> <span class="toc-text">运行container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看正在运行的container"><span class="toc-number">13.</span> <span class="toc-text">查看正在运行的container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#停止运行的container"><span class="toc-number">14.</span> <span class="toc-text">停止运行的container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重启容器"><span class="toc-number">15.</span> <span class="toc-text">重启容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看所有的container"><span class="toc-number">16.</span> <span class="toc-text">查看所有的container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除已有container"><span class="toc-number">17.</span> <span class="toc-text">删除已有container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除运行container中无用的数据（包括images）"><span class="toc-number">18.</span> <span class="toc-text">删除运行container中无用的数据（包括images）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除所有无用数据，包括停止的container"><span class="toc-number">19.</span> <span class="toc-text">删除所有无用数据，包括停止的container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除所有docker数据"><span class="toc-number">20.</span> <span class="toc-text">删除所有docker数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#container运行条件"><span class="toc-number">21.</span> <span class="toc-text">container运行条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进入容器运行命令"><span class="toc-number">22.</span> <span class="toc-text">进入容器运行命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#指定宿主机与容器的端口映射"><span class="toc-number">23.</span> <span class="toc-text">指定宿主机与容器的端口映射</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#容器的修改保存"><span class="toc-number">24.</span> <span class="toc-text">容器的修改保存</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件、目录挂载"><span class="toc-number">25.</span> <span class="toc-text">文件、目录挂载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#将容器中的文件复制到本地"><span class="toc-number">26.</span> <span class="toc-text">将容器中的文件复制到本地</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#将本地文件复制到容器中"><span class="toc-number">27.</span> <span class="toc-text">将本地文件复制到容器中</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mysql容器的建立"><span class="toc-number">28.</span> <span class="toc-text">mysql容器的建立</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#容器互联"><span class="toc-number">29.</span> <span class="toc-text">容器互联</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自己构建镜像"><span class="toc-number">30.</span> <span class="toc-text">自己构建镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用archlinux构建mariadb数据库"><span class="toc-number">31.</span> <span class="toc-text">使用archlinux构建mariadb数据库</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        docker
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-02-09T11:42:51.000Z" itemprop="datePublished">2020-02-09</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/docker/" rel="tag">docker</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>Docker </p>
+</blockquote>
+<h1 id="docker优点："><a href="#docker优点：" class="headerlink" title="docker优点："></a>docker优点：</h1><ul>
+<li><p>启动速度很快</p>
+</li>
+<li><p>运行需要的内存占用小</p>
+</li>
+<li><p>可移植性很好：</p>
+<p>比如我们做了一个web app，按照以前的做法，自然是先写代码，再测试，然后在实际的环境中去运行。然后实际的环境与测试的环境并不一致，这就会出现很多问题。而docker不同，它把代码，运行的环境，依赖这些统统封装好了，打包为一个image，在实际的环境中只要安装docker，跑一下这个image就可以了，不会存在环境不同，缺少依赖等等问题。这就好像运行一个独立的虚拟机一样，但是比虚拟机更好。</p>
+</li>
+</ul>
+<h1 id="docker-vs-virtual-machine"><a href="#docker-vs-virtual-machine" class="headerlink" title="docker vs virtual machine"></a>docker vs virtual machine</h1><p>docker的运行速度与大小比虚拟机都小很多，那么他们之间的差异是怎么形成的？</p>
+<p>docker与virtual machine的对比：</p>
+<ul>
+<li><p>virtualmachine：硬件+hypev技术+os操作系统（linux+software）</p>
+</li>
+<li><p>docker：硬件+（共享）系统linux内核+docker+software（不同os所需的lib等+software）</p>
+</li>
+</ul>
+<ol>
+<li><p>总结一下，虚拟机使用了hyperv技术，让不同的操作系统运行在虚拟机上。而docker则是共享正在运行的系统的linux内核，然后在docker上运行不同docker所需的软件，环境配置，库，依赖等。</p>
+</li>
+<li><p>所以虚拟机运行的是独立的操作系统，docker则仅仅是加载所需的库，依赖等，所以大小不同。至于启动速度也很好理解了，虚拟机需要启动一个独立的操作系统，需要的时间长；docker则不同，它依赖的就是系统本身的linux内核，等于说早就已经启动，只需要加载必要的software和依赖等就行了。</p>
+</li>
+<li><p>所以docker最好是运行在linux上，因为它要共享linux的内核，如果安装在windows上的话，那么docker就需要运行虚拟机，然后在虚拟机上运行docker，那么就体现不出docker的优势了。</p>
+</li>
+</ol>
+<p>如果虚拟机运行的是一个完整的操作系统，那么docker就像是运行一个软件，只不过还需要加载一个不同的依赖和环境而已。弄明白了docker的工作原理，只想说I love docker</p>
+<h1 id="image-and-docker-container"><a href="#image-and-docker-container" class="headerlink" title="image and docker container"></a>image and docker container</h1><p>image镜像是官方早就已经做好的，我们只需要下载下来，启动docker，然后运行这个image就行了。那么image运行的状态就叫docker container容器。</p>
+<h1 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h1><p>树莓派上面叫docker.io：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker.io</span><br></pre></td></tr></table></figure>
+
+<p>archlinux上面：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S docker</span><br></pre></td></tr></table></figure>
+
+<p>查看版本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker version</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="添加国内镜像地址"><a href="#添加国内镜像地址" class="headerlink" title="添加国内镜像地址"></a>添加国内镜像地址</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "registry-mirrors": ["http://hub-mirror.c.163.com"]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="启动docker服务"><a href="#启动docker服务" class="headerlink" title="启动docker服务"></a>启动docker服务</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="搜索需要的image"><a href="#搜索需要的image" class="headerlink" title="搜索需要的image"></a>搜索需要的image</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker search image_name</span><br><span class="line">eg:</span><br><span class="line">	sudo docker search mysql</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="下载image"><a href="#下载image" class="headerlink" title="下载image"></a>下载image</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull image_name</span><br><span class="line">eg:</span><br><span class="line">	sudo docker pull mysql</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run image_name</span><br><span class="line">eg:</span><br><span class="line">	sudo docker run mysql</span><br></pre></td></tr></table></figure>
+
+<p>这种是直接运行一个container容器，如果还没有安装过，那么会自动下载</p>
+<h1 id="查看已下载的images"><a href="#查看已下载的images" class="headerlink" title="查看已下载的images"></a>查看已下载的images</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker images</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="查看镜像信息"><a href="#查看镜像信息" class="headerlink" title="查看镜像信息"></a>查看镜像信息</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo docker inspect images</span><br><span class="line">eg:</span><br><span class="line">	sudo docker inspect mysql	</span><br><span class="line"><span class="meta">	#</span><span class="bash">可查看数据存储目录，那么数据持久化就挂载到这个目录下</span></span><br><span class="line">    "Volumes": &#123;</span><br><span class="line">    "/var/lib/mysql": &#123;&#125;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="删除已下载images"><a href="#删除已下载images" class="headerlink" title="删除已下载images"></a>删除已下载images</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker rmi &lt;IMAGE ID&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="运行container"><a href="#运行container" class="headerlink" title="运行container"></a>运行container</h1><p>两种方式：</p>
+<ul>
+<li><p>attach：在终端中运行，可以看到container的运行信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run image_name:tag</span><br></pre></td></tr></table></figure>
+
+<p>其中tag为lastest时可以省略，如果为其它tag则必须指定出来</p>
+</li>
+<li><p>detach：类似于放到后台运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d image_name</span><br><span class="line">sudo docker run -d --name NAMES image_name	# 指定运行container名字</span><br><span class="line">eg:</span><br><span class="line">	sudo docker run -d --name my-nginx nginx</span><br></pre></td></tr></table></figure>
+
+
+
+
+</li>
+</ul>
+<h1 id="查看正在运行的container"><a href="#查看正在运行的container" class="headerlink" title="查看正在运行的container"></a>查看正在运行的container</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker ps</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="停止运行的container"><a href="#停止运行的container" class="headerlink" title="停止运行的container"></a>停止运行的container</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo docker stop &lt;CONTAINER ID&gt;/NAMES</span><br><span class="line">sudo docker kill &lt;CONTAINER ID&gt;/NAMES</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker restart &lt;CONTAINER ID&gt;/NAMES</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="查看所有的container"><a href="#查看所有的container" class="headerlink" title="查看所有的container"></a>查看所有的container</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker ps -a</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="删除已有container"><a href="#删除已有container" class="headerlink" title="删除已有container"></a>删除已有container</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker rm &lt;CONTAINER ID&gt;/NAMES</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="删除运行container中无用的数据（包括images）"><a href="#删除运行container中无用的数据（包括images）" class="headerlink" title="删除运行container中无用的数据（包括images）"></a>删除运行container中无用的数据（包括images）</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker system prune</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="删除所有无用数据，包括停止的container"><a href="#删除所有无用数据，包括停止的container" class="headerlink" title="删除所有无用数据，包括停止的container"></a>删除所有无用数据，包括停止的container</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker system prune -a</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="删除所有docker数据"><a href="#删除所有docker数据" class="headerlink" title="删除所有docker数据"></a>删除所有docker数据</h1><p>docker数据默认存储在<code>/var/lib/docker</code>中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -R /var/lib/docker</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="container运行条件"><a href="#container运行条件" class="headerlink" title="container运行条件"></a>container运行条件</h1><p>容器能够运行一定是启动的这个container上面有程序，服务正在运行。如果没有（比如运行一个linux系统），或者这个程序停止崩溃了，那么这个container就自动退出了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run ubuntu</span><br></pre></td></tr></table></figure>
+
+<p>container会自动退出，因为没有进程，或者程序运行，仅仅是一个Ubuntu系统。</p>
+<p>如果需要它启动呢？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run ubuntu sleep 100</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="进入容器运行命令"><a href="#进入容器运行命令" class="headerlink" title="进入容器运行命令"></a>进入容器运行命令</h1><p>类似ssh远程登录container，并指定使用bash来作为解释的shell</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it container_name /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><code>-i</code>交互模式interactive</p>
+<p><code>-t</code>模拟tty登录</p>
+<h1 id="指定宿主机与容器的端口映射"><a href="#指定宿主机与容器的端口映射" class="headerlink" title="指定宿主机与容器的端口映射"></a>指定宿主机与容器的端口映射</h1><p><code>-p</code>publish，发布的端口port。如果不指定则只能从容器内部访问，发布端口会将容器端口映射到主机端口，实现外部访问。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d --name NAMES -p host_port:container_port image_name </span><br><span class="line">eg:</span><br><span class="line">	sudo docker run -d --name my-nginx -p 8080:80 nginx</span><br></pre></td></tr></table></figure>
+
+<p>指定了访问宿主机的8080端口时，自动映射到容器的80端口</p>
+<h1 id="容器的修改保存"><a href="#容器的修改保存" class="headerlink" title="容器的修改保存"></a>容器的修改保存</h1><p>如果不保存，那么对容器的修改不会持久化，也就是说修改不会保存到镜像中，只会保存在运行的container中。如果重新使用镜像生成容器，那么修改就没有了。</p>
+<p>所以我们需要对修改进行提交，tag可以不写，默认为latest，如果写了，那么在创建容器时必须指定tag。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker commit -a "author" -m "message" &lt;CONTAINER ID&gt;/NAMES new_image_name:tag</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建一个容器</span></span><br><span class="line">sudo docker run -d --name my-nginx -p 80:80 nginx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入容器</span></span><br><span class="line">sudo docker exec -it my-nginx /bin/bash</span><br><span class="line"><span class="meta">#</span><span class="bash"> 新建目录</span></span><br><span class="line">sudo mkdir test</span><br><span class="line"><span class="meta">#</span><span class="bash"> 退出容器</span></span><br><span class="line">exit</span><br><span class="line"><span class="meta">#</span><span class="bash"> 提交修改，指定新的镜像名字和标签</span></span><br><span class="line">sudo docker commit -a "lanzhan" -m "make a test directory" my-nginx my-new-nginx:v1.0</span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止容器</span></span><br><span class="line">sudo docker stop my-nginx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除容器</span></span><br><span class="line">sudo docker rm my-nginx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看新建的镜像</span></span><br><span class="line">sudo docker images</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用新建的镜像来创建新的容器</span></span><br><span class="line">sudo docker run -d --name my-nginx my-new-nginx:v1.0</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入容器，查看新建的目录存在</span></span><br><span class="line">sudo docker exec -it my-nginx /bin/bash</span><br><span class="line"><span class="meta">#</span><span class="bash"> 退出容器</span></span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+
+<p>所以说，对容器修改的提交，就会创建一个新的镜像，所有的修改都会保存在新的镜像中。</p>
+<h1 id="文件、目录挂载"><a href="#文件、目录挂载" class="headerlink" title="文件、目录挂载"></a>文件、目录挂载</h1><p>将宿主机中的文件挂载到容器中，挂载之后对宿主机中文件的修改，会反应到容器中，反之也会。共享数据实现了数据的持久化，同时方便本地的开发。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d --name NAMES -p host_port:container_port -v host_file:container_file image_name</span><br><span class="line">sudo docker run -d --name NAMES -p host_port:container_port -v host_dir:container_dir image_name</span><br><span class="line">eg:</span><br><span class="line">	sudo docker run -d --name nginx -p 80:80 -v /home/narcissus/index.html:/usr/share/nginx/html/index.html my-new-nginx:v1.0</span><br></pre></td></tr></table></figure>
+
+<p>发现修改第二次修改之后容器中并没有发生改变，所有需要重启一下容器就正常了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker restart nginx</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="将容器中的文件复制到本地"><a href="#将容器中的文件复制到本地" class="headerlink" title="将容器中的文件复制到本地"></a>将容器中的文件复制到本地</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker cp NAMES:/containcer_file /host_file</span><br><span class="line">eg:</span><br><span class="line">	sudo docker cp nginx:/etc/fstab /home/narcissus/fstab.txt</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="将本地文件复制到容器中"><a href="#将本地文件复制到容器中" class="headerlink" title="将本地文件复制到容器中"></a>将本地文件复制到容器中</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo docker cp /host_file NAMES:/container_file</span><br><span class="line">eg:</span><br><span class="line">	sudo docker cp /etc/fstab nginx:/etc/fstab</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="mysql容器的建立"><a href="#mysql容器的建立" class="headerlink" title="mysql容器的建立"></a>mysql容器的建立</h1><ol>
+<li><p>设置root密码 <code>-e MYSQL_ROOT_PASSWORD=my-secret-pw</code></p>
+</li>
+<li><p>数据同步备份 <code>-v /my/own/datadir:/var/lib/mysql</code></p>
+</li>
+<li><p>获取远程权限（mysql8.0之后需要）  <code>alter user &#39;root&#39;@&#39;%&#39; identified with mysql_native_password by &#39;123456&#39;;</code></p>
+<p>查看权限 <code>select host,user,authentication_string from user;</code></p>
+</li>
+<li><p>端口映射 <code>-p host_port:container_port</code></p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d --name mysql -v /home/narcissus/Data/dumpfile:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 mysql</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以通过软件来连接docker中的mysql数据库了：</p>
+<p>主机填写：<code>localhost</code>或者<code>127.0.0.1</code></p>
+<p>端口为映射的主机地址：<code>3306</code></p>
+<h1 id="容器互联"><a href="#容器互联" class="headerlink" title="容器互联"></a>容器互联</h1><p><code>--link 要被连接的容器名:在容器中的新别名</code></p>
+<p>使用nginx去连接mysql数据库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d --name nginx -p 80:80 --link mysql:mysql nginx</span><br></pre></td></tr></table></figure>
+
+<p>这样nginx就连接了mysql</p>
+<h1 id="自己构建镜像"><a href="#自己构建镜像" class="headerlink" title="自己构建镜像"></a>自己构建镜像</h1><p>前面已经写过如何保存修改镜像并生成新的镜像，指的是在container的基础上对镜像的修改。这里的构建镜像指的是如何基于原始镜像构建自己所需功能的基础镜像，也可以简单说是下载一些需要的软件，修改一些端口配置文件等等，来形成自己的个性化配置镜像。本来也可以使用container来一步一步的操作，但是dockerfile提供了自动化配置。</p>
+<p><strong>编辑dockerfile文件，通过文件来构建镜像，dockerfile分为四个部分</strong></p>
+<ol>
+<li><p>基础镜像信息</p>
+<p>如果本地有image那么会使用本地的，如果没有会自动下载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from image_name:tag	# tag为latest时可以省略</span><br><span class="line">eg:</span><br><span class="line">	from nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>维护者信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">maintainer name</span><br><span class="line">eg:</span><br><span class="line">	maintainer lanzhan</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>镜像操作指令</p>
+<p><code>run</code></p>
+<p>run后面的command为平常使用的shell命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">run command</span><br><span class="line">eg:</span><br><span class="line">	run apt-get install sqlite3</span><br></pre></td></tr></table></figure>
+
+<p>如果需要传参</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">run ['executable','param1','param2']</span><br><span class="line">eg:</span><br><span class="line">	run ['./somefile.sh','66','/home/']</span><br></pre></td></tr></table></figure>
+
+<p>每一个指令都会在docker上新建一层，形成当前最新的dockerimage，所以应该把指令写到一条中</p>
+<p><code>\</code>的作用为换行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">run apt-get install sqlite3 &amp;&amp;\</span><br><span class="line">	['./somefile.sh','66','/home/'] &amp;&amp;\</span><br><span class="line">	echo "there command in a run instruct"</span><br></pre></td></tr></table></figure>
+
+<p>这样只会新建一层镜像。</p>
+</li>
+</ol>
+<hr>
+<p>   <code>copy</code>和<code>add</code></p>
+<p>   用于复制本机文件到docker中，在docker构建镜像时，会将要复制的文件所在目录下的所有文件先tar打包，然后发送给docker引擎，所以dockerfile所在的目录应该不包含没用的数据，如果有需要复制的文件，那么就把文件复制到dockerfile所在的目录下，而不要放一些没用的数据。</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">copy 本机文件 容器中路径</span><br><span class="line">eg:</span><br><span class="line">	copy index.html /var/lib/nginx/default</span><br><span class="line">	copy *.html /var/lib/nginx/default</span><br></pre></td></tr></table></figure>
+
+<p>   copy和add功能类似，不同点：add会将tar类型的自动解压，同时可以访问网络，copy则不行。</p>
+<hr>
+<p>   <code>cmd</code></p>
+<p>   只有最后一条起作用</p>
+<p>   与run类似，但是运行时间点不同，run是在docker build时运行（构建镜像），cmd则是在docker run时运行（启动容器）</p>
+<p>   作用是为container指定默认启动起来后运行的程序，不过如果自己指定了，那么会覆盖它。例如</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -it --name mysql /bin/bash</span><br><span class="line"><span class="meta">#</span><span class="bash"> 这里就自己指定了/bin/bash</span></span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>   <code>entrypoint</code></p>
+<p>   只有最后一条起作用</p>
+<p>   与run类似，不同点在于不会被docker run中指定的命令覆盖</p>
+<hr>
+<p>   <code>label</code></p>
+<p>   为镜像添加标识</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">label key=value key=value</span><br><span class="line">eg:</span><br><span class="line">	label version='V1.0'</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>   <code>env</code></p>
+<p>   为docker设置环境变量,后面可以使用<code>$key</code>来引用变量</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">env key value</span><br><span class="line">env key=value key=value</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>   <code>arg</code></p>
+<p>   与env类似，不同点在于设置的变量仅对dockerfile有效（构建镜像时），对docker镜像没效</p>
+<hr>
+<p>   <code>volume</code></p>
+<p>   设置默认挂载目录文件等，指定持久化目录</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">volume /location1 /location2</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>   <code>expose</code></p>
+<p>   指定要开放的端口，仅仅是告诉外部开放了那些端口可用，只用通过端口映射才真正可以从外部访问docker。</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expose port1 port2 port3</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>   <code>workdir</code></p>
+<p>   指定的目录要提前创建好，在每次构建新的一层中它会一直存在。</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">workdir /location</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>   <code>user</code></p>
+<p>   为后续命令切换用户(和用户组)</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user user_name</span><br><span class="line">user user_name:user_group</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>   <code>healthcheck</code></p>
+<p>   指定某个程序来监控docker运行状态</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">healthcheck option cmd command</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>   <code>onbuild</code></p>
+<p>   当下次构建镜像时，如果以这个新构建的镜像为基础镜像时，会执行</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onbuild command</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="4">
+<li><p>容器启动执行指令</p>
+<p><code>cmd</code>和<code>entrypoint</code></p>
+</li>
+</ol>
+<p><strong>构建镜像</strong></p>
+<p>点表示在当前目录下，tag可以不写默认为lastest</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t image_name:tag .</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或者</span></span><br><span class="line">docker build -f /path/to/dockerfile .</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="使用archlinux构建mariadb数据库"><a href="#使用archlinux构建mariadb数据库" class="headerlink" title="使用archlinux构建mariadb数据库"></a>使用archlinux构建mariadb数据库</h1><p>archlinux中mariadb代替了mysql</p>
+<ul>
+<li>新建dockerfile文件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/narcissus/Data/docker</span><br><span class="line">mkdir arch-mysql</span><br><span class="line">cd arch-mysql</span><br><span class="line">touch dockerfile</span><br><span class="line">cp /etc/pacman.d/mirrorlist .	# 复制本机镜像地址，提升下载速度</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>dockerfile文件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from archlinux/base</span><br><span class="line">maintainer lanzhan</span><br><span class="line">add start.sh /home </span><br><span class="line">add mirrorlist /etc/pacman.d</span><br><span class="line">run pacman --noconfirm -Syy &amp;&amp;\</span><br><span class="line">	pacman --noconfirm -S mysql &amp;&amp;\</span><br><span class="line">	mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql &amp;&amp;\</span><br><span class="line">	chmod a+x /home/start.sh</span><br><span class="line">label version=v1.0</span><br><span class="line">volume /var/lib/mysql</span><br><span class="line">expose 3306</span><br><span class="line">entrypoint /home/start.sh</span><br></pre></td></tr></table></figure>
+
+<p>不使用cmd而使用entrypoint的原因是cmd命令会被启动容器时的命令覆盖</p>
+<ul>
+<li><p>start.sh文件</p>
+<p>由于entrypoint只能执行一条指令，所以启动mysql的命令需要写到文件中。通过执行脚步来运行。</p>
+<p>本来打算使用systemd去启动，但是没有这个软件，而且安装了不知道怎么启用systemd，还有为了不让镜像太大</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">cd '/usr' ; /usr/bin/mysqld_safe --datadir='/var/lib/mysql'</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>运行dockerfile</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker build -t mariadb .</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>新建container</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d --name mariadb -p 3306:3306 mariadb</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>进入容器修改密码，设置远程登录权限</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker exec -it mariadb /bin/bash</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">use mysql;</span><br><span class="line">set password for root@localhost = password('123456'); </span><br><span class="line">update user set host='%' where user='root';</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#docker优点："><span class="toc-number">1.</span> <span class="toc-text">docker优点：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-vs-virtual-machine"><span class="toc-number">2.</span> <span class="toc-text">docker vs virtual machine</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#image-and-docker-container"><span class="toc-number">3.</span> <span class="toc-text">image and docker container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker安装"><span class="toc-number">4.</span> <span class="toc-text">docker安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#添加国内镜像地址"><span class="toc-number">5.</span> <span class="toc-text">添加国内镜像地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动docker服务"><span class="toc-number">6.</span> <span class="toc-text">启动docker服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#搜索需要的image"><span class="toc-number">7.</span> <span class="toc-text">搜索需要的image</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下载image"><span class="toc-number">8.</span> <span class="toc-text">下载image</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看已下载的images"><span class="toc-number">9.</span> <span class="toc-text">查看已下载的images</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看镜像信息"><span class="toc-number">10.</span> <span class="toc-text">查看镜像信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除已下载images"><span class="toc-number">11.</span> <span class="toc-text">删除已下载images</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行container"><span class="toc-number">12.</span> <span class="toc-text">运行container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看正在运行的container"><span class="toc-number">13.</span> <span class="toc-text">查看正在运行的container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#停止运行的container"><span class="toc-number">14.</span> <span class="toc-text">停止运行的container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重启容器"><span class="toc-number">15.</span> <span class="toc-text">重启容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查看所有的container"><span class="toc-number">16.</span> <span class="toc-text">查看所有的container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除已有container"><span class="toc-number">17.</span> <span class="toc-text">删除已有container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除运行container中无用的数据（包括images）"><span class="toc-number">18.</span> <span class="toc-text">删除运行container中无用的数据（包括images）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除所有无用数据，包括停止的container"><span class="toc-number">19.</span> <span class="toc-text">删除所有无用数据，包括停止的container</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除所有docker数据"><span class="toc-number">20.</span> <span class="toc-text">删除所有docker数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#container运行条件"><span class="toc-number">21.</span> <span class="toc-text">container运行条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进入容器运行命令"><span class="toc-number">22.</span> <span class="toc-text">进入容器运行命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#指定宿主机与容器的端口映射"><span class="toc-number">23.</span> <span class="toc-text">指定宿主机与容器的端口映射</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#容器的修改保存"><span class="toc-number">24.</span> <span class="toc-text">容器的修改保存</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件、目录挂载"><span class="toc-number">25.</span> <span class="toc-text">文件、目录挂载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#将容器中的文件复制到本地"><span class="toc-number">26.</span> <span class="toc-text">将容器中的文件复制到本地</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#将本地文件复制到容器中"><span class="toc-number">27.</span> <span class="toc-text">将本地文件复制到容器中</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mysql容器的建立"><span class="toc-number">28.</span> <span class="toc-text">mysql容器的建立</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#容器互联"><span class="toc-number">29.</span> <span class="toc-text">容器互联</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自己构建镜像"><span class="toc-number">30.</span> <span class="toc-text">自己构建镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用archlinux构建mariadb数据库"><span class="toc-number">31.</span> <span class="toc-text">使用archlinux构建mariadb数据库</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/09/docker/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/09/docker/&text=docker" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/09/docker/&is_video=false&description=docker" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=docker&body=Check out this article: https://ulomo.github.io/2020/02/09/docker/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/09/docker/&title=docker" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/09/docker/&name=docker&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

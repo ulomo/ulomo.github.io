@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="archlinux的是在使用了无数发行版之后最喜欢的一个，因为其简洁、个性、或者说是偏爱。   1.默认终端字体大小1setfont &#x2F;usr&#x2F;share&#x2F;kbd&#x2F;consolefonts&#x2F;iso01-12x22.psfu.gz    2.连接网络允许网络连接 1rfkill unblock all  无线连接1wifi-menu	#图形化网络连接软件  有线连接1dhcpcd		#获取动态i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Archlinux基础系统安装">
+<meta property="og:url" content="https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="archlinux的是在使用了无数发行版之后最喜欢的一个，因为其简洁、个性、或者说是偏爱。   1.默认终端字体大小1setfont &#x2F;usr&#x2F;share&#x2F;kbd&#x2F;consolefonts&#x2F;iso01-12x22.psfu.gz    2.连接网络允许网络连接 1rfkill unblock all  无线连接1wifi-menu	#图形化网络连接软件  有线连接1dhcpcd		#获取动态i">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/9937522-5a9d2737f415dc14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-a705378143c1213e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-b1efc6ac7019029c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-04-25T04:41:50.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.350Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="系统">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/9937522-5a9d2737f415dc14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Archlinux基础系统安装</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/25/%E5%9F%BA%E4%BA%8Egithub%E5%92%8Chexo%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&text=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&is_video=false&description=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Archlinux基础系统安装&body=Check out this article: https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&name=Archlinux基础系统安装&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-默认终端字体大小"><span class="toc-number">1.</span> <span class="toc-text">1.默认终端字体大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-连接网络"><span class="toc-number">2.</span> <span class="toc-text">2.连接网络</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#无线连接"><span class="toc-number">2.1.</span> <span class="toc-text">无线连接</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#有线连接"><span class="toc-number">2.2.</span> <span class="toc-text">有线连接</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-磁盘分区"><span class="toc-number">3.</span> <span class="toc-text">3.磁盘分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-设置分区文件系统格式"><span class="toc-number">4.</span> <span class="toc-text">4.设置分区文件系统格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-挂载分区"><span class="toc-number">5.</span> <span class="toc-text">5.挂载分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-选择国内源"><span class="toc-number">6.</span> <span class="toc-text">6.选择国内源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-安装系统到root分区"><span class="toc-number">7.</span> <span class="toc-text">7.安装系统到root分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-将分区挂载信息写到fstab"><span class="toc-number">8.</span> <span class="toc-text">8.将分区挂载信息写到fstab</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-切换进系统"><span class="toc-number">9.</span> <span class="toc-text">9.切换进系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-设置时区"><span class="toc-number">10.</span> <span class="toc-text">10.设置时区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-设置语言环境"><span class="toc-number">11.</span> <span class="toc-text">11.设置语言环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-配置网络"><span class="toc-number">12.</span> <span class="toc-text">12.配置网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-下载wifi软件"><span class="toc-number">13.</span> <span class="toc-text">13.下载wifi软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-设置root用户密码"><span class="toc-number">14.</span> <span class="toc-text">14.设置root用户密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#15-安装启动管理器"><span class="toc-number">15.</span> <span class="toc-text">15.安装启动管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#可以安装grub"><span class="toc-number">15.1.</span> <span class="toc-text">可以安装grub</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#或者安装refind"><span class="toc-number">15.2.</span> <span class="toc-text">或者安装refind</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#运行自动化安装脚本："><span class="toc-number">15.2.1.</span> <span class="toc-text">运行自动化安装脚本：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#我喜欢手动安装："><span class="toc-number">15.2.2.</span> <span class="toc-text">我喜欢手动安装：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#16-安装完成，重启"><span class="toc-number">16.</span> <span class="toc-text">16.安装完成，重启</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Archlinux基础系统安装
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-25T04:41:50.000Z" itemprop="datePublished">2019-04-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/%E7%B3%BB%E7%BB%9F/" rel="tag">系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="http://upload-images.jianshu.io/upload_images/9937522-5a9d2737f415dc14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<blockquote>
+<p>archlinux的是在使用了无数发行版之后最喜欢的一个，因为其简洁、个性、或者说是偏爱。</p>
+</blockquote>
+<hr>
+<h4 id="1-默认终端字体大小"><a href="#1-默认终端字体大小" class="headerlink" title="1.默认终端字体大小"></a>1.默认终端字体大小</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setfont /usr/share/kbd/consolefonts/iso01-12x22.psfu.gz</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-连接网络"><a href="#2-连接网络" class="headerlink" title="2.连接网络"></a>2.连接网络</h4><p>允许网络连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rfkill unblock all</span><br></pre></td></tr></table></figure>
+
+<h5 id="无线连接"><a href="#无线连接" class="headerlink" title="无线连接"></a>无线连接</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi-menu	#图形化网络连接软件</span><br></pre></td></tr></table></figure>
+
+<h5 id="有线连接"><a href="#有线连接" class="headerlink" title="有线连接"></a>有线连接</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dhcpcd		#获取动态ip</span><br></pre></td></tr></table></figure>
+
+<p>查看是否连接成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip -c a</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-磁盘分区"><a href="#3-磁盘分区" class="headerlink" title="3.磁盘分区"></a>3.磁盘分区</h4><p>分区表（partition table），用来记录磁盘的分区信息。现有两种分区表：MBR，GPT</p>
+<ol>
+<li><p>MBR就是比较传统的分区表，win7就必须使用这种分区表，win10也可以使用这种分区表</p>
+</li>
+<li><p>GPT是比较先进的分区表，需要主板支持UEFI，当然linux最好选这种分区格式。使用GPT分区表就需要一块ESP分区，用来存储启动程序/信息</p>
+</li>
+</ol>
+<p>我比较喜欢GPT分区表，所以所有操作都基于GPT分区表来操作。如果是MBR的分区表可以转换为GPT分区表，当然了，分区表是针对整个磁盘的，所以整个磁盘的数据将会被清除。</p>
+<p>分区的方式有很多，可以使用简单的<code>cfdisk</code>命令来分区。</p>
+<p>我喜欢<code>parted</code>命令，因为它支持动态调整分区大小。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parted</span><br><span class="line">mktable gpt						#gpt分区格式</span><br><span class="line">mkpart fat32 0% 300MiB			#300M的esp分区，文件格式为fat32</span><br><span class="line">mkpart ext4 300MiB 30GiB		#30G的root分区，文件格式为ext4</span><br><span class="line">mkpart ext4 30GiB 100%			#剩下整个磁盘作为home分区，文件格式为ext4</span><br><span class="line">print 							#查看分区信息</span><br><span class="line">quit							#退出</span><br></pre></td></tr></table></figure>
+
+<p>esp分区并不需要挂载随系统启动，esp分区用来存放系统引导管理器grub或者refind</p>
+<p><code>lsblk -af</code> #查看分区信息<br><img src="https://upload-images.jianshu.io/upload_images/9937522-a705378143c1213e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="4-设置分区文件系统格式"><a href="#4-设置分区文件系统格式" class="headerlink" title="4.设置分区文件系统格式"></a>4.设置分区文件系统格式</h4><p>分区好了之后还需要配置分区所使用的文件系统格式，文件系统格式很多，有ntfs、vfat、ext4等</p>
+<p>如果使用<code>parted</code>命令则已经设置过了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkfs.vat -F 32 &#x2F;dev&#x2F;sdxy  #x代表a&#x2F;b&#x2F;c,y代表数字，这里格式化esp分区为fat格式</span><br><span class="line">mkfs..ext4 &#x2F;dev&#x2F;sdxy  #x代表a&#x2F;b&#x2F;c,y代表数字，这里格式化root为ext4格式</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="5-挂载分区"><a href="#5-挂载分区" class="headerlink" title="5.挂载分区"></a>5.挂载分区</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mount &#x2F;dev&#x2F;sdxy &#x2F;mnt  #这里先挂载root分区到&#x2F;mnt下</span><br><span class="line">mkdir -p &#x2F;mnt&#x2F;boot&#x2F;efi  #然后建文件夹来挂载esp分区</span><br><span class="line">mount &#x2F;dev&#x2F;sdxy &#x2F;mnt&#x2F;boot&#x2F;efi #将esp分区挂载到新建的文件下</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="6-选择国内源"><a href="#6-选择国内源" class="headerlink" title="6.选择国内源"></a>6.选择国内源</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlis</span><br></pre></td></tr></table></figure>
+
+<p>将这里面的china源移动到文件开头就像下面一样<br><img src="https://upload-images.jianshu.io/upload_images/9937522-b1efc6ac7019029c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="7-安装系统到root分区"><a href="#7-安装系统到root分区" class="headerlink" title="7.安装系统到root分区"></a>7.安装系统到root分区</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacstrap /mnt base base-devel</span><br></pre></td></tr></table></figure>
+
+<p>如果制作的启动盘是比较早的版本，那么这里可能会出现安装不了的问题，需要安装archlinux-keyring来解决这个问题。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -Sy archlinux-keyring &amp;&amp; pacman -Su</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="8-将分区挂载信息写到fstab"><a href="#8-将分区挂载信息写到fstab" class="headerlink" title="8.将分区挂载信息写到fstab"></a>8.将分区挂载信息写到fstab</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="9-切换进系统"><a href="#9-切换进系统" class="headerlink" title="9.切换进系统"></a>9.切换进系统</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arch-chroot /mnt</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="10-设置时区"><a href="#10-设置时区" class="headerlink" title="10.设置时区"></a>10.设置时区</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -sf /usr/share/zoneinfo/*Region*/*City* /etc/localtime</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="11-设置语言环境"><a href="#11-设置语言环境" class="headerlink" title="11.设置语言环境"></a>11.设置语言环境</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/locale.gen</span><br></pre></td></tr></table></figure>
+
+<p>由于要使用中文的输入法或者中文系统语言的，所以 <code>zh_CN.UTF-8 UTF-8</code> 和<code>en_US.UTF-8 UTF-8</code>是要选择的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">locale-gen  #生成配置</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="12-配置网络"><a href="#12-配置网络" class="headerlink" title="12.配置网络"></a>12.配置网络</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname	#设置主机名</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1	localhost</span><br><span class="line">::1			localhost</span><br><span class="line">127.0.1.1	myhostname.localdomain	myhostname</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="13-下载wifi软件"><a href="#13-下载wifi软件" class="headerlink" title="13.下载wifi软件"></a>13.下载wifi软件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S wpa_supplicant dialog wifi-menu</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="14-设置root用户密码"><a href="#14-设置root用户密码" class="headerlink" title="14.设置root用户密码"></a>14.设置root用户密码</h4><p>输入密码时是没有显示，这是一种安全保护措施</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="15-安装启动管理器"><a href="#15-安装启动管理器" class="headerlink" title="15.安装启动管理器"></a>15.安装启动管理器</h4><h5 id="可以安装grub"><a href="#可以安装grub" class="headerlink" title="可以安装grub"></a>可以安装grub</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pacman -S grub efibootmgr os-prober 	#os-prober是为了检测windows系统，efibootmgr是为了添加系统启动项</span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br><span class="line">grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="或者安装refind"><a href="#或者安装refind" class="headerlink" title="或者安装refind"></a>或者安装<a href="https://wiki.archlinux.org/index.php/REFInd#Installation" target="_blank" rel="noopener">refind</a></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S refind</span><br></pre></td></tr></table></figure>
+<h6 id="运行自动化安装脚本："><a href="#运行自动化安装脚本：" class="headerlink" title="运行自动化安装脚本："></a>运行自动化安装脚本：</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">refind-install</span><br></pre></td></tr></table></figure>
+
+<h6 id="我喜欢手动安装："><a href="#我喜欢手动安装：" class="headerlink" title="我喜欢手动安装："></a>我喜欢手动安装：</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /boot/efi/EFI/BOOT  #新建BOOT文件夹用来存放配置文件</span><br><span class="line">cp /usr/share/refind/refind_x64.efi /boot/efi/EFI/BOOT/bootx64.efi	#复制配置文件</span><br><span class="line">cp -r /usr/share/refind/drivers_x64 /boot/efi/EFI/BOOT</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="16-安装完成，重启"><a href="#16-安装完成，重启" class="headerlink" title="16.安装完成，重启"></a>16.安装完成，重启</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br><span class="line">umount -R /mnt</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+
+<p>至此最基本的系统已经安装完，接下去的安装就有很多选择了</p>
+<hr>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-默认终端字体大小"><span class="toc-number">1.</span> <span class="toc-text">1.默认终端字体大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-连接网络"><span class="toc-number">2.</span> <span class="toc-text">2.连接网络</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#无线连接"><span class="toc-number">2.1.</span> <span class="toc-text">无线连接</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#有线连接"><span class="toc-number">2.2.</span> <span class="toc-text">有线连接</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-磁盘分区"><span class="toc-number">3.</span> <span class="toc-text">3.磁盘分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-设置分区文件系统格式"><span class="toc-number">4.</span> <span class="toc-text">4.设置分区文件系统格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-挂载分区"><span class="toc-number">5.</span> <span class="toc-text">5.挂载分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-选择国内源"><span class="toc-number">6.</span> <span class="toc-text">6.选择国内源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-安装系统到root分区"><span class="toc-number">7.</span> <span class="toc-text">7.安装系统到root分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-将分区挂载信息写到fstab"><span class="toc-number">8.</span> <span class="toc-text">8.将分区挂载信息写到fstab</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-切换进系统"><span class="toc-number">9.</span> <span class="toc-text">9.切换进系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-设置时区"><span class="toc-number">10.</span> <span class="toc-text">10.设置时区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-设置语言环境"><span class="toc-number">11.</span> <span class="toc-text">11.设置语言环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-配置网络"><span class="toc-number">12.</span> <span class="toc-text">12.配置网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-下载wifi软件"><span class="toc-number">13.</span> <span class="toc-text">13.下载wifi软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-设置root用户密码"><span class="toc-number">14.</span> <span class="toc-text">14.设置root用户密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#15-安装启动管理器"><span class="toc-number">15.</span> <span class="toc-text">15.安装启动管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#可以安装grub"><span class="toc-number">15.1.</span> <span class="toc-text">可以安装grub</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#或者安装refind"><span class="toc-number">15.2.</span> <span class="toc-text">或者安装refind</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#运行自动化安装脚本："><span class="toc-number">15.2.1.</span> <span class="toc-text">运行自动化安装脚本：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#我喜欢手动安装："><span class="toc-number">15.2.2.</span> <span class="toc-text">我喜欢手动安装：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#16-安装完成，重启"><span class="toc-number">16.</span> <span class="toc-text">16.安装完成，重启</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&text=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&is_video=false&description=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Archlinux基础系统安装&body=Check out this article: https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&title=Archlinux基础系统安装" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/&name=Archlinux基础系统安装&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

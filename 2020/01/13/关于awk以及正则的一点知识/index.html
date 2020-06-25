@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="毕业也已经半年有余了，都说只要出了大学的校门，都会被这个社会所改变。更多指的是人会变得圆滑，但是我怎么觉得我一点也没变。我还是那个我，不知道我是进步了还是退步了。  awk忽略某一列的显示awk也算一个比较常用的命令了，但是呢，高级的语法我也没怎么学。目前用到了一个功能特别好用，所以需要记录一下。 需求是这样的：我需要将数据中的第一列删除，仅仅显示其余的列。当然了，也可以写$2,$3..$n但是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于awk以及正则的一点知识">
+<meta property="og:url" content="https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="毕业也已经半年有余了，都说只要出了大学的校门，都会被这个社会所改变。更多指的是人会变得圆滑，但是我怎么觉得我一点也没变。我还是那个我，不知道我是进步了还是退步了。  awk忽略某一列的显示awk也算一个比较常用的命令了，但是呢，高级的语法我也没怎么学。目前用到了一个功能特别好用，所以需要记录一下。 需求是这样的：我需要将数据中的第一列删除，仅仅显示其余的列。当然了，也可以写$2,$3..$n但是">
+<meta property="article:published_time" content="2020-01-13T14:50:20.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.390Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="learn">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>关于awk以及正则的一点知识</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/16/sqlite3/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/12/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&text=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&is_video=false&description=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于awk以及正则的一点知识&body=Check out this article: https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&name=关于awk以及正则的一点知识&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#awk忽略某一列的显示"><span class="toc-number">1.</span> <span class="toc-text">awk忽略某一列的显示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正则中-的作用"><span class="toc-number">2.</span> <span class="toc-text">正则中[]的作用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#这次的shadowsock脚本加上了速度判断"><span class="toc-number">3.</span> <span class="toc-text">这次的shadowsock脚本加上了速度判断</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        关于awk以及正则的一点知识
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-01-13T14:50:20.000Z" itemprop="datePublished">2020-01-13</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/learn/" rel="tag">learn</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>毕业也已经半年有余了，都说只要出了大学的校门，都会被这个社会所改变。更多指的是人会变得圆滑，但是我怎么觉得我一点也没变。我还是那个我，不知道我是进步了还是退步了。</p>
+</blockquote>
+<h1 id="awk忽略某一列的显示"><a href="#awk忽略某一列的显示" class="headerlink" title="awk忽略某一列的显示"></a>awk忽略某一列的显示</h1><p>awk也算一个比较常用的命令了，但是呢，高级的语法我也没怎么学。目前用到了一个功能特别好用，所以需要记录一下。</p>
+<p>需求是这样的：我需要将数据中的第一列删除，仅仅显示其余的列。当然了，也可以写<code>$2,$3..$n</code>但是列很多啊，所以有没有好一点的方法？那就是将第一列指定为空</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk '&#123;$1=''; print $0&#125;' somefile</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="正则中-的作用"><a href="#正则中-的作用" class="headerlink" title="正则中[]的作用"></a>正则中[]的作用</h1><p>之前只知道<code>[0-9a-zA-Z]</code>这样的正则写法，表示这个字符可能是数字或者大小写字母。理解的有限，所以在实际运用中就不会写了。</p>
+<p>当然，这个例子是oracle中的正则：我需要从很长的数据中去掉以冒号开头的那些字符</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> regexp_replace(<span class="string">':dfsa_kj^dfk_a+234^:jkj_2+34.^we09'</span>,<span class="string">':[0-9a-zA-Z_.+-]+'</span>,<span class="string">''</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure>
+
+<p>这样就把冒号开头的那些奇奇怪怪的没有规律的字符全部替换为空。括号中表示的是这些字符中的某一个，后面的加号就代表每一个位置都可能是这样的字符。所以连起来就是以冒号开头的出现括号中任意字符的连续字符串，都替换为空。</p>
+<p><code>[]</code>表示括号中随机无序的任意一个字符，它和<code>+</code>连起来就极好了，就可以表示每一个位置都可能出现这些字符中任意一个的这样的连续字串。</p>
+<h1 id="这次的shadowsock脚本加上了速度判断"><a href="#这次的shadowsock脚本加上了速度判断" class="headerlink" title="这次的shadowsock脚本加上了速度判断"></a>这次的shadowsock脚本加上了速度判断</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/zsh</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">clear screen and give a choice to choose,yes to catch a new file </span></span><br><span class="line">clear</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">go to the script dir and scratch all of information to a tmp file</span></span><br><span class="line">realdir=`whereis sslink | awk -F ":" '&#123;print $2&#125;' | xargs ls -l | awk -F "&gt;" '&#123;print $2&#125;' | xargs dirname`</span><br><span class="line">cd $realdir</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">product the <span class="built_in">command</span> line to a list</span></span><br><span class="line">if [[ -e ss.html ]];then</span><br><span class="line">    echo -e	 "\033[32m &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; the file exist, do you wanna to get a new one?(default no) &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  \033[0m"</span><br><span class="line">    echo -e -n	 "\033[32m &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  \033[0m"</span><br><span class="line">    read answer</span><br><span class="line">    if [[ $answer == 'yes' ]];then</span><br><span class="line">        cat ./ss.html | grep  '&lt;td align=' | grep -v 'class' | grep -E '^&lt;' | awk -F'&gt;|&lt;' '&#123;print $3&#125;' &gt; ss.hl</span><br><span class="line">    fi</span><br><span class="line">elif [[ ! -e ss.html ]];then</span><br><span class="line">    echo -e	 "\033[32m &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; the file doesn't exist,you need to get it &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;   \033[0m"</span><br><span class="line">    echo -e -n	 "\033[32m &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  \033[0m"</span><br><span class="line">    exit</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">echo -e	 "\033[32m &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; do you wanna to retest and get the faster one?(default no) &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  \033[0m"</span><br><span class="line">echo -e -n	 "\033[32m &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  \033[0m"</span><br><span class="line">read choose</span><br><span class="line">if [[ $choose == "yes" ]];then</span><br><span class="line">    :&gt;ss.tmp &amp;&amp; :&gt;ss.final</span><br><span class="line">    i=1 &amp;&amp; j=`cat ss.hl | wc -l`</span><br><span class="line">    while [[ $j -gt 0 ]]</span><br><span class="line">    do</span><br><span class="line">        s=`sed -n ''"$i"'p' ss.hl ` &amp;&amp; ((i++))</span><br><span class="line">        p=`sed -n ''"$i"'p' ss.hl ` &amp;&amp; ((i++))</span><br><span class="line">        k=`sed -n ''"$i"'p' ss.hl ` &amp;&amp; ((i++))</span><br><span class="line">        m=`sed -n ''"$i"'p' ss.hl ` &amp;&amp; ((i++))</span><br><span class="line">        ss="sslocal -s $s -p $p -k $k -m $m -l 1080"</span><br><span class="line"></span><br><span class="line">        eval $ss 2&gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">        sleep 2</span><br><span class="line">        unset start &amp;&amp; unset stop &amp;&amp; unset tm &amp;&amp; start=`date +%S`</span><br><span class="line">        timeout 6 proxychains -q curl www.google.com &gt;/dev/null 2&gt;&amp;1 </span><br><span class="line">        stop=`date +%S` </span><br><span class="line"></span><br><span class="line">        tm=$((stop-start))</span><br><span class="line">        if [[ $tm -gt 0 &amp;&amp; $tm -lt 6 ]];then</span><br><span class="line">            if [[ $tm -lt 0 ]];then</span><br><span class="line">                tm=$((tm+60))</span><br><span class="line">            fi</span><br><span class="line">            ss="$tm sslocal -s $s -p $p -k $k -m $m -l 1080"</span><br><span class="line">            echo $ss &gt;&gt; ss.tmp</span><br><span class="line">        fi </span><br><span class="line">        j=$((j-4))</span><br><span class="line">        killall sslocal 2&gt;/dev/null</span><br><span class="line">        killall proxychains 2&gt;/dev/null</span><br><span class="line">    done</span><br><span class="line">    sort -g ss.tmp | awk '&#123;$1="";print $0&#125;' &gt; ss.final</span><br><span class="line">else</span><br><span class="line">    cat ss.final</span><br><span class="line">    total=`cat ss.final | wc -l`</span><br><span class="line">    while :</span><br><span class="line">    do</span><br><span class="line">        echo -e	 "\033[32m &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; choose the one you wanna to connect or the app to be proxyed &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; \033[0m"</span><br><span class="line">        echo -e -n	 "\033[32m &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  \033[0m"</span><br><span class="line">        read info</span><br><span class="line">        if [[ $info -gt 0 &amp;&amp; $info -le $total ]];then</span><br><span class="line">            command=`sed -n ''$info'p' ss.final`</span><br><span class="line">            killall sslocal 2&gt;/dev/null</span><br><span class="line">            eval $command &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">        elif [[ $info == 'exit' ]];then</span><br><span class="line">            exit</span><br><span class="line">        elif [[ $info == 'clear' ]];then</span><br><span class="line">            clear</span><br><span class="line">        elif [[ $info == 'menu' ]];then</span><br><span class="line">            cat ss.final</span><br><span class="line">        elif [[ $info -gt $total ]];then</span><br><span class="line">            echo "total:$total,can not greater than $total"</span><br><span class="line">        else</span><br><span class="line">            which $info &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">            if [[ $? == 0 ]];then</span><br><span class="line">                proxychains -q $info &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">            fi</span><br><span class="line">        fi</span><br><span class="line">    done</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>这个脚本并不完美，因为网页中有图片识别码，所以我无法获取到数据，只能手动下载。所以后面需要做的是用python来识别图片，进行网页源码的下载。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#awk忽略某一列的显示"><span class="toc-number">1.</span> <span class="toc-text">awk忽略某一列的显示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正则中-的作用"><span class="toc-number">2.</span> <span class="toc-text">正则中[]的作用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#这次的shadowsock脚本加上了速度判断"><span class="toc-number">3.</span> <span class="toc-text">这次的shadowsock脚本加上了速度判断</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&text=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&is_video=false&description=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于awk以及正则的一点知识&body=Check out this article: https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&title=关于awk以及正则的一点知识" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/01/13/%E5%85%B3%E4%BA%8Eawk%E4%BB%A5%E5%8F%8A%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%80%E7%82%B9%E7%9F%A5%E8%AF%86/&name=关于awk以及正则的一点知识&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

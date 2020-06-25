@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="之前用gnome的时候，用过这个功能，是gonme的一个插件。用xmonad这么久了，竟然忘记了要改一下色温，因为晚上确实颜色太冷对眼睛也不好。  xflux它在桌面环境下就应该安装f.lux，它本来也就是这个软件名字。而我安装的xflux是它的x环境下的一个软件，也就是命令行软件了。现在觉得能用命令解决的事情，还是命令好用，图形界面吧有点浪费。 1xflux -l 30N -g 110E  这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux-屏幕色温调节">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="之前用gnome的时候，用过这个功能，是gonme的一个插件。用xmonad这么久了，竟然忘记了要改一下色温，因为晚上确实颜色太冷对眼睛也不好。  xflux它在桌面环境下就应该安装f.lux，它本来也就是这个软件名字。而我安装的xflux是它的x环境下的一个软件，也就是命令行软件了。现在觉得能用命令解决的事情，还是命令好用，图形界面吧有点浪费。 1xflux -l 30N -g 110E  这">
+<meta property="article:published_time" content="2019-11-28T15:34:32.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.364Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="软件介绍">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>linux-屏幕色温调节</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/28/python-%E7%9B%AE%E5%BD%95%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/24/shell-%E8%8E%B7%E5%8F%96ss%E8%B4%A6%E5%8F%B7/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&text=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&is_video=false&description=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux-屏幕色温调节&body=Check out this article: https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&name=linux-屏幕色温调节&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#xflux"><span class="toc-number">1.</span> <span class="toc-text">xflux</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        linux-屏幕色温调节
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-28T15:34:32.000Z" itemprop="datePublished">2019-11-28</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D/" rel="tag">软件介绍</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>之前用gnome的时候，用过这个功能，是gonme的一个插件。用xmonad这么久了，竟然忘记了要改一下色温，因为晚上确实颜色太冷对眼睛也不好。</p>
+</blockquote>
+<h1 id="xflux"><a href="#xflux" class="headerlink" title="xflux"></a>xflux</h1><p>它在桌面环境下就应该安装<code>f.lux</code>，它本来也就是这个软件名字。而我安装的<code>xflux</code>是它的x环境下的一个软件，也就是命令行软件了。现在觉得能用命令解决的事情，还是命令好用，图形界面吧有点浪费。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xflux -l 30N -g 110E</span><br></pre></td></tr></table></figure>
+
+<p>这样便是指定了北纬30度，东经110度。差不多就我这的经纬度了。然后默认的色温就是3400k。看着还行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xflux -l 30N -g 110E -k 4000</span><br></pre></td></tr></table></figure>
+
+<p>这样便是指定了色温为4000k</p>
+<p>挺简单好用的一个工具，为了开机启动，需要将它放入<code>.xinitrc</code>文件中。</p>
+<hr>
+<p>然后就是一些闲话了，我总感觉这几天很多事情都不顺。首先是一个脚本的sql连接串忘记改，导致出错。昨天发现了问题，然后修复了，感觉终于把这点事情搞完了。可是谁知道昨天下午一个同事由于运行了一个自动删除文件的脚本，把我们的配置文件全部删除了。然后今天找了半天原因，我也是没找到。真的是万万没想到下面的文件竟然被人删了，我做梦都想不到，会是因为别人把文件删了这个问题。我一直在找的问题就是源数据过来没有，数据格式有么有问题，查看日志文件，会不会是环境配置被人改了。打死也想不到是人把文件删了，因为我觉得这些东西应该不会有人删吧，但是就是发生了。我也在想我的思维是不是太局限了，因为这个问题曾老板一下就发现了，也可能是因为这些东西不是我写的，不够了解吧，毕竟上次写的那个python也是老吴给我配的配置，中间也有好多空的文件夹，但是呢，为了安全起见我也是没动那些东西。因为多几个文件夹也不碍事，所以在工作中，一些危险的命令不要写，比如<code>rm</code> ，<code>mv</code>这些。脚本中也要尽量去避免，能备份的就备份。桃子仙女今天晚上又要加班，心疼。我也没心思学习了。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#xflux"><span class="toc-number">1.</span> <span class="toc-text">xflux</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&text=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&is_video=false&description=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux-屏幕色温调节&body=Check out this article: https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&title=linux-屏幕色温调节" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/28/linux-%E5%B1%8F%E5%B9%95%E8%89%B2%E6%B8%A9%E8%B0%83%E8%8A%82/&name=linux-屏幕色温调节&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

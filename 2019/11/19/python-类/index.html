@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="类意义：归类，组织数据结构 1.多态：不需要关心对象的类型 2.封装：属于对象自己的变量 3.继承：继承父类的属性方法 所有单词首字母都大写123456class StudentName():    __name&#x3D;&quot;tangchao&quot;    def __getname(self):        return self.__name    def setname(self):        sel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python-类">
+<meta property="og:url" content="https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="类意义：归类，组织数据结构 1.多态：不需要关心对象的类型 2.封装：属于对象自己的变量 3.继承：继承父类的属性方法 所有单词首字母都大写123456class StudentName():    __name&#x3D;&quot;tangchao&quot;    def __getname(self):        return self.__name    def setname(self):        sel">
+<meta property="article:published_time" content="2019-11-19T15:44:55.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.370Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="一生所爱">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>python-类</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/19/python-%E8%BF%AD%E4%BB%A3%E5%99%A8/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/19/python-%E6%A8%A1%E5%9D%97/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&text=python-类" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&is_video=false&description=python-类" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python-类&body=Check out this article: https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&name=python-类&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#类"><span class="toc-number">1.</span> <span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#所有单词首字母都大写"><span class="toc-number">1.1.</span> <span class="toc-text">所有单词首字母都大写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#私有属性方法"><span class="toc-number">1.2.</span> <span class="toc-text">私有属性方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象属性何时创建"><span class="toc-number">1.3.</span> <span class="toc-text">对象属性何时创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承"><span class="toc-number">1.4.</span> <span class="toc-text">继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接口"><span class="toc-number">1.5.</span> <span class="toc-text">接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象基类"><span class="toc-number">1.6.</span> <span class="toc-text">抽象基类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#鸭子模型"><span class="toc-number">1.7.</span> <span class="toc-text">鸭子模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-实现超类的方法（至少是爷爷辈的）"><span class="toc-number">1.7.1.</span> <span class="toc-text">1.实现超类的方法（至少是爷爷辈的）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-注册为其子类"><span class="toc-number">1.7.2.</span> <span class="toc-text">2.注册为其子类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-鸭子模型的思考"><span class="toc-number">1.7.3.</span> <span class="toc-text">3.鸭子模型的思考</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        python-类
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-11-19T15:44:55.000Z" itemprop="datePublished">2019-11-19</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E4%B8%80%E7%94%9F%E6%89%80%E7%88%B1/" rel="tag">一生所爱</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1><p>意义：归类，组织数据结构</p>
+<p>1.多态：不需要关心对象的类型</p>
+<p>2.封装：属于对象自己的变量</p>
+<p>3.继承：继承父类的属性方法</p>
+<h2 id="所有单词首字母都大写"><a href="#所有单词首字母都大写" class="headerlink" title="所有单词首字母都大写"></a>所有单词首字母都大写</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StudentName</span><span class="params">()</span>:</span></span><br><span class="line">    __name=<span class="string">"tangchao"</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getname</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setname</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.__name=name</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="私有属性方法"><a href="#私有属性方法" class="headerlink" title="私有属性方法"></a>私有属性方法</h2><p>1.类会创建独立的命名空间，<code>self</code>参数指代的是所创建的对象实例自身。每当调用类的方法时，就将对象自身（用self来指示）作为一个参数传入。self不是关键字，其实用其他的命名也是可以的。</p>
+<p>2.私有属性（变量）和方法以两个下划线开头</p>
+<p>3.私有方法（以及变量）通过直接调用是无法访问的，但是可以通过下划线加类名来访问</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a=Student()</span><br><span class="line">a.name	<span class="comment">#获取不到</span></span><br><span class="line">a.getname() <span class="comment">#获取不到</span></span><br><span class="line">a._Student__name <span class="comment">#可以获取到</span></span><br><span class="line">a._Student__getname() <span class="comment">#可以获取到</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="对象属性何时创建"><a href="#对象属性何时创建" class="headerlink" title="对象属性何时创建"></a>对象属性何时创建</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Member</span><span class="params">()</span>:</span></span><br><span class="line">    count = <span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init</span><span class="params">(self)</span>:</span></span><br><span class="line">        Member.count+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">a = Member()</span><br><span class="line">b = Member()</span><br><span class="line">a.init</span><br><span class="line">print(a.count)</span><br><span class="line"><span class="number">2</span></span><br><span class="line">print(b.count)</span><br><span class="line"><span class="number">2</span></span><br><span class="line">b.init</span><br><span class="line">print(a.count)</span><br><span class="line"><span class="number">3</span></span><br><span class="line">print(b.count)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看出a和b都是访问的同一个属性count，那么对象创建时并没有克隆一份自己的变量，仍然引用类的属性。</p>
+<p>但是如果对属性赋值，那么对象会克隆一份自己的属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a.count=<span class="string">'Two'</span></span><br><span class="line">print(a.count)</span><br><span class="line">Two</span><br><span class="line">print(b.count)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Teacher</span><span class="params">(Member)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init</span><span class="params">(self, count)</span>:</span></span><br><span class="line">        self.count = count</span><br><span class="line">        </span><br><span class="line">a = Teacher()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>在类名的后面添加要继承的类的名字</p>
+</li>
+<li><p>继承以后可以改写父类的方法</p>
+</li>
+</ol>
+<ul>
+<li><p>查看是否为继承关系</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">issubclass(Teacher, Member)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问父类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Teacher.__bases__</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看对象是否为类的实例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">isinstance(a,Teacher)</span><br><span class="line">isinstance(a,Member)</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>实现特定的功能，定义方法，被子类继承。需要被实现，如果不实现，那么只能被继续继承。</p>
+<ul>
+<li><p>访问a对象是否有方法<code>init</code>。<strong><em>方法要用引号括起来</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hasattr(a, <span class="string">'init'</span>)</span><br><span class="line">getattr(a,<span class="string">'init'</span>,<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看对象存储的所有值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a.__dict__</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime <span class="keyword">as</span> dt</span><br><span class="line"></span><br><span class="line">print(dt.__dict__)</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="抽象基类"><a href="#抽象基类" class="headerlink" title="抽象基类"></a>抽象基类</h2><p>不能被实例化的类（建议），定义子类应该实现的一组抽象方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> abc <span class="keyword">import</span> ABC, abstractmethod</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XiaoFenDui</span><span class="params">(ABC)</span>:</span></span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_name</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>其中<code>@abstractemthod</code>为装饰器，用来标记抽象，指定在子类中必须实现的方法</p>
+</li>
+<li><p>抽象类只能被继承，不能实例化。主要用来作为一种规范。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GamePlay</span><span class="params">(XiaoFenDui)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果没有实现父类的方法，那么它也只能被继承。不能实例化。</p>
+</li>
+</ul>
+<h2 id="鸭子模型"><a href="#鸭子模型" class="headerlink" title="鸭子模型"></a>鸭子模型</h2><h3 id="1-实现超类的方法（至少是爷爷辈的）"><a href="#1-实现超类的方法（至少是爷爷辈的）" class="headerlink" title="1.实现超类的方法（至少是爷爷辈的）"></a>1.实现超类的方法（至少是爷爷辈的）</h3><p>只要实现了<code>XiaoFeiDui</code>的方法，即使不是它的对象，也可以认为是<code>XiaoFeiDui</code>的子类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Play</span><span class="params">(GamePlay)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_name</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        </span><br><span class="line">st1 = Play()</span><br><span class="line">isinstance(st1, XiaoFenDui)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-注册为其子类"><a href="#2-注册为其子类" class="headerlink" title="2.注册为其子类"></a>2.注册为其子类</h3><p>即使没有继承以及实现父类的方法，只要注册为<code>XiaoFenDui</code>的子类，同样被视为它的子类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FakePlay</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(self,num)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">XiaoFenDui.register(FakePlay)</span><br><span class="line">c = FakePlay()</span><br><span class="line">print(issubclass(FakePlay,XiaoFenDui))</span><br><span class="line">print(isinstance(c, XiaoFenDui))</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-鸭子模型的思考"><a href="#3-鸭子模型的思考" class="headerlink" title="3.鸭子模型的思考"></a>3.鸭子模型的思考</h3><p>为什么需要鸭子模型呢？可能在别的语言看来这是不严谨的语法，大多数人是这么说的，于是我们也这么认为。但是不严谨带来的后果是啥？有人说的出来吗，但是我知道python的这种鸭子模型的优势：这么做的意义在于可以继承父类，那么也就拥有了其属性和方法。大大简化了语法，就像我们为什么要写一个函数一样，还不是为了避免写重复的东西浪费时间与字数。写个函数几个字就可以拿来引用那一段函数了。同样类也是一样，只不过其更大了，因为它包括了函数，它是一系列函数和属性的集合。</p>
+<p>所以我们在写一个程序的时候最先应该做的不是动手去写，而是应该思考如何架构。是写一个类，一个函数，还是一个lambda表达式？或者这些都不用。思考好了永远要好一些，至少思路更加清晰。思考胜于动手啊！</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#类"><span class="toc-number">1.</span> <span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#所有单词首字母都大写"><span class="toc-number">1.1.</span> <span class="toc-text">所有单词首字母都大写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#私有属性方法"><span class="toc-number">1.2.</span> <span class="toc-text">私有属性方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象属性何时创建"><span class="toc-number">1.3.</span> <span class="toc-text">对象属性何时创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承"><span class="toc-number">1.4.</span> <span class="toc-text">继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接口"><span class="toc-number">1.5.</span> <span class="toc-text">接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象基类"><span class="toc-number">1.6.</span> <span class="toc-text">抽象基类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#鸭子模型"><span class="toc-number">1.7.</span> <span class="toc-text">鸭子模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-实现超类的方法（至少是爷爷辈的）"><span class="toc-number">1.7.1.</span> <span class="toc-text">1.实现超类的方法（至少是爷爷辈的）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-注册为其子类"><span class="toc-number">1.7.2.</span> <span class="toc-text">2.注册为其子类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-鸭子模型的思考"><span class="toc-number">1.7.3.</span> <span class="toc-text">3.鸭子模型的思考</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&text=python-类" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&is_video=false&description=python-类" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python-类&body=Check out this article: https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&title=python-类" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/11/19/python-%E7%B1%BB/&name=python-类&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

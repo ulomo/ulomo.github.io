@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="翻译功能+复习功能确实，windows这个系统很好看，前段时间安装了windows，差点就被它漂亮的UI，舒服的使用体验迷惑住了。但是要用来编程的话，它确实不够好。下面就说说在linux上如何使用脚本等来实现一键翻译以及复习单词的功能。 想要的效果是：  使用快捷键来翻译选中的单词 每隔一段时间将之前翻译过的那些不认识的单词自动翻译一遍来达到复习的效果   为了达到第一个目标  快捷键需要使用xm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下翻译并循环提醒">
+<meta property="og:url" content="https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="翻译功能+复习功能确实，windows这个系统很好看，前段时间安装了windows，差点就被它漂亮的UI，舒服的使用体验迷惑住了。但是要用来编程的话，它确实不够好。下面就说说在linux上如何使用脚本等来实现一键翻译以及复习单词的功能。 想要的效果是：  使用快捷键来翻译选中的单词 每隔一段时间将之前翻译过的那些不认识的单词自动翻译一遍来达到复习的效果   为了达到第一个目标  快捷键需要使用xm">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/19/8rApkD.png">
+<meta property="article:published_time" content="2020-03-19T01:58:31.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.360Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/03/19/8rApkD.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>linux下翻译并循环提醒</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/19/linux%E4%B8%8B%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E4%B8%8Alinux%E5%91%BD%E4%BB%A4/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/19/cronie/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&text=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&is_video=false&description=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux下翻译并循环提醒&body=Check out this article: https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&name=linux下翻译并循环提醒&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#翻译功能-复习功能"><span class="toc-number">1.</span> <span class="toc-text">翻译功能+复习功能</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        linux下翻译并循环提醒
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-03-19T01:58:31.000Z" itemprop="datePublished">2020-03-19</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="翻译功能-复习功能"><a href="#翻译功能-复习功能" class="headerlink" title="翻译功能+复习功能"></a>翻译功能+复习功能</h1><p>确实，windows这个系统很好看，前段时间安装了windows，差点就被它漂亮的UI，舒服的使用体验迷惑住了。但是要用来编程的话，它确实不够好。下面就说说在linux上如何使用脚本等来实现一键翻译以及复习单词的功能。</p>
+<p>想要的效果是：</p>
+<ul>
+<li>使用快捷键来翻译选中的单词</li>
+<li>每隔一段时间将之前翻译过的那些不认识的单词自动翻译一遍来达到复习的效果</li>
+</ul>
+<ol>
+<li><p>为了达到第一个目标</p>
+<ul>
+<li><p>快捷键需要使用xmonad中自定义快捷键的功能</p>
+</li>
+<li><p>选中单词使用<code>xclip</code>命令</p>
+</li>
+<li><p>翻译使用脚本translate（具有拼读功能）</p>
+</li>
+<li><p>将翻译结果以弹窗消息的形式显示出来使用到了<code>dunst</code>这个软件，以及<code>notify-send</code>这个命令发送翻译结果</p>
+</li>
+<li><p>为了后面的复习功能需要将单词保存到一个文件中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 这是定义的快捷键翻译功能</span></span><br><span class="line">, ((0 , xK_t), spawn "translate `xclip -o` | xargs -0 notify-send &amp;&amp; xclip -o &gt;&gt; ~/Documents/books/remember_word.txt")</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 这是翻译发声脚本</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">翻译单词并拼读出来</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">获取系统音量大小</span></span><br><span class="line">volume=`amixer sget Master | tr -d '[a-zA-Z][:punct:]' | awk '&#123;print $2&#125;' | sed -n '$p'`</span><br><span class="line"><span class="meta">#</span><span class="bash">通过在线语音拼读</span></span><br><span class="line">mplayer -volume $&#123;volume&#125; http://dict.youdao.com/dictvoice\?audio\=$&#123;1&#125; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">通过ydcv程序来对单词进行翻译</span></span><br><span class="line">ydcv $&#123;1&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以先用鼠标选中单词，然后按快捷键将单词进行翻译了。</p>
+</li>
+</ul>
+</li>
+<li><p>为了实现第二个目标</p>
+<ul>
+<li><p>前面已经将单词保存到了文件中，所以相对来说应该挺简单的，但是发现crontab并不能使用<code>notify-send</code>命令，所以只能选择其它方法来达到定时复习的功能</p>
+</li>
+<li><p>由于polybar状态栏具有定时功能，所以就使用它了</p>
+</li>
+<li><p>现在就很简单，只需要从文件中随机读取一个单词，然后翻译并显示就好了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 读取单词并翻译</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">shuf -n1 ~/Documents/books/remember_word.txt  | xargs ydcv | xargs -0 notify-send &amp;&amp; mplayer ~/Music/prompt/wechat.mp3 &amp;&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> polybar中设置定时功能</span></span><br><span class="line">[module/trans]</span><br><span class="line">type = custom/script</span><br><span class="line">interval = 120</span><br><span class="line">exec = ~/.local/bin/remember_word</span><br></pre></td></tr></table></figure>
+
+<p>这样就实现了每隔两分钟自动复习的功能</p>
+</li>
+</ul>
+</li>
+<li><p>效果图</p>
+<p> <img src="https://s1.ax1x.com/2020/03/19/8rApkD.png" alt="效果"></p>
+</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#翻译功能-复习功能"><span class="toc-number">1.</span> <span class="toc-text">翻译功能+复习功能</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&text=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&is_video=false&description=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux下翻译并循环提醒&body=Check out this article: https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&title=linux下翻译并循环提醒" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/03/19/linux%E4%B8%8B%E7%BF%BB%E8%AF%91%E5%B9%B6%E5%BE%AA%E7%8E%AF%E6%8F%90%E9%86%92/&name=linux下翻译并循环提醒&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

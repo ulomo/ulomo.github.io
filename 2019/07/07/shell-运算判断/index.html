@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="shell中括号的意义   -括号 -作用 -常用于    () 命令组 （）会新开一个shell执行 shell命令及输出    （）中的变量不可被脚本引用     多个命令之间用分号隔开，最后一个命令可以没有分号     各个命令和括号之间不必有空格     $()  等同于  &#96;&#96;    (()) 整数运算 计算整数 算数运算    括号中的变量可以不加$     多个命令之间用分号隔开">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell_运算判断">
+<meta property="og:url" content="https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="shell中括号的意义   -括号 -作用 -常用于    () 命令组 （）会新开一个shell执行 shell命令及输出    （）中的变量不可被脚本引用     多个命令之间用分号隔开，最后一个命令可以没有分号     各个命令和括号之间不必有空格     $()  等同于  &#96;&#96;    (()) 整数运算 计算整数 算数运算    括号中的变量可以不加$     多个命令之间用分号隔开">
+<meta property="article:published_time" content="2019-07-07T12:54:14.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.377Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>shell_运算判断</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/07/shell-%E6%95%B0%E7%BB%84%E5%8F%8A%E5%87%BD%E6%95%B0/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/07/shell-%E5%8F%98%E9%87%8F%E5%8F%8A%E8%AF%BB%E5%8F%96/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&text=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&is_video=false&description=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell_运算判断&body=Check out this article: https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&name=shell_运算判断&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#shell中括号的意义"><span class="toc-number">1.</span> <span class="toc-text">shell中括号的意义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑运算符"><span class="toc-number">2.</span> <span class="toc-text">逻辑运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.1.</span> <span class="toc-text"></span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        shell_运算判断
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-07-07T12:54:14.000Z" itemprop="datePublished">2019-07-07</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h4 id="shell中括号的意义"><a href="#shell中括号的意义" class="headerlink" title="shell中括号的意义"></a>shell中括号的意义</h4><table>
+<thead>
+<tr>
+<th>-括号</th>
+<th>-作用</th>
+<th>-常用于</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>() 命令组</td>
+<td>（）会新开一个shell执行</td>
+<td>shell命令及输出</td>
+</tr>
+<tr>
+<td></td>
+<td>（）中的变量不可被脚本引用</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>多个命令之间用分号隔开，最后一个命令可以没有分号</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>各个命令和括号之间不必有空格</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>$()  等同于  ``</td>
+<td></td>
+</tr>
+<tr>
+<td>(()) 整数运算</td>
+<td>计算整数</td>
+<td>算数运算</td>
+</tr>
+<tr>
+<td></td>
+<td>括号中的变量可以不加$</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>多个命令之间用分号隔开</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>((i=$i+$j))    等价于   i=`expr $i+$j`</td>
+<td></td>
+</tr>
+<tr>
+<td>[] 算数比较</td>
+<td>字符串比较：==，!=</td>
+<td>算数比较，左右留空格</td>
+</tr>
+<tr>
+<td></td>
+<td>整数比较：-gt ,  -lt   , -eq  , ne</td>
+<td></td>
+</tr>
+<tr>
+<td>[[]]</td>
+<td>字符串比较时可以把右边作为一个模式</td>
+<td>字符串比较</td>
+</tr>
+<tr>
+<td></td>
+<td>逻辑运算符可以防止逻辑错误</td>
+<td></td>
+</tr>
+<tr>
+<td>{}</td>
+<td>创建匿名函数，不新开进程</td>
+<td>快速替换，左右留空格</td>
+</tr>
+<tr>
+<td></td>
+<td>各命令用分号隔开，最后一一个也需要分号</td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td>shell命令</td>
+</tr>
+</tbody></table>
+<h4 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-eq    #等于，用于整形比较</span><br><span class="line">-ne    #不等于，用于整形比较</span><br><span class="line">-lt    #小于，用于整形比较</span><br><span class="line">-gt    #大于，用于整形比较</span><br><span class="line">-le    #小于或等于，用于整形比较</span><br><span class="line">-ge    #大于或等于，用于整形比较</span><br><span class="line">-a    #and</span><br><span class="line">-o    #or</span><br><span class="line">-z    #空字符串</span><br><span class="line">-f     #文件是否存在</span><br><span class="line">-d     #目录是否存在</span><br></pre></td></tr></table></figure>
+
+<h5 id=""><a href="#" class="headerlink" title=""></a></h5>
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#shell中括号的意义"><span class="toc-number">1.</span> <span class="toc-text">shell中括号的意义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑运算符"><span class="toc-number">2.</span> <span class="toc-text">逻辑运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.1.</span> <span class="toc-text"></span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&text=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&is_video=false&description=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell_运算判断&body=Check out this article: https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&title=shell_运算判断" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/07/07/shell-%E8%BF%90%E7%AE%97%E5%88%A4%E6%96%AD/&name=shell_运算判断&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

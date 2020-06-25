@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="iptables有五张表(filter,nat,mangle,raw,security),五个规则链(prerouting,input,forward,output,postrouting).要全部弄懂好像有点麻烦,不过先挑常用的来学学还是一个不错的选择.  什么是表呢?用过myql数据库的应该很清楚,表是用来存放数据的.就像excel表格一样,将数据一条一条的存到数据库中.同理,这里的表也是这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iptables防火墙设置-规则">
+<meta property="og:url" content="https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="iptables有五张表(filter,nat,mangle,raw,security),五个规则链(prerouting,input,forward,output,postrouting).要全部弄懂好像有点麻烦,不过先挑常用的来学学还是一个不错的选择.  什么是表呢?用过myql数据库的应该很清楚,表是用来存放数据的.就像excel表格一样,将数据一条一条的存到数据库中.同理,这里的表也是这">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-1c7bb04d152470e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-ebeaa52d4b2cfed2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-04-25T05:25:49.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.360Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="系统">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9937522-1c7bb04d152470e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>iptables防火墙设置-规则</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%AF%AD%E6%B3%95/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E5%9F%BA%E7%A1%80/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&text=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&is_video=false&description=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iptables防火墙设置-规则&body=Check out this article: https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&name=iptables防火墙设置-规则&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        iptables防火墙设置-规则
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-25T05:25:49.000Z" itemprop="datePublished">2019-04-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/%E7%B3%BB%E7%BB%9F/" rel="tag">系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><p>iptables有五张表(<strong><code>filter,nat,mangle,raw,security</code></strong>),五个规则链(<strong><code>prerouting,input,forward,output,postrouting</code></strong>).要全部弄懂好像有点麻烦,不过先挑常用的来学学还是一个不错的选择.</p>
+</li>
+<li><p>什么是表呢?用过myql数据库的应该很清楚,表是用来存放数据的.就像excel表格一样,将数据一条一条的存到数据库中.同理,这里的表也是这个作用,表里面存放的就是我们写好的规则.为什么又分了五个呢,一个不行吗?我觉得一个也不是不可以,但是那样不是就很乱了吗?分类管理还是挺好的.既然说到分类管理了,那么五条链也就比较好理解了,也是为了分类管理.</p>
+</li>
+<li><p>在表中存放着许多规则,我们把这些规则分个类,这些类就是链.而每张表的功能又不一样,所以每张表中的链也就不一样了</p>
+<ul>
+<li>nat表:<strong><code>prerouting,input,output,postrouting</code></strong></li>
+<li>filter表:<strong><code>input,forward,output</code></strong></li>
+<li>mangle:<strong><code>prerouting,iniput,forward,output,postrouting</code></strong></li>
+<li>raw表:<strong><code>prerouting,output</code></strong></li>
+<li>security表:<strong><code>input,forward,output</code></strong></li>
+</ul>
+</li>
+<li><p>上面这样写应该还是不好理解,到底是怎么起作用的?arch wiki上的这张图很好的展示了如何接收/发送数据.以数据的流向为依据,将这些表和链很好的连接在了一起,非常漂亮.所以又不得不夸夸arch wiki了,写的是真的好.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">                               XXXXXXXXXXXXXXXXXX</span><br><span class="line">                             XXX     Network    XXX</span><br><span class="line">                               XXXXXXXXXXXXXXXXXX</span><br><span class="line">                                       +</span><br><span class="line">                                       |</span><br><span class="line">                                       v</span><br><span class="line"> +-------------+              +------------------+</span><br><span class="line"> |table: filter| &lt;---+        | table: nat       |</span><br><span class="line"> |chain: INPUT |     |        | chain: PREROUTING|</span><br><span class="line"> +-----+-------+     |        +--------+---------+</span><br><span class="line">       |             |                 |</span><br><span class="line">       v             |                 v</span><br><span class="line"> [local process]     |           ****************          +--------------+</span><br><span class="line">       |             +---------+ Routing decision +------&gt; |table: filter |</span><br><span class="line">       v                         ****************          |chain: FORWARD|</span><br><span class="line">****************                                           +------+-------+</span><br><span class="line">Routing decision                                                  |</span><br><span class="line">****************                                                  |</span><br><span class="line">       |                                                          |</span><br><span class="line">       v                        ****************                  |</span><br><span class="line">+-------------+       +------&gt;  Routing decision  &lt;---------------+</span><br><span class="line">|table: nat   |       |         ****************</span><br><span class="line">|chain: OUTPUT|       |               +</span><br><span class="line">+-----+-------+       |               |</span><br><span class="line">      |               |               v</span><br><span class="line">      v               |      +-------------------+</span><br><span class="line">+--------------+      |      | table: nat        |</span><br><span class="line">|table: filter | +----+      | chain: POSTROUTING|</span><br><span class="line">|chain: OUTPUT |             +--------+----------+</span><br><span class="line">+--------------+                      |</span><br><span class="line">                                      v</span><br><span class="line">                               XXXXXXXXXXXXXXXXXX</span><br><span class="line">                             XXX    Network     XXX</span><br><span class="line">                               XXXXXXXXXXXXXXXXXX</span><br></pre></td></tr></table></figure></li>
+<li><p>看这个表就知道我们主要操作的还是filter表了.下面就操作一下,秀操作的时候到了,有没有操作?(PS:老年人手速,也想有操作?)</p>
+</li>
+<li><p><strong>iptables的规则书写是有大小写区别的</strong></p>
+</li>
+<li><p>首先我们不想别人ping我们的ip</p>
+<pre><code>sudo iptables -A INPUT -p icmp -j DROP</code></pre><p>其实完整的写法是下面这样的(需要指定是那张表),但是它默认就是filter表,而我们操作的也是filter表就省略了</p>
+<pre><code>sudo iptables -t filter -A INPUT -p icmp -j DROP</code></pre><p>可以查看一下</p>
+<pre><code>sudo iptables -S</code></pre><p>这样虽然别人不能ping我们了,但是我们发现自己也无法ping别人了,所以得改</p>
+</li>
+<li><p>这个iptables执行是按顺序一条一条从上向下执行的,所以我们想写在之前写的那条规则上面就要使用<code>-I</code>这个参数,insert将规则插入到最上面,如果后面再接一个数字的话,就是插入到指定第几条规则的上面<br><img src="https://upload-images.jianshu.io/upload_images/9937522-1c7bb04d152470e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="看见了没,这里有两条规则,规则前面就有数字排序"></p>
+</li>
+<li><p>在<a href="https://www.cnblogs.com/itcomputer/p/4939399.html" target="_blank" rel="noopener">这里</a>我们可以看到icmp-type对应数字的意义,icmp-type 8代表echo request,就是别人ping我们时怎么回答</p>
+<pre><code>sudo iptables -I  INPUT -p icmp --icmp-type 8 -j DROP</code></pre><p>上面这句话就是别人ping我们时,我们不回答,直接丢弃.其实这里还是没有解决无法ping别人的问题,只是替代了上面那条规则</p>
+</li>
+<li><p>好,这里就写怎么解决ping别人.前面是别人ping我们时,发给我们的icmp数据包直接丢弃.而我们自己ping别人时是需要别人发给我们一个icmp回应包才算ping通的,所以就要接收这个包咯,前面不是说了不接受包吗?icmp-type 0就是接受我们发给别人后回传的数据包的.通过数据包类型的不同来区分到底是别人ping我们的数据包还是回传的数据包<br>我们把这条规则加到最开始</p>
+<pre><code>sudo iptables -I INPUT 1 -p icmp --icmp-type 0 -j ACCEPT</code></pre></li>
+<li><p>还记得我们添加的第一条规则吗,没有作用了,我们把它删除</p>
+<pre><code>sudo iptables -D INPUT 3</code></pre></li>
+<li><p>然后查看一下现在的规则</p>
+<pre><code>sudo  iptables -S</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/9937522-ebeaa52d4b2cfed2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+<li><p>最后保存一下,以免下次开机这些规则就丢失了</p>
+<pre><code>su
+iptables-save &gt; /etc/iptables/iptables-rules</code></pre></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&text=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&is_video=false&description=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iptables防火墙设置-规则&body=Check out this article: https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&title=iptables防火墙设置-规则" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/iptables%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE-%E8%A7%84%E5%88%99/&name=iptables防火墙设置-规则&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

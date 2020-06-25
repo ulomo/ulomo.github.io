@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="就像池昌旭在the k2中说的一句话一样，战争久了，人们便忘记了战争的理由。数据库是用来做啥的呢，存储数据，为何不能用文本来存取？当然可以了，而且linux中还有那么多的文本处理工具，awk，sed，grep，tr，xargs等，都挺好用，但是却没有数据库处理的速度快，格式也没有那么规范。所以需要数据库啊，而且数据库用起来很方便。  那么对数据的存取就是一个基础了，今天主要记录一下，从数据库中取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oracle-字符串">
+<meta property="og:url" content="https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="就像池昌旭在the k2中说的一句话一样，战争久了，人们便忘记了战争的理由。数据库是用来做啥的呢，存储数据，为何不能用文本来存取？当然可以了，而且linux中还有那么多的文本处理工具，awk，sed，grep，tr，xargs等，都挺好用，但是却没有数据库处理的速度快，格式也没有那么规范。所以需要数据库啊，而且数据库用起来很方便。  那么对数据的存取就是一个基础了，今天主要记录一下，从数据库中取">
+<meta property="article:published_time" content="2019-09-17T12:40:50.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.364Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>oracle-字符串</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/09/17/mariadb%E5%AE%89%E8%A3%85%E8%BF%9E%E6%8E%A5/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/09/09/xmonad2-0/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&text=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&is_video=false&description=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=oracle-字符串&body=Check out this article: https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&name=oracle-字符串&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#substr-instr找出所需字段子串"><span class="toc-number">1.</span> <span class="toc-text">substr+instr找出所需字段子串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#substr-char-position-length"><span class="toc-number">1.1.</span> <span class="toc-text">substr(char,position,length)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#instr-string-substring-position-occurrence"><span class="toc-number">1.2.</span> <span class="toc-text">instr(string,substring,position,occurrence)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的加入"><span class="toc-number">2.</span> <span class="toc-text">正则的加入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regexp-like正则模糊匹配"><span class="toc-number">3.</span> <span class="toc-text">regexp_like正则模糊匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regexp-count-正则计算出现次数"><span class="toc-number">4.</span> <span class="toc-text">regexp_count&#96;正则计算出现次数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串拼接"><span class="toc-number">5.</span> <span class="toc-text">字符串拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#"><span class="toc-number">6.</span> <span class="toc-text"></span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        oracle-字符串
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-09-17T12:40:50.000Z" itemprop="datePublished">2019-09-17</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>就像池昌旭在the k2中说的一句话一样，战争久了，人们便忘记了战争的理由。数据库是用来做啥的呢，存储数据，为何不能用文本来存取？当然可以了，而且linux中还有那么多的文本处理工具，awk，sed，grep，tr，xargs等，都挺好用，但是却没有数据库处理的速度快，格式也没有那么规范。所以需要数据库啊，而且数据库用起来很方便。</p>
+</blockquote>
+<p>那么对数据的存取就是一个基础了，今天主要记录一下，从数据库中取出想要的字符串。</p>
+<h3 id="substr-instr找出所需字段子串"><a href="#substr-instr找出所需字段子串" class="headerlink" title="substr+instr找出所需字段子串"></a>substr+instr找出所需字段子串</h3><h4 id="substr-char-position-length"><a href="#substr-char-position-length" class="headerlink" title="substr(char,position,length)"></a>substr(char,position,length)</h4><p>根据长度找字符串。指定字符串，开始位置，长度就可以了，但是实际的数据操作中，往往都不是这么简单的，比如说要取的那个字段为ip:端口，那么ip长度不定。所以需要下面这个函数帮助</p>
+<h4 id="instr-string-substring-position-occurrence"><a href="#instr-string-substring-position-occurrence" class="headerlink" title="instr(string,substring,position,occurrence)"></a>instr(string,substring,position,occurrence)</h4><p>根据字符串找位置。指定字符串，需要查找的子字符串，开始位置，重复出现的次数。就能找到字符串所在的位置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip_addr</span><br><span class="line">10.25.18.11:123</span><br><span class="line">10.5.18.23:23</span><br><span class="line">10.45.130.234:245</span><br></pre></td></tr></table></figure>
+
+<p>需要取出所有的ip，由于冒号的位置不定，所以需要instr()函数去找出位置。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">substr</span>(ip_addr,<span class="number">0</span>,<span class="keyword">instr</span>(ip_addr,<span class="string">':'</span>,<span class="number">0</span>,<span class="number">1</span>)<span class="number">-1</span>) <span class="keyword">as</span> ip <span class="keyword">from</span> sometable;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="正则的加入"><a href="#正则的加入" class="headerlink" title="正则的加入"></a>正则的加入</h3><p><strong>正则匹配后面有许多参数，这些参数是可选的，不一定都要写，但是如果需要后面的参数，那么前面的参数必须都要写。</strong></p>
+<p>上面的<code>substr</code>和<code>instr</code>搭配起来用感觉已经很强了，但是这还不能满足苛刻的查找条件，那么正则表达式就可以做到这一切，至于regular expression如何强大就不需要说了。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--返回搜索的字符串自身</span></span><br><span class="line">regexp_substr(source_char,pattern,position,occurrence,return_param,subexpr)</span><br><span class="line"><span class="comment">--返回搜索的字符串位置</span></span><br><span class="line">regexp_instr(source_char,pattern,position,occurrence,return_param,subexpr)</span><br><span class="line"><span class="comment">--return_param含义：</span></span><br><span class="line"><span class="comment">--返回匹配字符串的开头0</span></span><br><span class="line"><span class="comment">--返回匹配字符串的开头结尾1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="regexp-like正则模糊匹配"><a href="#regexp-like正则模糊匹配" class="headerlink" title="regexp_like正则模糊匹配"></a><code>regexp_like</code>正则模糊匹配</h3><p>现在需要查询出今天6点到14点的数据的和。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">regexp_like(source_char,pattern,match_param)</span><br><span class="line"><span class="comment">--不用正则的写法</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">sum</span>(money)</span><br><span class="line"><span class="keyword">from</span> sometable</span><br><span class="line"><span class="keyword">where</span> to_char(<span class="built_in">time</span>,<span class="string">'yyyymmddhh24'</span>)=<span class="string">'2019091606'</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">sum</span>(money)</span><br><span class="line"><span class="keyword">from</span> sometable</span><br><span class="line"><span class="keyword">where</span> to_char(<span class="built_in">time</span>,<span class="string">'yyyymmddhh24'</span>)=<span class="string">'2019091607'</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">sum</span>(money)</span><br><span class="line"><span class="keyword">from</span> sometable</span><br><span class="line"><span class="keyword">where</span> to_char(<span class="built_in">time</span>,<span class="string">'yyyymmddhh24'</span>)=<span class="string">'2019091608'</span>;</span><br><span class="line"><span class="comment">--....等等等等。然后把结果加起来</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--用正则来匹配</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">sum</span>(money)</span><br><span class="line"><span class="keyword">from</span> sometable</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">regexp_like</span>(to_char(<span class="built_in">time</span>,<span class="string">'yyyymmddhh24'</span>),<span class="string">'201909160[6-9] | 1[0-4]'</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--match_param参数含义：</span></span><br><span class="line">    'i' specifies case-insensitive matching.</span><br><span class="line"></span><br><span class="line">    'c' specifies case-sensitive matching.</span><br><span class="line"></span><br><span class="line">    'n' allows the period (.), which is the match-any-character character, to match the newline character. If you omit this parameter, then the period does not match the newline character.</span><br><span class="line"></span><br><span class="line">    'm' treats the source string as multiple lines. Oracle interprets the caret ( ^) and dollar sign ($) as the <span class="keyword">start</span> <span class="keyword">and</span> <span class="keyword">end</span>, respectively, <span class="keyword">of</span> <span class="keyword">any</span> line anywhere <span class="keyword">in</span> the <span class="keyword">source</span> <span class="keyword">string</span>, rather <span class="keyword">than</span> <span class="keyword">only</span> <span class="keyword">at</span> the <span class="keyword">start</span> <span class="keyword">or</span> <span class="keyword">end</span> <span class="keyword">of</span> the entire <span class="keyword">source</span> string. <span class="keyword">If</span> you omit this parameter, <span class="keyword">then</span> <span class="keyword">Oracle</span> treats the <span class="keyword">source</span> <span class="keyword">string</span> <span class="keyword">as</span> a single line.</span><br><span class="line"></span><br><span class="line">    <span class="string">'x'</span> ignores <span class="keyword">whitespace</span> characters. <span class="keyword">By</span> <span class="keyword">default</span>, <span class="keyword">whitespace</span> <span class="keyword">characters</span> <span class="keyword">match</span> themselves.</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="regexp-count-正则计算出现次数"><a href="#regexp-count-正则计算出现次数" class="headerlink" title="regexp_count`正则计算出现次数"></a>regexp_count`正则计算出现次数</h3><p>是对<code>regexp_instr</code>的一个完善，可以计算指定字符出现了多少次</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">regexp_count(source_char,pattern,position,match_param)</span><br><span class="line"><span class="comment">--计算123出现次数</span></span><br><span class="line"><span class="keyword">SELECT</span> REGEXP_COUNT(<span class="string">'123123123123'</span>, <span class="string">'123'</span>, <span class="number">3</span>, <span class="string">'i'</span>) <span class="keyword">COUNT</span> <span class="keyword">FROM</span> DUAL; </span><br><span class="line"></span><br><span class="line">     COUNT</span><br><span class="line"><span class="comment">----------</span></span><br><span class="line">         3</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip</span><br><span class="line">10.25.18.11</span><br><span class="line">10.5.18.23</span><br><span class="line">10.45.130.234</span><br></pre></td></tr></table></figure>
+
+<p>有时不仅仅是需要取出来数据，还需要加上一些字符串进去。比如说我需要将以上ip插入到一个表中间去。那我是不是需要写许多的insert语句，然后将以上ip带入进去。其实可以用字符串拼接出我们需要的语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="string">'insert into sometable values=('''</span>|| ip ||<span class="string">''');'</span> <span class="keyword">from</span> sometable;</span><br><span class="line"><span class="comment">--查询出来的结果就是</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sometalbe <span class="keyword">values</span>=(<span class="string">'10.25.18.11'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sometalbe <span class="keyword">values</span>=(<span class="string">'10.5.18.23'</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sometalbe <span class="keyword">values</span>=(<span class="string">'10.45.130.234'</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#substr-instr找出所需字段子串"><span class="toc-number">1.</span> <span class="toc-text">substr+instr找出所需字段子串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#substr-char-position-length"><span class="toc-number">1.1.</span> <span class="toc-text">substr(char,position,length)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#instr-string-substring-position-occurrence"><span class="toc-number">1.2.</span> <span class="toc-text">instr(string,substring,position,occurrence)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的加入"><span class="toc-number">2.</span> <span class="toc-text">正则的加入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regexp-like正则模糊匹配"><span class="toc-number">3.</span> <span class="toc-text">regexp_like正则模糊匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regexp-count-正则计算出现次数"><span class="toc-number">4.</span> <span class="toc-text">regexp_count&#96;正则计算出现次数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串拼接"><span class="toc-number">5.</span> <span class="toc-text">字符串拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#"><span class="toc-number">6.</span> <span class="toc-text"></span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&text=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&is_video=false&description=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=oracle-字符串&body=Check out this article: https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&title=oracle-字符串" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/09/17/oracle-%E5%AD%97%E7%AC%A6%E4%B8%B2/&name=oracle-字符串&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

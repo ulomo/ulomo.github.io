@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="zsh配置好了是很好看的    安装 zsh pacman -S zsh pacman -S zsh-completions    切换shell为zsh   查看现在使用的shell chsl -l 设置默认shell为zsh chsh -s &#x2F;bin&#x2F;zsh 切换为zsh zsh    基础配置添加以下到.zshrc里 autoload -Uz compinit promptinit com">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Archlinux zsh安装配置">
+<meta property="og:url" content="https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="zsh配置好了是很好看的    安装 zsh pacman -S zsh pacman -S zsh-completions    切换shell为zsh   查看现在使用的shell chsl -l 设置默认shell为zsh chsh -s &#x2F;bin&#x2F;zsh 切换为zsh zsh    基础配置添加以下到.zshrc里 autoload -Uz compinit promptinit com">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-bb4acf888d68205d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-b03eb34026087324.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-04-25T05:08:31.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.350Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="系统">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9937522-bb4acf888d68205d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Archlinux zsh安装配置</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/25/gnome%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4file-manager/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/25/firefox%E6%97%A0%E6%B3%95%E8%BE%93%E5%85%A5%E4%B8%AD%E6%96%87/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&text=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&is_video=false&description=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Archlinux zsh安装配置&body=Check out this article: https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&name=Archlinux zsh安装配置&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Archlinux zsh安装配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-25T05:08:31.000Z" itemprop="datePublished">2019-04-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/%E7%B3%BB%E7%BB%9F/" rel="tag">系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>zsh配置好了是很好看的</p>
+</blockquote>
+<ul>
+<li><ol>
+<li><p>安装 <a href="https://wiki.archlinux.org/index.php/Zsh#Initial_configuration" target="_blank" rel="noopener">zsh</a></p>
+<pre><code>pacman -S zsh
+pacman -S zsh-completions</code></pre></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>切换shell为zsh</li>
+</ol>
+<ul>
+<li><p>查看现在使用的shell</p>
+<pre><code>chsl -l</code></pre></li>
+<li><p>设置默认shell为zsh</p>
+<pre><code>chsh -s /bin/zsh</code></pre></li>
+<li><p>切换为zsh</p>
+<pre><code>zsh</code></pre></li>
+</ul>
+</li>
+<li><ol start="3">
+<li><p>基础配置<br>添加以下到<code>.zshrc</code>里</p>
+<pre><code>autoload -Uz compinit promptinit
+compinit
+promptinit</code></pre></li>
+</ol>
+<ul>
+<li><p>查看自带的主题</p>
+<pre><code>prompt -l</code></pre><p>然后选择一种</p>
+<pre><code>prompt xxx  #xxx为主题名</code></pre></li>
+</ul>
+</li>
+<li><ol start="4">
+<li><p>我们发现这些主题并不是特别好看，所以安装 <a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">0h-my-zsh</a></p>
+<pre><code>yay -S oh-my-zsh-git</code></pre><ul>
+<li><p>安装这个之后我们就可以选择一种主题了<br>例如：</p>
+<pre><code>ZSH_THEME=&quot;agnoster&quot;</code></pre><ul>
+<li>我们发现并不像下面这么好看</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/9937522-bb4acf888d68205d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><ol start="5">
+<li><p>那是因为没有安装 <a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">powerline</a> 这种字体，所以终端就无法显示这些箭头了。</p>
+<pre><code>git clone https://github.com/powerline/fonts.git --depth=1
+cd fonts
+./install.sh
+
+cd ..
+rm -rf fonts</code></pre><p>重新打开一个终端就可以正常显示了</p>
+</li>
+</ol>
+</li>
+<li><ol start="6">
+<li><p>然后我们还可以找更多喜欢的 <a href="https://github.com/robbyrussell/oh-my-zsh/wiki/External-themes" target="_blank" rel="noopener">主题</a><br>我比较喜欢 <a href="https://github.com/bhilburn/powerlevel9k" target="_blank" rel="noopener">powerlevel9k</a> 这款主题</p>
+<pre><code>sudo pacman -S zsh-theme-powerlevel9k</code></pre><p> 设置为终端主题</p>
+<pre><code>echo &apos;source /usr/share/zsh-theme-powerlevel9k/powerlevel9k.zsh-theme&apos; &gt;&gt; ~/.zshrc</code></pre><p> 这样设置之后已经很好看了，不过有些自带的图标显示不了</p>
+</li>
+</ol>
+</li>
+<li><ol start="7">
+<li><p>下载 <a href="https://github.com/gabrielelana/awesome-terminal-fonts" target="_blank" rel="noopener">Awesome-Terminal Fonts</a></p>
+<pre><code>pacman -Syu awesome-terminal-fonts</code></pre><p>   然后配置一下</p>
+</li>
+</ol>
+<ul>
+<li><p>在<code>.zshrc</code>找到设置 powerlevel9k的位置，将下面的配置放到它上面</p>
+<pre><code>POWERLEVEL9K_MODE=&apos;awesome-fontconfig&apos;</code></pre></li>
+</ul>
+</li>
+<li><ol start="8">
+<li>重新打开一个新的终端，就可以看到漂亮的主题了<br>有关主题更多的配置，就照着这里 <a href="https://github.com/bhilburn/powerlevel9k#installation" target="_blank" rel="noopener">设置</a> 好了</li>
+</ol>
+</li>
+<li><p>9.安装<a href="https://www.archlinux.org/packages/?name=zsh-syntax-highlighting" target="_blank" rel="noopener">zsh-syntax-highlighting</a>　</p>
+<pre><code>　sudo pacman -S zsh-syntax-highlighting</code></pre><p>我的 zsh配置文件 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">export TERM&#x3D;&quot;xterm-256color&quot; </span><br><span class="line">#common setting</span><br><span class="line">autoload -Uz compinit promptinit</span><br><span class="line">compinit</span><br><span class="line">promptinit</span><br><span class="line">zstyle &#39;:completion::complete:*&#39; gain-privileges 1</span><br><span class="line">zstyle &#39;:completion:*&#39; menu select</span><br><span class="line"></span><br><span class="line">#theme setting</span><br><span class="line">POWERLEVEL9K_MODE&#x3D;&#39;awesome-fontconfig&#39;</span><br><span class="line">source &#x2F;usr&#x2F;share&#x2F;zsh-theme-powerlevel9k&#x2F;powerlevel9k.zsh-theme</span><br><span class="line">POWERLEVEL9K_LEFT_PROMPT_ELEMENTS&#x3D;(load dir vcs ssh dir_writable)</span><br><span class="line">POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS&#x3D;(status root_indicator background_jobs history newline)</span><br><span class="line">#use to highlight syntax like fish</span><br><span class="line">source &#x2F;usr&#x2F;share&#x2F;zsh&#x2F;plugins&#x2F;zsh-syntax-highlighting&#x2F;zsh-syntax-highlighting.zsh</span><br><span class="line"></span><br><span class="line">#highlight man </span><br><span class="line">man() &#123;</span><br><span class="line">    LESS_TERMCAP_md&#x3D;$&#39;\e[01;31m&#39; \</span><br><span class="line">    LESS_TERMCAP_me&#x3D;$&#39;\e[0m&#39; \</span><br><span class="line">    LESS_TERMCAP_se&#x3D;$&#39;\e[0m&#39; \</span><br><span class="line">    LESS_TERMCAP_so&#x3D;$&#39;\e[01;44;33m&#39; \</span><br><span class="line">    LESS_TERMCAP_ue&#x3D;$&#39;\e[0m&#39; \</span><br><span class="line">    LESS_TERMCAP_us&#x3D;$&#39;\e[01;32m&#39; \</span><br><span class="line">    command man &quot;$@&quot;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">#user alias</span><br><span class="line">alias l&#x3D;&#39;ls -lh --color&#x3D;auto&#39;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/9937522-b03eb34026087324.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&text=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&is_video=false&description=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Archlinux zsh安装配置&body=Check out this article: https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=Archlinux zsh安装配置" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/Archlinux-zsh%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&name=Archlinux zsh安装配置&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

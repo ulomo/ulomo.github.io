@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="以前是折腾xmond的，最近用gnome用的有点腻，很早之前就听过i3还不错。所以这次就安装了试试，结果发现确实是很好。完全没有想回到gnome的欲望，虽然gnome确实很好。因为i3已经能够满足日常使用的需要了，默认tile模式，可以切换float模式，在float模式中可以切换border，有border后，可以使用鼠标移动窗口、改变大小   默认快键键123456789win+enter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="i3安装配置">
+<meta property="og:url" content="https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="以前是折腾xmond的，最近用gnome用的有点腻，很早之前就听过i3还不错。所以这次就安装了试试，结果发现确实是很好。完全没有想回到gnome的欲望，虽然gnome确实很好。因为i3已经能够满足日常使用的需要了，默认tile模式，可以切换float模式，在float模式中可以切换border，有border后，可以使用鼠标移动窗口、改变大小   默认快键键123456789win+enter">
+<meta property="og:image" content="https://ulomo.github.io/home/narcissus/.config/Typora/typora-user-images/1563457581543.png">
+<meta property="article:published_time" content="2019-07-18T15:04:50.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.360Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ulomo.github.io/home/narcissus/.config/Typora/typora-user-images/1563457581543.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>i3安装配置</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/16/vim-%E8%BF%9B%E9%98%B6/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/13/vim-%E7%A7%BB%E5%8A%A8/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&text=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&is_video=false&description=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=i3安装配置&body=Check out this article: https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&name=i3安装配置&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#默认快键键"><span class="toc-number">1.</span> <span class="toc-text">默认快键键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装软件"><span class="toc-number">2.</span> <span class="toc-text">安装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动"><span class="toc-number">3.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件位置"><span class="toc-number">4.</span> <span class="toc-text">配置文件位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-number">5.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#设置自己喜欢的terminal"><span class="toc-number">5.1.</span> <span class="toc-text">设置自己喜欢的terminal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置背景图片"><span class="toc-number">5.2.</span> <span class="toc-text">设置背景图片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加polybar"><span class="toc-number">5.3.</span> <span class="toc-text">添加polybar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置fcitx输入法"><span class="toc-number">5.4.</span> <span class="toc-text">配置fcitx输入法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置透明效果"><span class="toc-number">5.5.</span> <span class="toc-text">设置透明效果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置rofi快捷键"><span class="toc-number">5.6.</span> <span class="toc-text">设置rofi快捷键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置锁屏"><span class="toc-number">5.7.</span> <span class="toc-text">设置锁屏</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#截屏快捷键"><span class="toc-number">5.8.</span> <span class="toc-text">截屏快捷键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置border颜色"><span class="toc-number">5.9.</span> <span class="toc-text">设置border颜色</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他设置"><span class="toc-number">5.10.</span> <span class="toc-text">其他设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#技巧-配置的隐藏窗口功能"><span class="toc-number">5.11.</span> <span class="toc-text">技巧-配置的隐藏窗口功能</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        i3安装配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-07-18T15:04:50.000Z" itemprop="datePublished">2019-07-18</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>以前是折腾xmond的，最近用gnome用的有点腻，很早之前就听过i3还不错。所以这次就安装了试试，结果发现确实是很好。完全没有想回到gnome的欲望，虽然gnome确实很好。因为i3已经能够满足日常使用的需要了，默认tile模式，可以切换float模式，在float模式中可以切换border，有border后，可以使用鼠标移动窗口、改变大小</p>
+</blockquote>
+<p><img src="/home/narcissus/.config/Typora/typora-user-images/1563457581543.png" alt="1563457581543"></p>
+<h3 id="默认快键键"><a href="#默认快键键" class="headerlink" title="默认快键键"></a>默认快键键</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">win+enter    #打开terminal</span><br><span class="line">win+k/;         #左右切换窗口</span><br><span class="line">win+k/l         #上下切换窗口</span><br><span class="line">win+v/h        #切换水平、垂直打开新窗口</span><br><span class="line">win+shift+q  #关闭窗口</span><br><span class="line">win+shift+r   #重新加载配置文件</span><br><span class="line">win+shift+spacebar  #切换tile、float模式</span><br><span class="line">win+shift+j/;    #左右调整窗口大小</span><br><span class="line">win+shift+k/l    #上下调整窗口大小</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">安装i3</span></span><br><span class="line">pacman -S i3-wm</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">状态栏：没有安装与i3搭配使用的i3status，而是安装了polybar</span></span><br><span class="line">pacman -S polybar</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装polybar图标需要的字体库</span></span><br><span class="line">pacman -S ttf-font-awesome</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">软件搜索：没有安装与它搭配的dmenu，而是安装了rofi</span></span><br><span class="line">pacman -S rofi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装图标字体库，安装之后polybar才有图标</span></span><br><span class="line">pacman -S siji-git</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">（可选）字体库</span></span><br><span class="line">sudo pacman -S gucharmap	</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装锁屏软件</span></span><br><span class="line">pacman -S betterlockscreen</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装设置壁纸所需软件</span></span><br><span class="line">pacman -S feh</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">透明效果需要的软件</span></span><br><span class="line">pacman -S compton</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://fontawesome.com/cheatsheet?from=io" target="_blank" rel="noopener">图标字体库</a></p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>在<code>.xinitrc</code> 中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec i3</span><br></pre></td></tr></table></figure>
+
+<p>然后可以使用<code>startx</code>来启动i3</p>
+<h3 id="配置文件位置"><a href="#配置文件位置" class="headerlink" title="配置文件位置"></a>配置文件位置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> i3</span></span><br><span class="line">~/.config/i3/config</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> polybar</span></span><br><span class="line">~/.config/polybar/config</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><h4 id="设置自己喜欢的terminal"><a href="#设置自己喜欢的terminal" class="headerlink" title="设置自己喜欢的terminal"></a>设置自己喜欢的terminal</h4><p>在i3的配置文件中修改</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bindsym $mod+Return exec mate-terminal</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="设置背景图片"><a href="#设置背景图片" class="headerlink" title="设置背景图片"></a>设置背景图片</h4><p>在i3的配置文件中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec_always --no-startup-id feh --bg-scale "/home/narcissus/Pictures/Wallpapers/beautiful.jpg"</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="添加polybar"><a href="#添加polybar" class="headerlink" title="添加polybar"></a>添加polybar</h4><p>在<code>~/.config/polybar/</code>下新建<code>launch.sh</code>的启动文件，并添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Terminate already running bar instances</span></span><br><span class="line">killall -q polybar</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Wait until the processes have been shut down</span></span><br><span class="line">while pgrep -u $UID -x polybar &gt;/dev/null; do sleep 1; done</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Launch bar1 and bar2</span></span><br><span class="line"><span class="meta">#</span><span class="bash">polybar bar1 &amp;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">polybar bar2 &amp;</span></span><br><span class="line">polybar mybar &amp;</span><br><span class="line"></span><br><span class="line">echo "Bars launched..."</span><br></pre></td></tr></table></figure>
+
+<p>在i3的配置文件中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec_always --no-startup-id /home/narcissus/.config/polybar/launch.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置fcitx输入法"><a href="#配置fcitx输入法" class="headerlink" title="配置fcitx输入法"></a>配置fcitx输入法</h4><p>在i3的配置文件中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec_always --no-startup-id fcitx</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="设置透明效果"><a href="#设置透明效果" class="headerlink" title="设置透明效果"></a>设置透明效果</h4><p>在i3的配置文件中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec compton -b</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="设置rofi快捷键"><a href="#设置rofi快捷键" class="headerlink" title="设置rofi快捷键"></a>设置rofi快捷键</h4><p>在i3的配置文件中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bindsym $mod+d exec rofi -show drun -theme mymonokai</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="设置锁屏"><a href="#设置锁屏" class="headerlink" title="设置锁屏"></a>设置锁屏</h4><p>在i3的配置文件中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> desktop background with custom effect</span></span><br><span class="line">exec --no-startup-id betterlockscreen -w dim </span><br><span class="line"><span class="meta">#</span><span class="bash"> Alternative (<span class="built_in">set</span> last used background)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">exec</span> --no-startup-id <span class="built_in">source</span> ~/.fehbg</span></span><br><span class="line">233 bindsym $mod+shift+x exec betterlockscreen -u ~/Pictures/backgrounds/macaw-poly.jpg -l -b 1 dim</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="截屏快捷键"><a href="#截屏快捷键" class="headerlink" title="截屏快捷键"></a>截屏快捷键</h4><p>在i3的配置文件中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bindsym $mod+p exec flameshot gui</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="设置border颜色"><a href="#设置border颜色" class="headerlink" title="设置border颜色"></a>设置border颜色</h4><p>在i3的配置文件中添加</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> class         border  backgr.text    indicator child_border</span></span><br><span class="line">client.focused #555555 #555555 #ffffff #2e9ef4</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="其他设置"><a href="#其他设置" class="headerlink" title="其他设置"></a>其他设置</h4><p>直接贴配置文件</p>
+<p>i3/config：将文件重命名为<code>config</code></p>
+<p>链接: <a href="https://pan.baidu.com/s/1uiryqNvPTLfL06K0fHIm4g" target="_blank" rel="noopener">https://pan.baidu.com/s/1uiryqNvPTLfL06K0fHIm4g</a> 提取码: pys3 </p>
+<p>polybar/config：将文件重命名为`config</p>
+<p>链接: <a href="https://pan.baidu.com/s/1cbGubkkyJWJfjX-FIi5t9A" target="_blank" rel="noopener">https://pan.baidu.com/s/1cbGubkkyJWJfjX-FIi5t9A</a> 提取码: q2ph </p>
+<h4 id="技巧-配置的隐藏窗口功能"><a href="#技巧-配置的隐藏窗口功能" class="headerlink" title="技巧-配置的隐藏窗口功能"></a>技巧-配置的隐藏窗口功能</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">win+o+h	#隐藏窗口</span><br><span class="line">win+o+s	#显示窗口</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#默认快键键"><span class="toc-number">1.</span> <span class="toc-text">默认快键键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装软件"><span class="toc-number">2.</span> <span class="toc-text">安装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动"><span class="toc-number">3.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件位置"><span class="toc-number">4.</span> <span class="toc-text">配置文件位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-number">5.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#设置自己喜欢的terminal"><span class="toc-number">5.1.</span> <span class="toc-text">设置自己喜欢的terminal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置背景图片"><span class="toc-number">5.2.</span> <span class="toc-text">设置背景图片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加polybar"><span class="toc-number">5.3.</span> <span class="toc-text">添加polybar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置fcitx输入法"><span class="toc-number">5.4.</span> <span class="toc-text">配置fcitx输入法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置透明效果"><span class="toc-number">5.5.</span> <span class="toc-text">设置透明效果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置rofi快捷键"><span class="toc-number">5.6.</span> <span class="toc-text">设置rofi快捷键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置锁屏"><span class="toc-number">5.7.</span> <span class="toc-text">设置锁屏</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#截屏快捷键"><span class="toc-number">5.8.</span> <span class="toc-text">截屏快捷键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置border颜色"><span class="toc-number">5.9.</span> <span class="toc-text">设置border颜色</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他设置"><span class="toc-number">5.10.</span> <span class="toc-text">其他设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#技巧-配置的隐藏窗口功能"><span class="toc-number">5.11.</span> <span class="toc-text">技巧-配置的隐藏窗口功能</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&text=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&is_video=false&description=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=i3安装配置&body=Check out this article: https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&title=i3安装配置" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/&name=i3安装配置&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

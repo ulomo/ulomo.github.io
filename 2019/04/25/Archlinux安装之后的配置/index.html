@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="安装软件   1.pacman的使用（以前介绍的不全，现在补上）  pacman -Syu  升级系统pacman -Ss   搜索软件pacman -Si 查看软件详细信息pacman -S   安装软件pacman -Rs  删除软件pacman -Qs 查询已安装软件pacman -Qi 查询已安装软件详细信息这两个查询命令有啥作用呢？可以把已安装的软件导出到一个文件里面去，下次安装系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Archlinux安装之后的配置">
+<meta property="og:url" content="https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="安装软件   1.pacman的使用（以前介绍的不全，现在补上）  pacman -Syu  升级系统pacman -Ss   搜索软件pacman -Si 查看软件详细信息pacman -S   安装软件pacman -Rs  删除软件pacman -Qs 查询已安装软件pacman -Qi 查询已安装软件详细信息这两个查询命令有啥作用呢？可以把已安装的软件导出到一个文件里面去，下次安装系统">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/9937522-a97d887ad9e881fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-43067dea0f28d6f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-04-25T04:55:03.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.350Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="系统">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/9937522-a97d887ad9e881fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Archlinux安装之后的配置</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/25/Archlinux%E5%AE%89%E8%A3%85marktext-%E5%88%9B%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/25/Archlinux%E5%AE%89%E8%A3%85/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&text=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&is_video=false&description=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Archlinux安装之后的配置&body=Check out this article: https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&name=Archlinux安装之后的配置&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Archlinux安装之后的配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-25T04:55:03.000Z" itemprop="datePublished">2019-04-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/%E7%B3%BB%E7%BB%9F/" rel="tag">系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="http://upload-images.jianshu.io/upload_images/9937522-a97d887ad9e881fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<blockquote>
+<p>安装软件</p>
+</blockquote>
+<ul>
+<li><p>1.pacman的使用（以前介绍的不全，现在补上）</p>
+<blockquote>
+<p>pacman -Syu  升级系统<br>pacman -Ss   搜索软件<br>pacman -Si 查看软件详细信息<br>pacman -S   安装软件<br>pacman -Rs  删除软件<br>pacman -Qs 查询已安装软件<br>pacman -Qi 查询已安装软件详细信息<br>这两个查询命令有啥作用呢？可以把已安装的软件导出到一个文件里面去，下次安装系统就知道要安装那么东西了。</p>
+</blockquote>
+<ul>
+<li>a 如果想指定某些软件不更新，该怎么做？<br>例如我不想更新mate-desktop这个软件，那么就修改 <strong>/etc/pacman.conf</strong> 这个文件，ignorepkg后面写上不需要更新的软件名就好了</li>
+<li>b 是不是每次搜索软件的时候终端搜索出来的结果都很难看（都是一个颜色），去掉color的注释就好了</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/9937522-43067dea0f28d6f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li><p>一些必备应用：</p>
+<ul>
+<li>字体：ttf-dejavu  ttf-inconsolata ；</li>
+<li>资源查看：htop；</li>
+<li>终端图片查看：feh (used for x window , set desktop background)；</li>
+<li>编辑器： vim ；</li>
+<li>终端文件管理器：ranger </li>
+<li>终端视频播放器：mplayer</li>
+</ul>
+</li>
+<li><p>2.配置aur来启用更多的软件库 :  找到<a href="https://github.com/archlinuxcn/mirrorlist-repo" target="_blank" rel="noopener">aur源</a>，选择一种</p>
+<pre><code>比如添加163源</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim  &#x2F;etc&#x2F;pacman.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## 网易 (ipv4, http, https)</span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server &#x3D; https:&#x2F;&#x2F;mirrors.163.com&#x2F;archlinux-cn&#x2F;$arch</span><br></pre></td></tr></table></figure>
+<p>然后需要安装archlinuxcn签名</p>
+<pre><code>pacman -S archlinuxcn-keyring</code></pre><p>然后安装一个<a href="https://wiki.archlinux.org/index.php/AUR_helpers#Search_and_download" target="_blank" rel="noopener">aur的包管理器</a><br>比如安装：yay</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S git</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;aur.archlinux.org&#x2F;yay.git</span><br><span class="line">cd yay</span><br><span class="line">makepkg -si</span><br></pre></td></tr></table></figure>
+<p>然后就可以使用yay来安装软件了</p>
+</li>
+<li><p>3.firefox</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pacman -S firefox</span><br><span class="line">pacman -S wqy-microhei  #firefox显示中文</span><br><span class="line">pacman -S flashplugin  #firefox播放视频</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4.安装搜狗输入法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pacman -S fcitx</span><br><span class="line">pacman -S fcitx-configtool</span><br><span class="line">pacman -S fcitx-im</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S fcitx-sogoupinyin</span><br></pre></td></tr></table></figure>
+<p>如果使用的是wayland，那么在<code>/etc/environment</code>中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GTK_IM_MODULE&#x3D;fcitx</span><br><span class="line">QT_IM_MODULE&#x3D;fcitx</span><br><span class="line">XMODIFIERS&#x3D;@im&#x3D;fcitx</span><br></pre></td></tr></table></figure>
+<p>如果使用xorg，则添加到<code>.xinitrc</code></p>
+</li>
+<li><p>5.安装网易云音乐</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S netease-cloud-music</span><br></pre></td></tr></table></figure></li>
+<li><p>6.安装urxvt，以及配置xterm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S rxvt-unicode</span><br></pre></td></tr></table></figure>
+<p>配置：新建.Xresources</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .Xresources</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">URxvt.font: xft:Inconsolata:style&#x3D;bole:pixelsize&#x3D;22</span><br><span class="line">URxvt.letterSpace: +1</span><br><span class="line">URxvt.scrollBar_right: True</span><br><span class="line">URxvt.cursorBlink:True</span><br><span class="line">URxvt.cursorColor:#DCB36A</span><br><span class="line">URxvt.cursorUnderline:False</span><br><span class="line">URxvt.pointerBlankDelay:1</span><br><span class="line">URxvt.saveLines:1000</span><br><span class="line"></span><br><span class="line">URxvt.background:#002B35</span><br><span class="line">URxvt.foreground:#839496</span><br><span class="line"></span><br><span class="line">URxvt.scrollBar:false</span><br><span class="line">URxvt.inheritPixmap: true</span><br><span class="line">URxvt.tintCddolor:white </span><br><span class="line">URxvt.shading:40 </span><br><span class="line"></span><br><span class="line">URxvt.colorBD:#78E3BF</span><br><span class="line">URxvt.colorUL:#D7D2BC</span><br><span class="line">! Colors</span><br><span class="line">URxvt*color0:  #000000</span><br><span class="line">URxvt*color8:  #686868</span><br><span class="line">URxvt*color1:  #B21818</span><br><span class="line">URxvt*color9:  #FF5454</span><br><span class="line">URxvt*color2:  #18B218</span><br><span class="line">URxvt*color10: #7EDD7E</span><br><span class="line">URxvt*color3:  #B26818</span><br><span class="line">URxvt*color11: #FFFF54</span><br><span class="line">URxvt*color4:  #14477b</span><br><span class="line">URxvt*color12: #2578cb</span><br><span class="line">URxvt*color5:  #B218B2</span><br><span class="line">URxvt*color13: #FF54FF</span><br><span class="line">URxvt*color6:  #18B2B2</span><br><span class="line">URxvt*color14: #6ADCDC</span><br><span class="line">URxvt*color7:  #B2B2B2</span><br><span class="line">URxvt*color15: #FFFFFF</span><br><span class="line"></span><br><span class="line">URxvt*iso14755:false</span><br><span class="line">URxvt*iso14755_52:false</span><br><span class="line"></span><br><span class="line">URxvt.urlLauncher:firefox</span><br><span class="line">URxvt.urgentOnBell:True</span><br><span class="line">URxvt.fade:50</span><br><span class="line">URxvt.fadecolor:gray</span><br><span class="line">URxvt.highlightColor:#BDBC6A</span><br><span class="line">URxvt.highlightTextColor:black</span><br></pre></td></tr></table></figure>
+<p>配置xterm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim  .Xresources</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">!XTerm.vt100.faceName:Libration Mono:size&#x3D;14:antialias&#x3D;false</span><br><span class="line">XTerm.vt100.faceName:Inconsolata Mono:size&#x3D;14:antialias&#x3D;false</span><br><span class="line"></span><br><span class="line">XTerm.vt100.foreground: black</span><br><span class="line">XTerm.vt100.background: #DEDEDE</span><br><span class="line">XTerm.vt100.color0: rgb:28&#x2F;28&#x2F;28</span><br><span class="line">XTerm.vt100.color15: rgb:e4&#x2F;e4&#x2F;e4</span><br></pre></td></tr></table></figure>
+<p>让配置生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xrdb .Xresources</span><br></pre></td></tr></table></figure>
+<p>如果使用的是xorg，就需要将这句加入<code>.xinitrc</code> (<code>cp /etc/X11/xinit/xinitrc ~/.xinitrc</code>)<br>如果使用wayland，加入<code>.bash_profile</code></p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&text=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&is_video=false&description=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Archlinux安装之后的配置&body=Check out this article: https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&title=Archlinux安装之后的配置" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/Archlinux%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE/&name=Archlinux安装之后的配置&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

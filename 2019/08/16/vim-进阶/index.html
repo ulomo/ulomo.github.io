@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="有用的命令： 撤销撤销：u 反撤销：ctrl+r  命令计数命令计数（重复执行命令）：num+motion 例如：重复添加五个2 15a2 ESC   退出退出：ZZ 放弃所有操作退出：:q! 放弃所有操作并恢复到开始编辑状态：:e!  跳转跳转：e下个词尾。ge上个词尾 将当前行置于开头：zt 将当前行置于正中间：zz 将当前行置于结尾：zb &#96;&#96;在最近的两次跳转中切换 ctrl+o可多次回跳o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim-进阶">
+<meta property="og:url" content="https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="有用的命令： 撤销撤销：u 反撤销：ctrl+r  命令计数命令计数（重复执行命令）：num+motion 例如：重复添加五个2 15a2 ESC   退出退出：ZZ 放弃所有操作退出：:q! 放弃所有操作并恢复到开始编辑状态：:e!  跳转跳转：e下个词尾。ge上个词尾 将当前行置于开头：zt 将当前行置于正中间：zz 将当前行置于结尾：zb &#96;&#96;在最近的两次跳转中切换 ctrl+o可多次回跳o">
+<meta property="article:published_time" content="2019-08-16T13:59:07.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.384Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>vim-进阶</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/16/linux%E4%BD%BF%E7%94%A8ss%E4%BB%A3%E7%90%86/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/18/i3%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&text=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&is_video=false&description=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vim-进阶&body=Check out this article: https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&name=vim-进阶&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#有用的命令："><span class="toc-number">1.</span> <span class="toc-text">有用的命令：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#撤销"><span class="toc-number">1.1.</span> <span class="toc-text">撤销</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命令计数"><span class="toc-number">1.2.</span> <span class="toc-text">命令计数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#退出"><span class="toc-number">1.3.</span> <span class="toc-text">退出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#跳转"><span class="toc-number">1.4.</span> <span class="toc-text">跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#自定义标记"><span class="toc-number">1.4.1.</span> <span class="toc-text">自定义标记</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查找"><span class="toc-number">1.5.</span> <span class="toc-text">查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除"><span class="toc-number">1.6.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#替换"><span class="toc-number">1.7.</span> <span class="toc-text">替换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重复执行"><span class="toc-number">1.8.</span> <span class="toc-text">重复执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#put"><span class="toc-number">1.9.</span> <span class="toc-text">put</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#交换两个字符"><span class="toc-number">1.10.</span> <span class="toc-text">交换两个字符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aw和is"><span class="toc-number">1.11.</span> <span class="toc-text">aw和is</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置底部信息显示区高度"><span class="toc-number">1.12.</span> <span class="toc-text">设置底部信息显示区高度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置背景颜色"><span class="toc-number">1.13.</span> <span class="toc-text">设置背景颜色</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        vim-进阶
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-08-16T13:59:07.000Z" itemprop="datePublished">2019-08-16</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="有用的命令："><a href="#有用的命令：" class="headerlink" title="有用的命令："></a>有用的命令：</h3><hr>
+<h4 id="撤销"><a href="#撤销" class="headerlink" title="撤销"></a>撤销</h4><p>撤销：<code>u</code></p>
+<p>反撤销：<code>ctrl+r</code></p>
+<hr>
+<h4 id="命令计数"><a href="#命令计数" class="headerlink" title="命令计数"></a>命令计数</h4><p>命令计数（重复执行命令）：<code>num+motion</code></p>
+<p>例如：重复添加五个2</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5a2 ESC</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h4><p>退出：<code>ZZ</code></p>
+<p>放弃所有操作退出：<code>:q!</code></p>
+<p>放弃所有操作并恢复到开始编辑状态：<code>:e!</code></p>
+<hr>
+<h4 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h4><p>跳转：<code>e</code>下个词尾。<code>ge</code>上个词尾</p>
+<p>将当前行置于开头：<code>zt</code></p>
+<p>将当前行置于正中间：<code>zz</code></p>
+<p>将当前行置于结尾：<code>zb</code></p>
+<p><strong>``</strong>在最近的两次跳转中切换</p>
+<p><code>ctrl+o</code>可多次回跳older</p>
+<p><code>ctrl+i</code>可多次前跳</p>
+<p><code>:jumps</code>命令会列出关于你曾经跳转过的位置的列表。你最后一个跳<br>转的位置被特别以一个<code>&gt;</code>号标记</p>
+<h5 id="自定义标记"><a href="#自定义标记" class="headerlink" title="自定义标记"></a>自定义标记</h5><p><code>m字母</code>标记当前为字母mark</p>
+<p><strong>`字母</strong>跳转标记处</p>
+<hr>
+<h4 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h4><p><code>/</code>向下搜索  <code>num+n</code>并重复搜索</p>
+<p><code>?</code>向上搜索  <code>num+N</code>并重复搜索</p>
+<p><code>*</code>查找光标下下一次出现的单词 <code>num+*</code>查找光标下num次出现的单词</p>
+<p><code>#</code>查找光标下前一次出现的单词 <code>num+#</code>查找光标前num次出现的单词</p>
+<p>精确查找：<code>\&lt;词\&gt;</code>只会匹配完全包含在括号中的词 <code>\&lt;</code>匹配开头  <code>\&gt;</code>匹配结束</p>
+<hr>
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p><code>d</code>与<code>c</code>一样都是删除，不过<code>c</code>之后进入insert模式</p>
+<p><code>x</code>代表dl(删除当前光标下的字符)<br><code>X</code>代表dh(删除当前光标左边的字符)<br><code>D</code> 代表d$(删除到行尾的内容)<br><code>C</code> 代表c$(修改到行尾的内容)<br><code>s</code> 代表cl(修改一个字符)<br><code>S</code> 代表cc(修改一整行)</p>
+<hr>
+<h4 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h4><p><code>num+r</code>重复替换num次</p>
+<hr>
+<h4 id="重复执行"><a href="#重复执行" class="headerlink" title="重复执行"></a>重复执行</h4><p><code>.</code>点命令可重复上次命令</p>
+<hr>
+<h4 id="put"><a href="#put" class="headerlink" title="put"></a>put</h4><p>当使用了删除后，内容被保存了起来，而<code>p</code>可取出来，<code>num+p</code>可指定取出的次数</p>
+<hr>
+<h4 id="交换两个字符"><a href="#交换两个字符" class="headerlink" title="交换两个字符"></a>交换两个字符</h4><p>在需要交换的字符上按<code>xp</code>即先删除字符到寄存器中再put</p>
+<hr>
+<h4 id="aw和is"><a href="#aw和is" class="headerlink" title="aw和is"></a>aw和is</h4><p><code>aw</code>：a word</p>
+<p><code>is</code>：inner sentence</p>
+<p>例如：</p>
+<p>删除一个单词：<code>daw</code></p>
+<p>删除一行：<code>cis</code></p>
+<hr>
+<h4 id="设置底部信息显示区高度"><a href="#设置底部信息显示区高度" class="headerlink" title="设置底部信息显示区高度"></a>设置底部信息显示区高度</h4><p>例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set cmdheight=3</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="设置背景颜色"><a href="#设置背景颜色" class="headerlink" title="设置背景颜色"></a>设置背景颜色</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:set background=dark</span><br><span class="line">:set background=light</span><br></pre></td></tr></table></figure>
+
+<p>并重设高亮显示</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syntax reset</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">term 黑白终端的显示属性</span><br><span class="line">cterm 彩色终端的显示属性</span><br><span class="line">ctermfg 彩色终端的前景色</span><br><span class="line">ctermbg 彩色终端的背景色</span><br><span class="line">gui GUI的显示属性</span><br><span class="line">guifg GUI的前景色</span><br><span class="line">guibg GUI的背景色</span><br></pre></td></tr></table></figure>
+
+<p>例如：要让注释变为绿色</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:highlight Comment ctermfg=green guifg=green</span><br></pre></td></tr></table></figure>
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#有用的命令："><span class="toc-number">1.</span> <span class="toc-text">有用的命令：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#撤销"><span class="toc-number">1.1.</span> <span class="toc-text">撤销</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命令计数"><span class="toc-number">1.2.</span> <span class="toc-text">命令计数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#退出"><span class="toc-number">1.3.</span> <span class="toc-text">退出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#跳转"><span class="toc-number">1.4.</span> <span class="toc-text">跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#自定义标记"><span class="toc-number">1.4.1.</span> <span class="toc-text">自定义标记</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查找"><span class="toc-number">1.5.</span> <span class="toc-text">查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除"><span class="toc-number">1.6.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#替换"><span class="toc-number">1.7.</span> <span class="toc-text">替换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重复执行"><span class="toc-number">1.8.</span> <span class="toc-text">重复执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#put"><span class="toc-number">1.9.</span> <span class="toc-text">put</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#交换两个字符"><span class="toc-number">1.10.</span> <span class="toc-text">交换两个字符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aw和is"><span class="toc-number">1.11.</span> <span class="toc-text">aw和is</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置底部信息显示区高度"><span class="toc-number">1.12.</span> <span class="toc-text">设置底部信息显示区高度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置背景颜色"><span class="toc-number">1.13.</span> <span class="toc-text">设置背景颜色</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&text=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&is_video=false&description=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vim-进阶&body=Check out this article: https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&title=vim-进阶" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/08/16/vim-%E8%BF%9B%E9%98%B6/&name=vim-进阶&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

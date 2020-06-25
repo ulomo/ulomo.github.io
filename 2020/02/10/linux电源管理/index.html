@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="太过美好的事物，总是让人怀念。也或许只有到了真正失去的那一天才想起了初心，时间和距离真的很容易让人忘记许多，忘记了为之感动的那双眼眸，忘记了曾经想要守护的那个微笑。自私和贪婪逐渐掩盖了这一切，成长的代价真的很大，如果我还会遇见一个美好的人，我一定要时刻提醒自己，不忘初心。  以前没太在意电源的管理，在意的只是如何优化磁盘，今天看了一个视频，才发现原来电源也有这么多需要注意的地方 使用到了一个软件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux电源管理">
+<meta property="og:url" content="https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="太过美好的事物，总是让人怀念。也或许只有到了真正失去的那一天才想起了初心，时间和距离真的很容易让人忘记许多，忘记了为之感动的那双眼眸，忘记了曾经想要守护的那个微笑。自私和贪婪逐渐掩盖了这一切，成长的代价真的很大，如果我还会遇见一个美好的人，我一定要时刻提醒自己，不忘初心。  以前没太在意电源的管理，在意的只是如何优化磁盘，今天看了一个视频，才发现原来电源也有这么多需要注意的地方 使用到了一个软件">
+<meta property="article:published_time" content="2020-02-10T10:12:53.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.364Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="无聊">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>linux电源管理</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/10/redis-%E5%AE%89%E8%A3%85/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/09/docker/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&text=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&is_video=false&description=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux电源管理&body=Check out this article: https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&name=linux电源管理&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#启动"><span class="toc-number">1.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#导出报告"><span class="toc-number">2.</span> <span class="toc-text">导出报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Software-Settings-in-Need-of-Tuning"><span class="toc-number">2.1.</span> <span class="toc-text">Software Settings in Need of Tuning</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启用方式"><span class="toc-number">3.</span> <span class="toc-text">启用方式</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        linux电源管理
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-02-10T10:12:53.000Z" itemprop="datePublished">2020-02-10</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E6%97%A0%E8%81%8A/" rel="tag">无聊</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>太过美好的事物，总是让人怀念。也或许只有到了真正失去的那一天才想起了初心，时间和距离真的很容易让人忘记许多，忘记了为之感动的那双眼眸，忘记了曾经想要守护的那个微笑。自私和贪婪逐渐掩盖了这一切，成长的代价真的很大，如果我还会遇见一个美好的人，我一定要时刻提醒自己，不忘初心。</p>
+</blockquote>
+<p>以前没太在意电源的管理，在意的只是如何优化磁盘，今天看了一个视频，才发现原来电源也有这么多需要注意的地方</p>
+<p>使用到了一个软件叫<code>powertop</code>，是intel提供的，它主要是优化一些设置，在空闲状态下让指定组件进入休眠状态，进一步来降低功耗。</p>
+<h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><p>这个软件需要root权限，命令行启动，便可以查看一些默认设置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo powertop</span><br></pre></td></tr></table></figure>
+
+<p>在tunable页可以看到许多为bad的选项，其中大部分可以优化为good。但是先不要急着修改，因为这样手动修改之后下次开机就不会生效了，所以我们需要导出修改的命令，利用脚本在开机以后去自动修改。</p>
+<h1 id="导出报告"><a href="#导出报告" class="headerlink" title="导出报告"></a>导出报告</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo powertop -r</span><br></pre></td></tr></table></figure>
+
+<p>这样便会在当前目录生成一个html的报告：<code>powertop.html</code>，我们在浏览器中打开它。可以看到已经把优化语句给出来了，如果手动开启了的话，除非下次开机，否则不会给出这些语句的。</p>
+<h2 id="Software-Settings-in-Need-of-Tuning"><a href="#Software-Settings-in-Need-of-Tuning" class="headerlink" title="Software Settings in Need of Tuning"></a>Software Settings in Need of Tuning</h2><table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Script</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VM writeback timeout</td>
+<td>echo ‘1500’ &gt; ‘/proc/sys/vm/dirty_writeback_centisecs’;</td>
+</tr>
+<tr>
+<td>Enable Audio codec power management</td>
+<td>echo ‘1’ &gt; ‘/sys/module/snd_hda_intel/parameters/power_save’;</td>
+</tr>
+<tr>
+<td>NMI watchdog should be turned off</td>
+<td>echo ‘0’ &gt; ‘/proc/sys/kernel/nmi_watchdog’;</td>
+</tr>
+<tr>
+<td>Runtime PM for I2C Adapter i2c-12 (i915 gmbus dpd)</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/i2c/devices/i2c-12/device/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for I2C Adapter i2c-9 (i915 gmbus dpb)</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/i2c/devices/i2c-9/device/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for I2C Adapter i2c-10 (i915 gmbus dpc)</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/i2c/devices/i2c-10/device/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for I2C Adapter i2c-11 (i915 gmbus misc)</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/i2c/devices/i2c-11/device/power/control’;</td>
+</tr>
+<tr>
+<td>Autosuspend for USB device Flash Card Reader/Writer [Generic]</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/usb/devices/1-4/power/control’;</td>
+</tr>
+<tr>
+<td>Autosuspend for USB device USB Receiver [Logitech]</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/usb/devices/1-1/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation SSD 660P Series</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:04:00.0/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation Cannon Point-LP PCI Express Root Port #9</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:1d.0/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation Cannon Point-LP SPI Controller</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:1f.5/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation Cannon Point-LP High Definition Audio Controller</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:1f.3/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation Cannon Point-LP Shared SRAM</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:14.2/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation Cannon Point-LP CNVi [Wireless-AC]</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:14.3/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation Cannon Point-LP LPC Controller</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:1f.0/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation UHD Graphics 620 (Whiskey Lake)</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:02.0/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation Coffee Lake HOST and DRAM Controller</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:00.0/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for disk sda</td>
+<td>echo ‘auto’ &gt; ‘/sys/block/sda/device/power/control’;</td>
+</tr>
+<tr>
+<td>Runtime PM for PCI Device Intel Corporation Cannon Point-LP Thermal Controller</td>
+<td>echo ‘auto’ &gt; ‘/sys/bus/pci/devices/0000:00:12.0/power/control’;</td>
+</tr>
+</tbody></table>
+<p>这里面有一项是不能修改的，便是无线鼠标连得usb设备，否则会自动断电。创建命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.local/bin/mypowertop</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用powertop产生的报告，来优化电源的使用</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">VM writeback timeout  </span></span><br><span class="line">echo '1500' &gt; '/proc/sys/vm/dirty_writeback_centisecs';</span><br><span class="line"><span class="meta">#</span><span class="bash">Enable Audio codec power management  </span></span><br><span class="line">echo '1' &gt; '/sys/module/snd_hda_intel/parameters/power_save';</span><br><span class="line"><span class="meta">#</span><span class="bash">NMI watchdog should be turned off  </span></span><br><span class="line">echo '0' &gt; '/proc/sys/kernel/nmi_watchdog';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> I2C Adapter i2c-12 (i915 gmbus dpd)  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-12/device/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> I2C Adapter i2c-9 (i915 gmbus dpb)  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-9/device/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> I2C Adapter i2c-10 (i915 gmbus dpc)  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-10/device/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> I2C Adapter i2c-11 (i915 gmbus misc)  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/i2c/devices/i2c-11/device/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Autosuspend <span class="keyword">for</span> USB device Flash Card Reader/Writer [Generic]  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/usb/devices/1-4/power/control';</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Autosuspend <span class="keyword">for</span> USB device USB Receiver [Logitech]  这一项不优化，否则鼠标一会不使用就会自动停止对usb供电</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">echo</span> <span class="string">'auto'</span> &gt; <span class="string">'/sys/bus/usb/devices/1-1/power/control'</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation SSD 660P Series  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:04:00.0/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation Cannon Point-LP PCI Express Root Port <span class="comment">#9  </span></span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:1d.0/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation Cannon Point-LP SPI Controller  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:1f.5/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation Cannon Point-LP High Definition Audio Controller  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:1f.3/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation Cannon Point-LP Shared SRAM  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:14.2/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation Cannon Point-LP CNVi [Wireless-AC]  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:14.3/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation Cannon Point-LP LPC Controller  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:1f.0/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation UHD Graphics 620 (Whiskey Lake)  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:02.0/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation Coffee Lake HOST and DRAM Controller  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:00.0/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> disk sda  </span></span><br><span class="line">echo 'auto' &gt; '/sys/block/sda/device/power/control';</span><br><span class="line"><span class="meta">#</span><span class="bash">Runtime PM <span class="keyword">for</span> PCI Device Intel Corporation Cannon Point-LP Thermal Controller  </span></span><br><span class="line">echo 'auto' &gt; '/sys/bus/pci/devices/0000:00:12.0/power/control';</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="启用方式"><a href="#启用方式" class="headerlink" title="启用方式"></a>启用方式</h1><ol>
+<li>可以将命令放到<code>~/.xinitrc</code>中，在打开图形界面时调用</li>
+</ol>
+<p>由于需要使用到root权限，所以需要在将mypowertop这条命令改为不需要密码执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/sudoer</span><br><span class="line">narcissus ALL=(ALL) NOPASSWD: /home/narcissus/.local/bin/mypowertop</span><br></pre></td></tr></table></figure>
+
+<p>将命令加入<code>.xinitrc</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mypowertop &amp;&gt;/dev/null &amp;</span><br></pre></td></tr></table></figure>
+
+<p>​    </p>
+<ol start="2">
+<li>也可以加入systemd，用systemd来开机时作为服务调用</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/systemd/system/powertop.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Powertop tunings</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart=/home/narcissus/.local/bin/mypowertop</span><br><span class="line">RemainAfterExit=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>使用systemd自动调用它</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable powertop</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#启动"><span class="toc-number">1.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#导出报告"><span class="toc-number">2.</span> <span class="toc-text">导出报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Software-Settings-in-Need-of-Tuning"><span class="toc-number">2.1.</span> <span class="toc-text">Software Settings in Need of Tuning</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启用方式"><span class="toc-number">3.</span> <span class="toc-text">启用方式</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&text=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&is_video=false&description=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux电源管理&body=Check out this article: https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&title=linux电源管理" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/10/linux%E7%94%B5%E6%BA%90%E7%AE%A1%E7%90%86/&name=linux电源管理&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

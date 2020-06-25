@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="学习主题曲   linux上一切皆文件什么意思呢？就是说你所有的配置操作，都可以通过修改文件来达到效果，不同于windows那样通过软件设置。修改ip地址、修改主机名称、修改用户、调节屏幕亮度、音频声音大小。。。如你所知，都可以通过修改文件配置内容达到目的  root拥有最高权限linux上很大的一个特色就是可以多用户登录，那么每个用户对应就有不同的权限。root拥有至高无上的权限，也就是说一般">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux基础-认识">
+<meta property="og:url" content="https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="学习主题曲   linux上一切皆文件什么意思呢？就是说你所有的配置操作，都可以通过修改文件来达到效果，不同于windows那样通过软件设置。修改ip地址、修改主机名称、修改用户、调节屏幕亮度、音频声音大小。。。如你所知，都可以通过修改文件配置内容达到目的  root拥有最高权限linux上很大的一个特色就是可以多用户登录，那么每个用户对应就有不同的权限。root拥有至高无上的权限，也就是说一般">
+<meta property="article:published_time" content="2019-04-25T05:31:39.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.360Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="系统">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="archlinux">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>linux基础-认识</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/25/linux%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95%E7%9A%84%E5%AE%89%E8%A3%85/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/25/linux%E4%BF%AE%E6%94%B9%E7%A3%81%E7%9B%98%E5%8D%B7%E6%A0%87/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&text=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&is_video=false&description=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux基础-认识&body=Check out this article: https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&name=linux基础-认识&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        linux基础-认识
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-25T05:31:39.000Z" itemprop="datePublished">2019-04-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/archlinux/" rel="tag">archlinux</a>, <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/%E7%B3%BB%E7%BB%9F/" rel="tag">系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p><a href="http://music.163.com/song?id=554191055&userid=1388867694" target="_blank" rel="noopener">学习主题曲</a></p>
+</blockquote>
+<ol>
+<li><p>linux上一切皆文件<br>什么意思呢？就是说你所有的配置操作，都可以通过修改文件来达到效果，不同于windows那样通过软件设置。修改ip地址、修改主机名称、修改用户、调节屏幕亮度、音频声音大小。。。如你所知，都可以通过修改文件配置内容达到目的</p>
+</li>
+<li><p>root拥有最高权限<br>linux上很大的一个特色就是可以多用户登录，那么每个用户对应就有不同的权限。root拥有至高无上的权限，也就是说一般不用root用户登录，因为你的一个不小心就可能造成无法挽回的错误（比如说把系统删掉）。那么普通用户没有权限怎么操作呢？我们是可以的，既可以临时使用root权限 <code>sudo 命令</code> ，也可以切换到root用户去 <code>su</code></p>
+</li>
+<li><p>home（家）是最终归宿<br>无论你用何种身份登录终端，你一定会先到达一个称为家的地方。<code>pwd</code>查看一下，<code>/home/user</code>这个目录就是家，或者<code>~</code>也称为家。无论你进入了那个目录，<code>cd</code>会带你回到家的地方。家目录已经为我们分好了许多目录，我们可以将日常操作的文件放入对应的地方。比如说Picture里面就放壁纸图片什么的</p>
+</li>
+<li><p>熟悉linux命令<br>怎么熟悉呢？你一定会想到记命令，没错，但是不全对。命令记忆是有方法的，比如说<code>cd</code>这个命令，改变所在位置对吧，英文为<code>change directory</code>,是不是很好记了，首拼就是<code>cd</code>。<code>pwd</code>显示当前所在位置,<code>print working directory</code>的首拼。<code>sudo</code>临时使用root权限，<code>super user do</code>的首拼。<code>su</code>切换root用户，<code>super user</code>的首拼。</p>
+</li>
+<li><p>善于使用帮助命令<br>那么多的命令，已经很难记了，如果再加上参数怎么办？参数其实不需要怎么记，在你使用的时候查看一下帮助文档就好了，<code>命令 --help</code>就是显示简单的使用帮助，一般用这个就够了，如果你需要更详细的解释，就用<code>man 命令</code>吧</p>
+</li>
+</ol>
+<hr>
+<p>  好了，基础就这么多了，了解了这些，相信学起来就如鱼得水了吧</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&text=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&is_video=false&description=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=linux基础-认识&body=Check out this article: https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&title=linux基础-认识" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/linux%E5%9F%BA%E7%A1%80-%E8%AE%A4%E8%AF%86/&name=linux基础-认识&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

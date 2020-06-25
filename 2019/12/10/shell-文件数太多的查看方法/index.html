@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="花接受凋零，风接受追寻  继昨天搞定那个路径问题后，今天又遇到了一个新的问题。就是需要去某个特定的目录下，去找出一个以某个前缀开头的文件，然后复制一份出来。看着在简单不过的事，但是实际情况是这个目录下的文件多的可怕。稍微小一点的目录有几万个文件吧，大一点的我用ls -l | wc -l花了一分钟没计算出来到底有多少个文件。 所以我想可不可以加快一下查询速度？百度了一下，有解决办法，就是使用ls的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell-文件数太多的查看方法">
+<meta property="og:url" content="https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="花接受凋零，风接受追寻  继昨天搞定那个路径问题后，今天又遇到了一个新的问题。就是需要去某个特定的目录下，去找出一个以某个前缀开头的文件，然后复制一份出来。看着在简单不过的事，但是实际情况是这个目录下的文件多的可怕。稍微小一点的目录有几万个文件吧，大一点的我用ls -l | wc -l花了一分钟没计算出来到底有多少个文件。 所以我想可不可以加快一下查询速度？百度了一下，有解决办法，就是使用ls的">
+<meta property="article:published_time" content="2019-12-10T14:27:48.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.377Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="累噢">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>shell-文件数太多的查看方法</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/12/ssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/09/shell-%E7%9B%AE%E5%BD%95%E5%88%A4%E6%96%AD/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&text=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&is_video=false&description=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell-文件数太多的查看方法&body=Check out this article: https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&name=shell-文件数太多的查看方法&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        shell-文件数太多的查看方法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-12-10T14:27:48.000Z" itemprop="datePublished">2019-12-10</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/%E7%B4%AF%E5%99%A2/" rel="tag">累噢</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>花接受凋零，风接受追寻</p>
+</blockquote>
+<p>继昨天搞定那个路径问题后，今天又遇到了一个新的问题。就是需要去某个特定的目录下，去找出一个以某个前缀开头的文件，然后复制一份出来。看着在简单不过的事，但是实际情况是这个目录下的文件多的可怕。稍微小一点的目录有几万个文件吧，大一点的我用<code>ls -l | wc -l</code>花了一分钟没计算出来到底有多少个文件。</p>
+<p>所以我想可不可以加快一下查询速度？百度了一下，有解决办法，就是使用<code>ls</code>的时候，它是排序了的，这样花费了很多时间，所以需要让它不排序，可以加的参数就有<code>-f</code>/<code>-U</code>/<code>--sort=none</code>。然后我试了一下<code>ls -f | wc -l</code>这个命令，在查询含有几万个文件的这种目录中，速度确实得到了极大的提升，只用了2秒就计算出来了。但是那些比较大的目录中，仍然查询不出来。</p>
+<p>我一个同事说可以使用<code>find</code>这个命令，它就不是像<code>ls</code>这样先列出所有文件，而是需要几个它就搜索几个，而我需要的就是这个功能，因为我只需要找到那么一个文件就够了，根本不需要使用<code>ls</code>去把所有的文件列一遍。这有点像正则里面的贪婪匹配一样</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -name 'prefix*' -type f | head -n1</span><br></pre></td></tr></table></figure>
+
+<p>问题得到了解决，但是我觉得我linux用了几年了，<code>ls</code>用的太多，就像windows用户无聊老是右键刷新一样。而忘记了它的工作原理，所有的文件，都是内存中的一个数据块，而我们使用<code>ls</code>的时候，就是在这个数据块中去找出这些文件来然后打印出来，我还加了一个<code>-l</code>的参数，加了这个参数之后，它需要做更多的事了，需要找它的权限，所有者，所属组，计算文件大小等等工作，也难怪它那么慢。但是<code>find</code>这个命令就不一样了，它是从一堆数据块中去找某些数据，找到一个返回一个，并不需要全部找到后才可以。所以这就是为什么<code>find</code>运行起来速度那么快的原因。</p>
+<hr>
+<p>公司聚餐，有点远，花了8块钱的地铁费。本来是不准备去的，但是说不去要罚款，所以还是去了，虽然吃的东西很好，但是我感觉来来回回的特别累。相比于那些丰盛的蛋白质，我更喜欢自己做的宇宙级好吃的面条。如果有下次我不想去了</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&text=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&is_video=false&description=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell-文件数太多的查看方法&body=Check out this article: https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&title=shell-文件数太多的查看方法" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/12/10/shell-%E6%96%87%E4%BB%B6%E6%95%B0%E5%A4%AA%E5%A4%9A%E7%9A%84%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/&name=shell-文件数太多的查看方法&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

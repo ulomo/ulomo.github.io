@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="一些小的知识点tips：在perl中，有一种可以直接在命令行使用的program被成为one-liner，虽然没写perl，但是记一下shell中使用的one-liner吧 123456--- ~ » echo &amp;#123;1..10..2&amp;#125;1 3 5 7 9--- ~ » sum&#x3D;0;for i in &amp;#123;1..100&amp;#125;;do sum&#x3D;$((sum+&#x3D;i));done">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell数组与OneLiner">
+<meta property="og:url" content="https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="一些小的知识点tips：在perl中，有一种可以直接在命令行使用的program被成为one-liner，虽然没写perl，但是记一下shell中使用的one-liner吧 123456--- ~ » echo &amp;#123;1..10..2&amp;#125;1 3 5 7 9--- ~ » sum&#x3D;0;for i in &amp;#123;1..100&amp;#125;;do sum&#x3D;$((sum+&#x3D;i));done">
+<meta property="article:published_time" content="2020-03-28T10:55:00.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.377Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="tips">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>shell数组与OneLiner</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/28/column%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/27/sed/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&text=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&is_video=false&description=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell数组与OneLiner&body=Check out this article: https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&name=shell数组与OneLiner&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一些小的知识点"><span class="toc-number">1.</span> <span class="toc-text">一些小的知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tips："><span class="toc-number">1.1.</span> <span class="toc-text">tips：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hash"><span class="toc-number">1.2.</span> <span class="toc-text">hash</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        shell数组与OneLiner
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-03-28T10:55:00.000Z" itemprop="datePublished">2020-03-28</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/tips/" rel="tag">tips</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="一些小的知识点"><a href="#一些小的知识点" class="headerlink" title="一些小的知识点"></a>一些小的知识点</h1><h2 id="tips："><a href="#tips：" class="headerlink" title="tips："></a>tips：</h2><p>在perl中，有一种可以直接在命令行使用的program被成为one-liner，虽然没写perl，但是记一下shell中使用的one-liner吧</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--- ~ » echo &#123;1..10..2&#125;</span><br><span class="line">1 3 5 7 9</span><br><span class="line">--- ~ » sum=0;for i in &#123;1..100&#125;;do sum=$((sum+=i));done;echo $sum</span><br><span class="line">5050</span><br><span class="line">--- ~ » awk 'BEGIN&#123;sum=0;for(i=1;i&lt;=100;i++)&#123;sum+=i&#125;;print sum&#125;'</span><br><span class="line">5050</span><br></pre></td></tr></table></figure>
+
+<p>通过awk与shell的for循环对比发现，awk的效率比shell高很多！在计算一亿的和的时候，awk用了7s，而shell则是很慢，等了几十秒也没出结果。</p>
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>可以称为hash/map/dict，总之就是一个名字而已，代表的是二维数据。之前写shell的时候很奇怪shell为什么没有hash这种数据结构呢？我了解到的知识就是一维的数组而已，使用起来还是有些不方便。</p>
+<p>认真的说，其实不是没有，而是我没有学过。但是即使没有学过，用已经了解到的知识其实也可以写的，只是，学东西学的不好吧，没理解到hash的真谛。hash二维i数据，是一维数据的扩展，可以理解为一种映射，更深层次就是说数据间存在某种联系。所以用老的知识也是可以写出hash的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">--- ~ » user=xiaoxiao</span><br><span class="line">--- ~ » age=20</span><br><span class="line">--- ~ » score=100</span><br><span class="line">--- ~ » list=($user $age $score)</span><br><span class="line">--- ~ » for i in $&#123;list[@]&#125;;echo $i</span><br><span class="line">xiaoxiao</span><br><span class="line">20</span><br><span class="line">100</span><br><span class="line"></span><br><span class="line">--- ~ » echo $&#123;list[1]&#125;</span><br><span class="line">xiaoxiao</span><br><span class="line">--- ~ » echo $&#123;list[2]&#125;</span><br><span class="line">20</span><br><span class="line">--- ~ » echo $&#123;list[3]&#125;</span><br><span class="line">100</span><br><span class="line"></span><br><span class="line">--- ~ » echo $list</span><br><span class="line">xiaoxiao 20 100</span><br></pre></td></tr></table></figure>
+
+<p>上面这个例子，虽然看上去也并不是hash，因为取数据也只是用到了索引，但是至少存在了引用，建立了联系。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ARRAY=( "cow:moo"</span><br><span class="line">        "dinosaur:roar"</span><br><span class="line">        "bird:chirp"</span><br><span class="line">        "bash:rock" )</span><br><span class="line"></span><br><span class="line">for animal in "$&#123;ARRAY[@]&#125;" ; do</span><br><span class="line">    KEY="$&#123;animal%%:*&#125;"</span><br><span class="line">    VALUE="$&#123;animal##*:&#125;"</span><br><span class="line">    printf "%s likes to %s.\n" "$KEY" "$VALUE"</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">cow likes to moo.</span><br><span class="line">dinosaur likes to roar.</span><br><span class="line">bird likes to chirp.</span><br><span class="line">bash likes to rock.</span><br></pre></td></tr></table></figure>
+
+<p>上面这个例子，是别人写的，用简单的字符串也建立起了数据间的联系。</p>
+<p>下面要写shell中专门的hash了，在bash中使用。zsh中有些不同（获取key时报错）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> create associate array</span></span><br><span class="line">declare -A user </span><br><span class="line">user=([name]=xiaoxiao [age]=20 [score]=100) </span><br><span class="line"><span class="meta">#</span><span class="bash"> simplify</span></span><br><span class="line">declare -A user=([name]=xiaoxiao [age]=20 [score]=100) </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> add value</span></span><br><span class="line">user[like]=apple</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> get all keys</span></span><br><span class="line">[narcissus@archlinux ~]$ echo $&#123;!user[@]&#125;</span><br><span class="line">score age like name</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> get all values</span></span><br><span class="line">[narcissus@archlinux ~]$ echo $&#123;user[@]&#125;</span><br><span class="line">100 20 apple xiaoxiao</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> get specified value</span></span><br><span class="line">[narcissus@archlinux ~]$ echo $&#123;user[name]&#125;</span><br><span class="line">xiaoxiao</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> get length</span></span><br><span class="line">[narcissus@archlinux ~]$ echo $&#123;#user[@]&#125;</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+
+<p>declare还具有大小写转换的功能</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--- ~ » declare -u name=`whoami`</span><br><span class="line">--- ~ » echo $name</span><br><span class="line">NARCISSUS</span><br><span class="line">--- ~ » declare -l name</span><br><span class="line">--- ~ » echo $name</span><br><span class="line">narcissus</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>下面是日常的吐槽：加了几个群，看见群里的小伙伴说话都特别搞笑，什么一个星期学完python啊，就好像看到了我自己一样，我说我会六种语言，c，python，java，shell，perl，haskell。其实这都是假的，只不过我学过而已，而且都只是会点皮毛，而且c语言那还是大二的选修课，现在连个helloworld都不会写，java更是写都不想写，haskell嘛，学都没学懂。其它的勉强会用而已。就连我写的最多的shell，我发现连个hash都不会。所以很多时候，我们还是太轻浮了，学习不应该以这种态度的。就好比是这样一个变量的简单定义，可能有的人看一眼就说会了，不就是赋值吗，其实在理解的多一点还涉及到内存的分配，再多理解一点呢，可能就会通过一维数组去建立二维数据，如果了解的多一点，我们会发现就是这么简单的一个概念，却是perl玩的出神入化的核心。所以知识呢，永远没有尽头，不同的人有不同的理解程度，不要轻浮的觉得自己会多少东西了。当然了知识的广度也是一个很重要的方面，比如说一个paste命令解决了困扰好久的问题。</p>
+<p>为什么会有这么多无聊的想法呢，还不是一个人闲的，其实我只是想说linux我不能说我懂多少，因为一个awk的man手册我都没有完整的看一遍，哪有资格说懂linux了呢？</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一些小的知识点"><span class="toc-number">1.</span> <span class="toc-text">一些小的知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tips："><span class="toc-number">1.1.</span> <span class="toc-text">tips：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hash"><span class="toc-number">1.2.</span> <span class="toc-text">hash</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&text=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&is_video=false&description=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=shell数组与OneLiner&body=Check out this article: https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&title=shell数组与OneLiner" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/03/28/shell%E6%95%B0%E7%BB%84%E4%B8%8EOneLiner/&name=shell数组与OneLiner&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

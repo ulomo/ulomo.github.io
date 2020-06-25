@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="以下所有默认均指的是树莓派上安装的redis3.2.6，并不是通用的  安全securityredis默认没有设置密码，如果想要设置密码有两种方式  在配置文件中添加requirepass some_password  在客户端添加密码 123config get requirepass	# 查看是否有密码config set requirepass 123456	# 设置密码，设置之后如果不输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis-配置">
+<meta property="og:url" content="https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="以下所有默认均指的是树莓派上安装的redis3.2.6，并不是通用的  安全securityredis默认没有设置密码，如果想要设置密码有两种方式  在配置文件中添加requirepass some_password  在客户端添加密码 123config get requirepass	# 查看是否有密码config set requirepass 123456	# 设置密码，设置之后如果不输">
+<meta property="article:published_time" content="2020-02-12T12:27:40.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.370Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>redis-配置</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/12/redis-%E4%BA%8B%E5%8A%A1/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/12/redis-%E6%8C%81%E4%B9%85%E5%8C%96/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&text=redis-配置" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&is_video=false&description=redis-配置" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis-配置&body=Check out this article: https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&name=redis-配置&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安全security"><span class="toc-number">1.</span> <span class="toc-text">安全security</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#限制limits"><span class="toc-number">2.</span> <span class="toc-text">限制limits</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#守护进程daemon"><span class="toc-number">3.</span> <span class="toc-text">守护进程daemon</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#端口port"><span class="toc-number">4.</span> <span class="toc-text">端口port</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#超时设置timeout"><span class="toc-number">5.</span> <span class="toc-text">超时设置timeout</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志级别"><span class="toc-number">6.</span> <span class="toc-text">日志级别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志位置"><span class="toc-number">7.</span> <span class="toc-text">日志位置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#绑定主机bind"><span class="toc-number">8.</span> <span class="toc-text">绑定主机bind</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库存放位置"><span class="toc-number">9.</span> <span class="toc-text">数据库存放位置</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        redis-配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-02-12T12:27:40.000Z" itemprop="datePublished">2020-02-12</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>以下所有默认均指的是树莓派上安装的redis3.2.6，并不是通用的</p>
+</blockquote>
+<h1 id="安全security"><a href="#安全security" class="headerlink" title="安全security"></a>安全security</h1><p>redis默认没有设置密码，如果想要设置密码有两种方式</p>
+<ol>
+<li><p>在配置文件中添加<code>requirepass some_password</code></p>
+</li>
+<li><p>在客户端添加密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">config get requirepass	# 查看是否有密码</span><br><span class="line">config set requirepass 123456	# 设置密码，设置之后如果不输入密码就无法操作了</span><br><span class="line">ping	# 测试是否连接上</span><br></pre></td></tr></table></figure>
+
+<p>添加密码后，即刻就失去了redis的操作权限，无法使用命令，输入密码的方式有两种</p>
+<ul>
+<li><p>直接在客户端输入<code>auth some_password</code>即可</p>
+</li>
+<li><p>退出客户端，在连接时输入密码，当然这种方式不推荐</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker exec -it redis redis-cli -a 123456</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="限制limits"><a href="#限制limits" class="headerlink" title="限制limits"></a>限制limits</h1><ol>
+<li><p>最大连接数：<code>maxclients</code>默认为10000</p>
+</li>
+<li><p>最大内存使用量：<code>maxmemory</code></p>
+</li>
+<li><p>最大内存使用量策略：<code>maxmemory-policy</code>默认的为永不过期，是不可能用于实际生产中的，因为数据不会自动移出，只可能越来越多，最后内存溢出报错。正确的做法是将不常使用的数据从内存中移除。如果将来有一天内存想硬盘一样便宜了，或者硬盘的速度赶上内存了，那么这个设置便失去了意义，甚至redis也会失去意义。</p>
+<p>推荐使用的策略：</p>
+<ul>
+<li><code>volatile-lru</code>：使用lru算法移除设置了过期时间的数据。lru：less recent use</li>
+<li><code>allkeys-lru</code>：使用lru算法移除最近最少使用的数据。</li>
+</ul>
+</li>
+<li><p>最大采样：<code>maxmemory-samples</code>默认为5，比较精确的采样不需要修改</p>
+</li>
+</ol>
+<h1 id="守护进程daemon"><a href="#守护进程daemon" class="headerlink" title="守护进程daemon"></a>守护进程daemon</h1><p>设置为守护进程启动：<code>daemonize yes</code></p>
+<h1 id="端口port"><a href="#端口port" class="headerlink" title="端口port"></a>端口port</h1><p>默认为6379：<code>port 6379</code></p>
+<h1 id="超时设置timeout"><a href="#超时设置timeout" class="headerlink" title="超时设置timeout"></a>超时设置timeout</h1><p>默认永不超时：<code>timeout 0</code></p>
+<h1 id="日志级别"><a href="#日志级别" class="headerlink" title="日志级别"></a>日志级别</h1><p>默认为notice：<code>loglevel notice</code></p>
+<h1 id="日志位置"><a href="#日志位置" class="headerlink" title="日志位置"></a>日志位置</h1><p>默认为：<code>logfile /var/log/redis/redis-server.log</code></p>
+<h1 id="绑定主机bind"><a href="#绑定主机bind" class="headerlink" title="绑定主机bind"></a>绑定主机bind</h1><p>默认为本机：<code>bind 127.0.0.1</code>，如果需要远程连接，需要注释掉</p>
+<h1 id="数据库存放位置"><a href="#数据库存放位置" class="headerlink" title="数据库存放位置"></a>数据库存放位置</h1><p>默认为：<code>dir /var/lib/redis</code>，需要指定一个目录而不是文件</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安全security"><span class="toc-number">1.</span> <span class="toc-text">安全security</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#限制limits"><span class="toc-number">2.</span> <span class="toc-text">限制limits</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#守护进程daemon"><span class="toc-number">3.</span> <span class="toc-text">守护进程daemon</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#端口port"><span class="toc-number">4.</span> <span class="toc-text">端口port</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#超时设置timeout"><span class="toc-number">5.</span> <span class="toc-text">超时设置timeout</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志级别"><span class="toc-number">6.</span> <span class="toc-text">日志级别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志位置"><span class="toc-number">7.</span> <span class="toc-text">日志位置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#绑定主机bind"><span class="toc-number">8.</span> <span class="toc-text">绑定主机bind</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库存放位置"><span class="toc-number">9.</span> <span class="toc-text">数据库存放位置</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&text=redis-配置" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&is_video=false&description=redis-配置" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis-配置&body=Check out this article: https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&title=redis-配置" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/02/12/redis-%E9%85%8D%E7%BD%AE/&name=redis-配置&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

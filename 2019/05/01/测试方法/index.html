@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="测试用例测试方法：判定表，因果图，等价类，边界值    边界值测试：   一种黑盒测试方法，是对等价类分析方法的一种补充,由长期的测试工作经验得知，大量的错误是发生在输入或输出的边界上。因此针对各种边界情况设计测试用例，可以查出更多的错误。 边界条件测试是环绕边界值的测试。通常意味着测试软件各功能是否能正确处理最大值，最小值或者所设计软件能够处理的最长的字符串等等。 12等价类划分法将程序所有可能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试方法">
+<meta property="og:url" content="https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="测试用例测试方法：判定表，因果图，等价类，边界值    边界值测试：   一种黑盒测试方法，是对等价类分析方法的一种补充,由长期的测试工作经验得知，大量的错误是发生在输入或输出的边界上。因此针对各种边界情况设计测试用例，可以查出更多的错误。 边界条件测试是环绕边界值的测试。通常意味着测试软件各功能是否能正确处理最大值，最小值或者所设计软件能够处理的最长的字符串等等。 12等价类划分法将程序所有可能">
+<meta property="article:published_time" content="2019-05-01T17:49:25.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.394Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>测试方法</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/01/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/01/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&text=测试方法" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&is_video=false&description=测试方法" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试方法&body=Check out this article: https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&name=测试方法&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        测试方法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-01T17:49:25.000Z" itemprop="datePublished">2019-05-01</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><strong><em>测试用例测试方法：判定表，因果图，等价类，边界值</em></strong></p>
+<hr>
+<blockquote>
+<ol>
+<li>边界值测试：</li>
+</ol>
+</blockquote>
+<p>一种<a href="https://baike.baidu.com/item/%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95" target="_blank" rel="noopener">黑盒测试</a>方法，是对等价类分析方法的一种补充,由长期的测试工作经验得知，大量的错误是发生在输入或输出的边界上。因此针对各种边界情况设计<a href="https://baike.baidu.com/item/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B" target="_blank" rel="noopener">测试用例</a>，可以查出更多的错误。</p>
+<p>边界条件测试是环绕边界值的测试。通常意味着测试软件各功能是否能正确处理最大值，最小值或者所设计软件能够处理的最长的字符串等等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">等价类划分法将程序所有可能的输入数据（有效的和无效的）划分成若干个等价类。然后从每个部分中选取具有代表性的数据当做测试用例进行合理的分类，测试用例由有效等价类和无效等价类的代表组成，从而保证测试用例具有完整性和代表性。</span><br><span class="line">有效和无效的输入（以某个注册的输入框为例）</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ol start="2">
+<li>等价划分测试</li>
+</ol>
+</blockquote>
+<p>等价划分测试是根据等价类设计<a href="https://baike.baidu.com/item/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B" target="_blank" rel="noopener">测试用例</a>的一种技术。是<a href="https://baike.baidu.com/item/%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95" target="_blank" rel="noopener">黑盒测试</a>的典型方法之一，通过把被<a href="https://baike.baidu.com/item/%E6%B5%8B%E8%AF%95%E7%A8%8B%E5%BA%8F" target="_blank" rel="noopener">测试程序</a>所有可能的输入数据域划分成若干部分。从每一部分中选取少数有代表性的数据作为测试用例，可有效减少测试次数，极大提高软件测试效率，缩短软件开发周期．等价类划分测试的目的就是为了在有限的测试资源的情况下，用少量有代表性的数据得到比较好的测试效果。有效等价类和<a href="https://baike.baidu.com/item/%E6%97%A0%E6%95%88%E7%AD%89%E4%BB%B7%E7%B1%BB" target="_blank" rel="noopener">无效等价类</a>。有效等价类中的数据代表的是一组符合需求文档的正确的有意义数据。无效等价类则正相反。<br><code>组合方法：控制变量法</code><br><code>有效等价类（合法输入）------------&gt;预期结果</code><br><code>无效等价类（不合法输入）----------&gt;预期结果</code></p>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>有效等价类</th>
+<th>无效等价类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>1.6-18个字符</td>
+<td>4.5个字符</td>
+</tr>
+<tr>
+<td></td>
+<td>2.字母开头</td>
+<td>5.19个字符</td>
+</tr>
+<tr>
+<td></td>
+<td>3.字母、数字、下划线</td>
+<td>6.非字母开头</td>
+</tr>
+<tr>
+<td></td>
+<td>9.邮箱地址不存在</td>
+<td>7.非字母、数字、下划线</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>8.邮箱地址已经存在</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>输出</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>邮箱地址可注册</td>
+<td>1，2，3，9</td>
+<td></td>
+</tr>
+<tr>
+<td>长度为6-18个字符</td>
+<td>4，2，3</td>
+<td>5，2，3</td>
+</tr>
+<tr>
+<td>邮箱地址为字母开头</td>
+<td>6，1，3</td>
+<td></td>
+</tr>
+<tr>
+<td>邮箱地址为字母、数字、下划线</td>
+<td>1，2，7</td>
+<td></td>
+</tr>
+<tr>
+<td>邮箱地址已注册</td>
+<td>1，2，3，8</td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<ol start="3">
+<li>判定表</li>
+</ol>
+</blockquote>
+<p>判定表的英文是decision table，是指一个表格，用于显示条件和条件导致动作的集合。</p>
+<p>定义：<a href="https://baike.baidu.com/item/%E5%88%A4%E5%AE%9A%E8%A1%A8" target="_blank" rel="noopener">判定表</a>是分析和表达多逻辑条件下执行不同操作的情况的工具。</p>
+<p>判定表的优点：能够将复杂的问题按照各种可能的情况全部列举出来，简明并避免遗漏。因此，利用判定表能够设计出完整的<a href="https://baike.baidu.com/item/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B" target="_blank" rel="noopener">测试用例</a>集合。</p>
+<p>在一些数据处理问题当中，某些操作的实施依赖于多个逻辑条件的组合，即：针对不同逻辑条件的组合值，分别执行不同的操作。判定表很适合于处理这类问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【判定表的合并规则：</span><br><span class="line">1、以相同动作项出发；</span><br><span class="line">2、相同的条件项直接合并；</span><br><span class="line">3、相反的条件忽略（注意：此处为一般情况，需结合业务再次明确其必要性，否则不予合并】</span><br><span class="line">条件和动作相反都是必测的，如全部输入和全部不输入</span><br><span class="line">注意一些单引号、</span><br></pre></td></tr></table></figure>
+<p><code>判定表的合并规则：</code><br><code>1 以相同的动作和项出发</code><br><code>2 相同的条件直接合并</code><br><code>3 相反的条件忽略</code></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>没有输入</td>
+<td>y</td>
+<td>n</td>
+<td>n</td>
+<td>n</td>
+<td>n</td>
+<td>n</td>
+</tr>
+<tr>
+<td></td>
+<td>商品名称</td>
+<td>y</td>
+<td>y</td>
+<td>n</td>
+<td>n</td>
+<td>n</td>
+<td>n</td>
+</tr>
+<tr>
+<td>条件</td>
+<td>商品货号</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>n</td>
+<td>n</td>
+<td>n</td>
+</tr>
+<tr>
+<td></td>
+<td>价格开始</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>n</td>
+<td>n</td>
+</tr>
+<tr>
+<td></td>
+<td>价格结束</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>n</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>所有商品信息</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>查询出有这个输入关键字的商品名称</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>动作</td>
+<td>查询出有这个输入关键字的商品货号</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>起始价</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>最高价</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>没有数据显示</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>没有数据显示</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<ol start="4">
+<li>因果图（鱼骨图）方法：生成判定表</li>
+</ol>
+</blockquote>
+<p>左边列条件，右边列结果<br>一般是针对比较复杂的情况，可能出现的情况和结果，主要是分析出判定表的条件桩和动作桩<br>先鱼骨图，再做判定表</p>
+<hr>
+<p>流程分析法<br>前提是要画好流程图，分清三种流程，分别测一遍。<br>基本流——正常流程<br>备选流——分支，换了个条件<br>异常流——异常操作，强制性终端操作<br>以银行转账为例<br>基本流放入银行卡→输入密码→输入转账卡号→输入转账金额→转账人金额减少，被转账人金额增加<br>备选流：放入卡号、正确输入密码、账号输入错误、没有账号<br>输入转账账号、取消后续操作<br>输入转账账号、输入金额但余额不足<br>异常流：放入卡号→密码输入错误3次，卡被冻结，无法转账</p>
+<hr>
+<p>图片上传测试：<br>1.功能测试<br>（1）选择符合要求的图片，上传——–上传成功；<br>（2）上传成功的图片名称显示———-显示正常（根据需求）<br>（3）查看，下载上传成功的图片——–上传的图片可查看或下载<br>（4）删除上传成功的图片————-可删除<br>（5）替换上传成功的图片————-可替换<br>（6）上传图片是否支持中文名称——–根据需求而定<br>（7）图片路径是否可手动输入———-根据需求而定<br>（8）手动输入正确的图片路径，上传—–上传成功<br>（9）手动输入错误的图片路径，上传—–提示，不能上传</p>
+<p>2.图片大小测试<br>（1）符合格式，总大小稍小于限制大小的图片——上传成功<br>（2）符合图片，总大小等于限制大小的图片——–上传成功<br>（3）符合图片总大小稍大于限制大小的图片——–在上传初提示附件过大<br>（4）小为0kb的txt图片———————–不能上传</p>
+<p>3.图片名称测试<br>（1）图片名称过长。Win2000标准：255个字符（指在英文的字符下），如果是中文不超过127个汉字—–提示过长<br>（2）图片名称达到最大长度（中文，英文或混在一起）上传后名称显示，页面排版———–页面显示正常<br>（3）图片名称中包含特殊字符————-根据需求而定<br>（4）图片名全为中文——————–根据需求而定<br>（5）图片名全为英文——————–根据需求而定<br>（6）图片名为中、英混合—————–根据需求而定</p>
+<p>4.图片类型测试<br>（1）上传正确格式—————–上传成功<br>（2）上传不允许的格式————–提示不能上传<br>（3）上传rar,zip等打包图片（多图片压缩）———根据需求而定</p>
+<p> 5.安全性测试<br>（1）上传可执行图片（exe图片）—————–根据需求而定<br>（2）上传常见的木马图片————————提示不能上传<br>（3）上传时服务器空间已满———————-有提示<br>（4）上传时服务器验证————————–所有的验证都在服务端，不能在客户断验证<br>（5）上传时绕过验证，替换j_sessionid———–验证失败<br>（6）上传时绕过验证，删除j_sessionid———–验证失败</p>
+<p> 6.性能测试<br>（1）上传时网速很慢（限速）—————–当超过一定时间，提示<br>（2）上传过程断网————————–有提示是否上传成功<br>（3）上传过程服务器停止工资——————有提示是否上传成功<br>（4）上传过程服务器的资源利用率—————在正常范围<br>（5）发送多个上传请求<br>（6）对接口进行压力测试<br>（7）响应时间、吞吐量、并发数记录</p>
+<p>7.接口测试<br>（1）接口参数化：特殊字符、参数类型、参数有、无、null、必选参数、组合参数、边界值<br>（2）接口功能测试：    业务流程———正常场景、异常场景<br>（3）接口性能：响应时间、吞吐量、并发数<br>（4）接口安全：敏感信息加密、必要参数后端验证、接口防恶意修改</p>
+<p>8.界面测试<br>（1）界面美观性、易用性（键盘和鼠标的操作、tab跳转的顺序是否正确）———-显示正常（根据需求）<br>（2）按钮文字是否正确————–正确<br>（3）正确/错误提示的文字是否正确—————正确<br>（4）说明性文字是否正确———————–正确</p>
+<p> 9.其他测试<br>（1）有多个上传框时，上传相同名称的图片—————根据需求而定<br>（2）上传一个正在打开的图片————————-可以上传<br>（3）图片路径是手工输入的是否限制长度—————-限制一定的长度<br>（4）上传过程中是否有取消正在上传图片的功能———–有<br>（5）保存时有没有已经选择好，但没有上传的图片———–提示上传<br>（6）选择好但是未上传的图片是否可以取消选择————可以取消选择</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&text=测试方法" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&is_video=false&description=测试方法" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试方法&body=Check out this article: https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&title=测试方法" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/01/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/&name=测试方法&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

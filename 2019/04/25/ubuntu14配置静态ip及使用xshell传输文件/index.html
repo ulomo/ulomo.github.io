@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="修改配置文件     sudo vim &#x2F;etc&#x2F;network&#x2F;interfaces 添加： auto eth0 iface eth0 inet static address 192.168.0.111  #配置没有被使用的ip地址 netmask 255.255.255.0 gateway 192.168.0.252 #写入网关地址 dns-nameservers 1.1.1.1 #写dns">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu14配置静态ip及使用xshell传输文件">
+<meta property="og:url" content="https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="修改配置文件     sudo vim &#x2F;etc&#x2F;network&#x2F;interfaces 添加： auto eth0 iface eth0 inet static address 192.168.0.111  #配置没有被使用的ip地址 netmask 255.255.255.0 gateway 192.168.0.252 #写入网关地址 dns-nameservers 1.1.1.1 #写dns">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-789d3b410dd9453e.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-04-25T05:38:19.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.380Z">
+<meta property="article:author" content="fsl">
+<meta property="article:tag" content="系统">
+<meta property="article:tag" content="ubuntu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9937522-789d3b410dd9453e.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>ubuntu14配置静态ip及使用xshell传输文件</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/25/U%E7%9B%98%E5%90%AF%E5%8A%A8%E7%9B%98%E7%9A%84%E5%88%B6%E4%BD%9C/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/25/sublime-text3%E9%85%8D%E7%BD%AE%E9%9A%8F%E7%AC%94/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&text=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&is_video=false&description=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ubuntu14配置静态ip及使用xshell传输文件&body=Check out this article: https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&name=ubuntu14配置静态ip及使用xshell传输文件&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ubuntu14配置静态ip及使用xshell传输文件
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-25T05:38:19.000Z" itemprop="datePublished">2019-04-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ubuntu/" rel="tag">ubuntu</a>, <a class="tag-link" href="/tags/%E7%B3%BB%E7%BB%9F/" rel="tag">系统</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ol>
+<li><p>修改配置文件    </p>
+<pre><code>sudo vim /etc/network/interfaces</code></pre><p> 添加：</p>
+<pre><code>auto eth0
+iface eth0 inet static
+address 192.168.0.111  #配置没有被使用的ip地址
+netmask 255.255.255.0
+gateway 192.168.0.252 #写入网关地址
+dns-nameservers 1.1.1.1 #写dns解析地址</code></pre><p> <code>a</code>. 其中dns（域名解析服务）是必须要写的，不然配置不会成功<br> <code>b</code>. 网关地址哪里看？通过命令查询：</p>
+<pre><code>ip route</code></pre><p> <code>c</code>. 怎么知道那些ip地址没有被使用？</p>
+<pre><code>ping 想要使用的ip地址</code></pre><p>   如果没有ping通，那么就可以使用</p>
+<p>   或者使用更高级一点的工具：nmap<br>   首先安装nmap这个软件</p>
+<pre><code>sudo apt-get install nmap</code></pre><p> 然后使用ping的方式扫描局域网内所有已经使用的ip</p>
+<pre><code>nmap -sn 192.168.0.0/24</code></pre></li>
+<li><p>重启网络服务</p>
+<pre><code>/etc/init.d/networking restart</code></pre></li>
+</ol>
+<hr>
+<ol start="3">
+<li><p>将ssh设置为开机启动</p>
+<pre><code>chkconfig --add ssh
+chkconfig ssh on</code></pre></li>
+<li><p>然后使用xshell连接ubuntu<br>安装一个lrzsz的软件，用来在windows与ubuntu间传输文件</p>
+<pre><code>sudo apt-get install lrzsz</code></pre><p> 上传文件：rz(receive zmodem)</p>
+<pre><code>rz </code></pre><p>   下载文件：sz(send zmodem)</p>
+<pre><code>sz 文件名</code></pre></li>
+</ol>
+<hr>
+<p>PS:有没有觉得挺方便的？<br><img src="https://upload-images.jianshu.io/upload_images/9937522-789d3b410dd9453e.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="xshell截图"></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&text=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&is_video=false&description=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ubuntu14配置静态ip及使用xshell传输文件&body=Check out this article: https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&title=ubuntu14配置静态ip及使用xshell传输文件" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/04/25/ubuntu14%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%8F%8A%E4%BD%BF%E7%94%A8xshell%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/&name=ubuntu14配置静态ip及使用xshell传输文件&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
