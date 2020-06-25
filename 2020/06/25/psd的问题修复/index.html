@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="很久很久之前就开始用psd了，因为当时看到psd的介绍，觉得非常有用，因为它可以将浏览器的缓存，临时文件等等加载到内存中，也就是说在使用firefox的时候对磁盘的消耗是极少的。但是最近我才注意到一个问题，就是每次在开机的时候cpu就会有十几秒的时间处于10%左右。 这当然不正常了，所以看了日志 1journalctl  发现每次开机之后就会有一个psd的进程在家目录下寻找crash recove">
+<meta property="og:type" content="article">
+<meta property="og:title" content="psd的问题修复">
+<meta property="og:url" content="https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="很久很久之前就开始用psd了，因为当时看到psd的介绍，觉得非常有用，因为它可以将浏览器的缓存，临时文件等等加载到内存中，也就是说在使用firefox的时候对磁盘的消耗是极少的。但是最近我才注意到一个问题，就是每次在开机的时候cpu就会有十几秒的时间处于10%左右。 这当然不正常了，所以看了日志 1journalctl  发现每次开机之后就会有一个psd的进程在家目录下寻找crash recove">
+<meta property="og:image" content="https://ulomo.github.io/home/narcissus/.config/Typora/typora-user-images/image-20200530195414442.png">
+<meta property="og:image" content="https://ulomo.github.io/home/narcissus/.config/Typora/typora-user-images/image-20200530195645698.png">
+<meta property="article:published_time" content="2020-06-25T05:56:10.000Z">
+<meta property="article:modified_time" content="2020-06-25T05:58:03.571Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ulomo.github.io/home/narcissus/.config/Typora/typora-user-images/image-20200530195414442.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>psd的问题修复</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/06/25/%E7%B3%BB%E7%BB%9Fio%E8%B0%83%E5%BA%A6%E4%BC%98%E5%8C%96/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/06/25/mysql%E4%BC%98%E5%8C%96/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&text=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&is_video=false&description=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=psd的问题修复&body=Check out this article: https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&name=psd的问题修复&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        psd的问题修复
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-06-25T05:56:10.000Z" itemprop="datePublished">2020-06-25</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>很久很久之前就开始用psd了，因为当时看到psd的介绍，觉得非常有用，因为它可以将浏览器的缓存，临时文件等等加载到内存中，也就是说在使用firefox的时候对磁盘的消耗是极少的。但是最近我才注意到一个问题，就是每次在开机的时候cpu就会有十几秒的时间处于10%左右。</p>
+<p>这当然不正常了，所以看了日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl</span><br></pre></td></tr></table></figure>
+
+<p>发现每次开机之后就会有一个psd的进程在家目录下寻找crash recover文件。但是我的Data目录它是没有权限的。而且随着使用我的家目录下的文件太多了，这就是导致了十几秒10%cpu使用率的原因。</p>
+<p>那么可不可以将这个功能关掉，在psd的配置文件中，将备份数据的功能关掉了，但是依旧没有改变。</p>
+<p>最后我差点都要放弃使用psd了，但是最后我还是发现了终极奥义。在archwiki上面说psd只是一个shell脚本，去/usr/bin/psd看了一下，果然是一个shell脚本，这真的有点出乎意料。那么就好解决了。</p>
+<p><img src="/home/narcissus/.config/Typora/typora-user-images/image-20200530195414442.png" alt="image-20200530195414442"></p>
+<p>在脚本中许多这种在家目录下查找的语句，不止一处。显然一个一个去改是有点麻烦的，所以解决掉它查找的路径就好了。不让它在家目录下查找，而是一个我指定的目录，而且需要这个目录下最好是空的。</p>
+<p><img src="/home/narcissus/.config/Typora/typora-user-images/image-20200530195645698.png" alt="image-20200530195645698"></p>
+<p>后面黄颜色框中的路径是补上的，然后在重启，查看日志就没有那个需要查找十几秒的语句一直运行了。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&text=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&is_video=false&description=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=psd的问题修复&body=Check out this article: https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&title=psd的问题修复" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/&name=psd的问题修复&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

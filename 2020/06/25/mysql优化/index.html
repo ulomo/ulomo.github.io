@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="查看存储引擎查看默认的整个数据库引擎 12show engines;show variables like &#39;%storage_engine%&#39;;  默认为InnoDB 可以为每个特定的表指定引擎。查看指定表引擎：  查看建表语句 1show create table table_name;  查看表信息 1show table status from database_name where na">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql优化">
+<meta property="og:url" content="https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="查看存储引擎查看默认的整个数据库引擎 12show engines;show variables like &#39;%storage_engine%&#39;;  默认为InnoDB 可以为每个特定的表指定引擎。查看指定表引擎：  查看建表语句 1show create table table_name;  查看表信息 1show table status from database_name where na">
+<meta property="article:published_time" content="2020-06-25T05:56:09.000Z">
+<meta property="article:modified_time" content="2020-06-25T05:57:40.915Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>mysql优化</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/06/25/psd%E7%9A%84%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/06/25/mysql%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/" target="_blank" rel="noopener"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&text=mysql优化" target="_blank" rel="noopener"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&is_video=false&description=mysql优化" target="_blank" rel="noopener"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=mysql优化&body=Check out this article: https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&name=mysql优化&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看存储引擎"><span class="toc-number">1.</span> <span class="toc-text">查看存储引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指定引擎"><span class="toc-number">2.</span> <span class="toc-text">指定引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql语句解析过程"><span class="toc-number">3.</span> <span class="toc-text">sql语句解析过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql优化基础"><span class="toc-number">4.</span> <span class="toc-text">sql优化基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql优化（索引）"><span class="toc-number">5.</span> <span class="toc-text">sql优化（索引）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引分类-创建-删除"><span class="toc-number">6.</span> <span class="toc-text">索引分类&#x2F;创建&#x2F;删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#建索引的时机"><span class="toc-number">6.1.</span> <span class="toc-text">建索引的时机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过create或者alter创建"><span class="toc-number">6.2.</span> <span class="toc-text">通过create或者alter创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键索引"><span class="toc-number">6.3.</span> <span class="toc-text">主键索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除索引："><span class="toc-number">6.4.</span> <span class="toc-text">删除索引：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看索引"><span class="toc-number">6.5.</span> <span class="toc-text">查看索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql性能分析"><span class="toc-number">7.</span> <span class="toc-text">sql性能分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多表执行顺序"><span class="toc-number">7.1.</span> <span class="toc-text">多表执行顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语句优化"><span class="toc-number">8.</span> <span class="toc-text">语句优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shell终端中文问题"><span class="toc-number">9.</span> <span class="toc-text">shell终端中文问题</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        mysql优化
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-06-25T05:56:09.000Z" itemprop="datePublished">2020-06-25</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="查看存储引擎"><a href="#查看存储引擎" class="headerlink" title="查看存储引擎"></a>查看存储引擎</h2><p>查看默认的整个数据库引擎</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">engines</span>;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%storage_engine%'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>默认为<code>InnoDB</code></p>
+<p>可以为每个特定的表指定引擎。查看指定表引擎：</p>
+<ol>
+<li><p>查看建表语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> table_name;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看表信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span> <span class="keyword">from</span> database_name <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'table_name'</span>\G</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ol>
+<h2 id="指定引擎"><a href="#指定引擎" class="headerlink" title="指定引擎"></a>指定引擎</h2><p>建表时指定引擎</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建数据库</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> practice <span class="keyword">default</span> <span class="built_in">character</span> <span class="keyword">set</span> utf8;</span><br><span class="line"><span class="comment">-- 建表，指定引擎</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> info(</span><br><span class="line">	<span class="keyword">id</span> <span class="built_in">int</span>(<span class="number">4</span>) auto_increment,</span><br><span class="line">	<span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">10</span>),</span><br><span class="line">	age <span class="built_in">int</span>(<span class="number">2</span>),</span><br><span class="line">	score <span class="built_in">int</span>(<span class="number">3</span>),</span><br><span class="line">	primary <span class="keyword">key</span>(<span class="keyword">id</span>)</span><br><span class="line">) <span class="keyword">engine</span>=myisam auto_increment=<span class="number">1</span></span><br><span class="line"><span class="keyword">default</span> <span class="keyword">charset</span>=utf8;</span><br></pre></td></tr></table></figure>
+
+<p>修改引擎</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> info <span class="keyword">engine</span>=<span class="keyword">innodb</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="sql语句解析过程"><a href="#sql语句解析过程" class="headerlink" title="sql语句解析过程"></a>sql语句解析过程</h2><p>链接：<a href="https://www.cnblogs.com/annsshadow/p/5037667.html" target="_blank" rel="noopener">https://www.cnblogs.com/annsshadow/p/5037667.html</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 编写语句</span></span><br><span class="line"><span class="keyword">select</span> distinct...from...join...on...where...group by...having...order by...limit...</span><br><span class="line"><span class="comment">-- 执行过程</span></span><br><span class="line">from...join...on...where...group by...having...select distinct...order by...limit...</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="sql优化基础"><a href="#sql优化基础" class="headerlink" title="sql优化基础"></a>sql优化基础</h2><p>基础的系统设置包含了内存，io调度策略，文件连接数，core file大小</p>
+<p>内存：别用swap空间，因为会更加慢</p>
+<p>io调度：使用mq-deadline</p>
+<p>文件连接数和core file：查看ulimiit -a并修改</p>
+<h2 id="sql优化（索引）"><a href="#sql优化（索引）" class="headerlink" title="sql优化（索引）"></a>sql优化（索引）</h2><p>sql的优化主要是优化索引。索引的数据结构分为：B数，hash数。mysql默认为B数，通过B数这种数据结构（类似二分法），查找数据不需要循环查找，可节省很多时间。</p>
+<p>可以为同一张表的不同字段设置索引，但不是越多越好。索引是一种数据结构，也可以称为表。独立与原表的数据。所以如果需要经常对某些字段进行查询，那么就可以建索引，毕竟索引的数据小很多，查询速度快。</p>
+<p>索引的优缺点/适用场景：</p>
+<ol>
+<li>索引需要占据的存储空间大</li>
+<li>提高查询效率（IO）。但是会降低增、删、改的效率</li>
+<li>如果字段会经常更新，那么更新一次，索引需要重新生成一次，耗费时间</li>
+<li>很少使用的列，不必加索引</li>
+<li>表的数据量少，不必加索引</li>
+</ol>
+<h2 id="索引分类-创建-删除"><a href="#索引分类-创建-删除" class="headerlink" title="索引分类/创建/删除"></a>索引分类/创建/删除</h2><h3 id="建索引的时机"><a href="#建索引的时机" class="headerlink" title="建索引的时机"></a>建索引的时机</h3><p>在数据已经导入表后，再建索引。</p>
+<h3 id="通过create或者alter创建"><a href="#通过create或者alter创建" class="headerlink" title="通过create或者alter创建"></a>通过create或者alter创建</h3><ol>
+<li><p>单值：单列为一个索引，不过一个表可以有多个</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> index_name <span class="keyword">on</span> table_name(column_name);</span><br><span class="line"><span class="comment">-- 举例</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> name_index <span class="keyword">on</span> info(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> info <span class="keyword">add</span> <span class="keyword">index</span> name_index(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>唯一：数据不能重复</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">unique</span> <span class="keyword">index</span> index_name <span class="keyword">on</span> table_name(column_name);</span><br><span class="line"><span class="comment">-- 举例</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">unique</span> <span class="keyword">index</span> name_index <span class="keyword">on</span> info(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> info <span class="keyword">add</span> <span class="keyword">unique</span> <span class="keyword">index</span> name_index(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p>复合：多列构成的索引，但是查找时只要找到就ok，不一定要全部都用上</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> index_name <span class="keyword">on</span> table_name(column1_name,column2_name,...);</span><br><span class="line"><span class="comment">-- 举例</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> name_age_index <span class="keyword">on</span> info(<span class="keyword">name</span>,age);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> info <span class="keyword">add</span> <span class="keyword">index</span> name_age_index(<span class="keyword">name</span>,age);</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h3 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h3><p>如果字段为primary key主键，那么为主键索引。主键索引与唯一索引的区别：主键索引不能为null，唯一索引可以为null</p>
+<p>除了在建表的时候指定，还可以在建完表后</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Employees <span class="keyword">ADD</span> PRIMARY <span class="keyword">KEY</span>(<span class="keyword">ID</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除索引："><a href="#删除索引：" class="headerlink" title="删除索引："></a>删除索引：</h3><ol>
+<li><p>删除表就会删除索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> table_name;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>删除索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">index</span> index_name <span class="keyword">on</span> table_name;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h3 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">index</span> <span class="keyword">from</span> table_name;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="sql性能分析"><a href="#sql性能分析" class="headerlink" title="sql性能分析"></a>sql性能分析</h2><p>最主要的是分析sql执行计划，但是也要注意到mysql的优化器（自带）可能会干扰我们的优化语句</p>
+<p><code>explain</code>可以模拟sql优化器执行sql语句，查看sql性能问题</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> info;</span><br><span class="line">+<span class="comment">------+-------------+-------+--------+---------------+------+---------+------+------+---------------------+</span></span><br><span class="line">| id   | select_type | table | type   | possible_keys | key  | key_len | ref  | rows | Extra               |</span><br><span class="line">+<span class="comment">------+-------------+-------+--------+---------------+------+---------+------+------+---------------------+</span></span><br><span class="line">|    1 | SIMPLE      | info  | system | NULL          | NULL | NULL    | NULL | 0    | Const row not found |</span><br><span class="line">+<span class="comment">------+-------------+-------+--------+---------------+------+---------+------+------+---------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p><code>id</code>：编号</p>
+<ul>
+<li>当id相等时，执行顺序为从上往下</li>
+<li>当id不等时，先执行id大的语句（这种情况为嵌套子查询，里层往外查询）</li>
+</ul>
+<p><code>select_type</code>：查询类型</p>
+<ul>
+<li>primary：主查询</li>
+<li>subquery：子查询</li>
+<li>simple：不包含子查询和联合查询</li>
+<li>derived：派生查询，在查询的时候用到了临时表<ul>
+<li>在from子查询中，只有一张表</li>
+<li>在from子查询中，有table1 union table2，那么table1为derived</li>
+</ul>
+</li>
+<li>union：上面的table2为union</li>
+<li>union result：table1和table2为union查询</li>
+</ul>
+<p><code>table</code>：查询表</p>
+<p><code>type</code>：索引类型</p>
+<ul>
+<li><p>优化等级：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; all</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>达到ref和range就是比较好的sql语句</p>
+</li>
+<li><p>eq_ref：使用primary key或者unique key作为查询条件或者不存在重复值的某列</p>
+</li>
+<li><p>ref：使用索引列查询，不用like匹配，且查询到的相同数据结果为0-n行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> dept_emp <span class="keyword">where</span> dept_no = <span class="string">'d001'</span> <span class="keyword">limit</span> <span class="number">1</span>,<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>range：查询范围的索引列，范围查询中in不一定有效</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> dept_emp <span class="keyword">where</span> emp_no &lt; <span class="number">10108</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>index：查询全部索引的数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> dept_no <span class="keyword">from</span> dept_emp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>all：查询表中的所有数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> dept_emp <span class="keyword">where</span> dept_no <span class="keyword">like</span> <span class="string">'%d001%'</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p><code>possible_keys</code>：预测用到的索引</p>
+<p><code>key</code>： 实际用到的索引</p>
+<p><code>key_len</code>：实际使用的索引的数据类型长度</p>
+<p><code>ref</code>：表之间的引用</p>
+<ul>
+<li><p>const：值引用</p>
+</li>
+<li><p>NULL：某一个表对应字段没有索引</p>
+</li>
+</ul>
+<p><code>rows</code>：通过索引查询到的数据条数</p>
+<p><code>extra</code>：</p>
+<ul>
+<li>using filesort，（where列与order by列不同）性能消耗大，需要额外一次查询。解决方法：创建复合索引</li>
+<li>using temporary：一般在group by中出现，性能消耗大，用到了临时表。解决方法：需要查询什么列就用什么列分组</li>
+<li>using index：性能提升，不读取原文件，从索引表中获取数据，不需要回表查询</li>
+<li>using where：需要回表查询，查询没有索引的数据</li>
+<li>impossible where：where后面的语句不成立</li>
+</ul>
+<h3 id="多表执行顺序"><a href="#多表执行顺序" class="headerlink" title="多表执行顺序"></a>多表执行顺序</h3><p>当有多个表联合查询时，每两个表结合会产生迪卡尔集，那么会自动选择数据量小的表先结合，这样对系统内存消耗的较少。</p>
+<h2 id="语句优化"><a href="#语句优化" class="headerlink" title="语句优化"></a>语句优化</h2><ol>
+<li><p>查询列的顺序与where条件列的顺序一致</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a,b,c <span class="keyword">from</span> some_table <span class="keyword">where</span> a=<span class="number">1</span> <span class="keyword">and</span> b=<span class="number">2</span> <span class="keyword">and</span> c=<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>复合索引不要跨列使用，且需要从第一个索引开始写，否则后面的索引还是需要回表查询的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> a_b_c <span class="keyword">of</span> some_table(a,b,c);</span><br><span class="line"><span class="comment">-- 索引列c跨索引了，为无效索引会回表查询</span></span><br><span class="line"><span class="keyword">select</span> a,b,c <span class="keyword">from</span> some_table <span class="keyword">where</span> a=<span class="number">1</span> <span class="keyword">and</span> c=<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ol>
+<h2 id="shell终端中文问题"><a href="#shell终端中文问题" class="headerlink" title="shell终端中文问题"></a>shell终端中文问题</h2><p>使用mysql客户端在shell中运行时，中文无法显示</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">names</span> utf8;</span><br></pre></td></tr></table></figure>
+
+<p>set names utf8指定了客户端连接服务器的编码规则为utf8，两者之间传输消息字符时采用的也是utf8，相当于设置以下三个变量：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> character_set_client = utf8;     </span><br><span class="line"><span class="keyword">set</span> character_set_results = utf8;    </span><br><span class="line"><span class="keyword">set</span> character_set_connection = utf8;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看存储引擎"><span class="toc-number">1.</span> <span class="toc-text">查看存储引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指定引擎"><span class="toc-number">2.</span> <span class="toc-text">指定引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql语句解析过程"><span class="toc-number">3.</span> <span class="toc-text">sql语句解析过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql优化基础"><span class="toc-number">4.</span> <span class="toc-text">sql优化基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql优化（索引）"><span class="toc-number">5.</span> <span class="toc-text">sql优化（索引）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引分类-创建-删除"><span class="toc-number">6.</span> <span class="toc-text">索引分类&#x2F;创建&#x2F;删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#建索引的时机"><span class="toc-number">6.1.</span> <span class="toc-text">建索引的时机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过create或者alter创建"><span class="toc-number">6.2.</span> <span class="toc-text">通过create或者alter创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键索引"><span class="toc-number">6.3.</span> <span class="toc-text">主键索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除索引："><span class="toc-number">6.4.</span> <span class="toc-text">删除索引：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看索引"><span class="toc-number">6.5.</span> <span class="toc-text">查看索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql性能分析"><span class="toc-number">7.</span> <span class="toc-text">sql性能分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多表执行顺序"><span class="toc-number">7.1.</span> <span class="toc-text">多表执行顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语句优化"><span class="toc-number">8.</span> <span class="toc-text">语句优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shell终端中文问题"><span class="toc-number">9.</span> <span class="toc-text">shell终端中文问题</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/" target="_blank" rel="noopener"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&text=mysql优化" target="_blank" rel="noopener"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&is_video=false&description=mysql优化" target="_blank" rel="noopener"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=mysql优化&body=Check out this article: https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&title=mysql优化" target="_blank" rel="noopener"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2020/06/25/mysql%E4%BC%98%E5%8C%96/&name=mysql优化&description=" target="_blank" rel="noopener"><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
