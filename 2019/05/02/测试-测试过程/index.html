@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="此物…..此物…….此物最相思！  测试过程组织机构：公司人员结构外包：1. 项目外包 2. 人力外包  测试阶段划分  单元测试(白盒测试)–&gt;集成测试(灰盒测试)–&gt;系统测试(黑盒测试) 单元测试： 单元测试是针对软件基本组成单元（软件设计的最小单位）来进行正确性检验的测试工作 单元测试的目的是检测软件模块对《详细设计说明书》的符合程度   集成测试： 集成测试是在单元测试的基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试-测试过程">
+<meta property="og:url" content="https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="此物…..此物…….此物最相思！  测试过程组织机构：公司人员结构外包：1. 项目外包 2. 人力外包  测试阶段划分  单元测试(白盒测试)–&gt;集成测试(灰盒测试)–&gt;系统测试(黑盒测试) 单元测试： 单元测试是针对软件基本组成单元（软件设计的最小单位）来进行正确性检验的测试工作 单元测试的目的是检测软件模块对《详细设计说明书》的符合程度   集成测试： 集成测试是在单元测试的基础">
+<meta property="article:published_time" content="2019-05-02T01:49:46.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.000Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>测试-测试过程</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&text=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&is_video=false&description=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试-测试过程&body=Check out this article: https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&name=测试-测试过程&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&t=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试过程"><span class="toc-number">1.</span> <span class="toc-text">测试过程</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        测试-测试过程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-02T01:49:46.000Z" itemprop="datePublished">2019-05-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%B5%8B%E8%AF%95/">测试</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p><a href="http://music.163.com/video?id=B4C3809F23BF9245D6E22AFDE5E9D024&userid=1388867694" target="_blank" rel="noopener">此物…..此物…….此物最相思！</a></p>
+</blockquote>
+<h3 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h3><p>组织机构：公司人员结构<br>外包：1. 项目外包 2. 人力外包</p>
+<ul>
+<li><p><strong>测试阶段划分</strong></p>
+<ul>
+<li>单元测试(<code>白盒测试</code>)–&gt;集成测试(<code>灰盒测试</code>)–&gt;系统测试(<code>黑盒测试</code>)</li>
+<li>单元测试：<ul>
+<li>单元测试是针对软件基本组成单元（软件设计的最小单位）来进行正确性检验的测试工作</li>
+<li>单元测试的目的是检测软件模块对<code>《详细设计说明书》</code>的符合程度</li>
+</ul>
+</li>
+<li>集成测试：<ul>
+<li>集成测试是在单元测试的基础上，将所有模块按照概要设计要求组装成为子系统或系统，验证组装后功能以及模块间接口是否正确的测试工作</li>
+<li>集成测试的目的是检测软件模块对<code>《概要设计说明书》</code>的符合程度</li>
+</ul>
+</li>
+<li>系统测试<ul>
+<li>系统测试是将已经集成好的软件系统，作为整个基于计算机系统的一个元素，与计算机硬件、外设、某些支持软件、数据和人员等其他系统元素结合在一起，在实际运行（使用）环境下，对计算机系统进行一系列的测试工作</li>
+<li>系统测试的目的在于通过与《需求规格说明书》作比较，发现软件与系统需求定义不符合或与之矛盾的地方 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>单元、集成、系统测试的比较</strong></p>
+<ul>
+<li>测试方法不同<ul>
+<li>单元测试属于白盒测试范畴</li>
+<li>集成测试属于灰盒测试范畴</li>
+<li>系统测试属于黑盒测试范畴</li>
+</ul>
+</li>
+<li>考察范围不同<ul>
+<li>单元测试主要测试单元内部的数据结构、逻辑控制、异常处理等</li>
+<li>集成测试主要测试模块之间的接口和接口数据传递关系，以及模块组合后的整体功能</li>
+<li>系统测试主要测试整个系统相对于需求的符合度</li>
+</ul>
+</li>
+<li>评估基准不同<ul>
+<li>单元测试的评估基准主要是<code>逻辑覆盖率</code></li>
+<li>集成测试的评估基准主要是<code>接口覆盖率</code></li>
+<li>系统测试的评估基准主要是<code>测试用例对需求规格的覆盖率</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>回归测试</strong></p>
+<ul>
+<li>软件在测试或其他活动中发现的缺陷经过修改后，应该进行回归测试（Regression Testing）。目的是验证缺陷得到了正确的修复，同时对系统的变更没有影响以前的功能</li>
+<li>回归测试可以发生在任何一个阶段，包括单元测试，集成测试，系统测试。</li>
+</ul>
+</li>
+<li><p><strong>回归测试流程</strong></p>
+<ul>
+<li>以下流程适合于单元测试，集成测试，系统测试<ul>
+<li>1、在测试策略制定阶段，制定回归测试策略</li>
+<li>2、确定需要回归测试的版本</li>
+<li>3、回归测试版本发布，按照回归测试策略执行回归测试</li>
+<li>4、回归测试通过，关闭缺陷跟踪单（问题单）</li>
+<li>5、回归测试不通过，缺陷跟踪单返回开发人员，开发人员重新修改问题，再次提交测试人员回归测试</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>回归测试策略一</strong></p>
+<ul>
+<li>完全重复测试：重新执行所有在前期测试阶段建立的测试用例，来确认问题修改的正确性和修改的扩散局部影响性</li>
+<li>选择性重复测试：即有选择地重新执行部分在前期测试阶段建立的测试用例，来测试被修改的程序<ul>
+<li>覆盖修改法：即针对被修改的部分，选取或重新构造测试用例验证没有错误再次发生的用例选择方法。</li>
+<li>周边影响法：该方法不但要包含覆盖修改法确定的用例，还需要分析修改的扩散影响，对那些受到修改间接影响的部分选择测试用例验证它没有受到不良影响。该方法比覆盖修改法更充分一点。</li>
+<li>指标达成方法：这是一种类似于单元测试的方法，在重新执行测试前，先确定一个要达成的指标，如修改部分代码100%的覆盖、与修改有关的接口60%的覆盖等，基于这种要求选择一个最小的测试用例集合。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>回归测试自动化</strong></p>
+<ul>
+<li>后面的功能由前面的数据支撑，而前面的功能没有bug，那么可以通过自动化脚本来写前面的测试部分。</li>
+</ul>
+</li>
+<li><p><strong>什么时候需要回归测试</strong></p>
+<ul>
+<li>bug修复之后</li>
+<li>大版本升级</li>
+</ul>
+</li>
+<li><p><strong>其它测试阶段</strong></p>
+<ul>
+<li><p>有用户参与的测试阶段</p>
+<ul>
+<li>验收测试</li>
+<li>α测试：现场测试（开发者在现场）</li>
+<li>β测试：多用户/多环境的现场测试（开发者不在现场）</li>
+</ul>
+</li>
+<li><p>测试过程：</p>
+<ul>
+<li>上线测试：验收测试之前的第一步测试</li>
+<li>验收测试：在客户端试运行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>测试过程阶段划分</strong></p>
+<ul>
+<li>测试计划阶段-测试计划</li>
+<li>测试设计阶段-测试方案</li>
+<li>测试实现阶段-测试用例、测试规程</li>
+<li>测试执行阶段-测试报告</li>
+</ul>
+</li>
+<li><p><strong>测试总结：</strong></p>
+<ul>
+<li>项目功能</li>
+<li>功能流程（联系）</li>
+<li>测试用例/测试功能/bug的数量</li>
+<li>收获（遇到的难点，解决的想法）</li>
+</ul>
+</li>
+<li><p><strong>主要的测试文档</strong></p>
+<ul>
+<li>测试计划：指明测试范围、方法、资源，以及相应测试活动的时间进度安排表的文档。</li>
+<li>测试方案：指明为完成软件或软件集成特性的测试而进行的设计测试方法的细节文档。</li>
+<li>测试用例：指明为完成一个测试项的测试输入、预期结果、测试执行条件等因素的文档。（<code>需要评审</code>）</li>
+<li>测试规程：指明执行测试时测试活动序列的文档。</li>
+<li>测试报告：指明执行测试结果的文档。</li>
+<li>测试日报：每天测试执行情况的记录和总结。</li>
+</ul>
+</li>
+<li><p><strong>常见的测试模型</strong></p>
+<ul>
+<li>瀑布模型</li>
+<li>H模型</li>
+<li>V&amp;V模型</li>
+</ul>
+</li>
+<li><p><strong>H模型</strong></p>
+<ul>
+<li>测试分两类活动：<ul>
+<li>测试准备活动，包括测试需求分析、测试计划、测试设计、测试编码、测试验证</li>
+<li>另一类是测试执行活动，包括测试运行、测试报告、测试结果分析等</li>
+</ul>
+</li>
+<li>软件测试不仅仅指测试执行，还包括很多其他的活动。</li>
+<li>测试是一个独立的流程，贯穿产品整个周期，与其他流程并发地进行。</li>
+<li>测试要尽早准备，尽早执行。</li>
+<li>各个不同阶段的测试除了简单的时间上的先后关系外，还存在触发、反复、迭代和增量关系。</li>
+</ul>
+</li>
+<li><p><strong>v模型</strong></p>
+<ul>
+<li>V&amp;V模型实现了测试设计和测试执行相分离</li>
+<li>V&amp;V模型揭示了软件测试活动分层和分阶段的本质特性，测试执行的顺序与开发活动相反</li>
+</ul>
+</li>
+<li><p><strong>验证与确认V&amp;V</strong></p>
+<ul>
+<li>验证（Verification）—重点在软件<ul>
+<li>验证是保证软件正确地实现特定功能的一系列活动</li>
+<li>验证是检测每一阶段形成的工作产品是否与前一阶段定义的规格相一致</li>
+<li>“Are we building the product right？”</li>
+</ul>
+</li>
+<li>确认（Validation）—重点在需求<ul>
+<li>确认是指保证所生产的软件可追溯到用户需求的一系列活动</li>
+<li>确认是检测每一阶段的工作产品是否与最初定义的软件需求规格相一致</li>
+<li>“Are we building the right product？”</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>需求分析阶段的主要任务</strong></p>
+<ul>
+<li>需求分析，完成SRS</li>
+<li>软件需求规格说明书的评审</li>
+<li>进行需求跟踪</li>
+<li>系统测试计划</li>
+<li>系统测试计划的评审</li>
+</ul>
+</li>
+<li><p><strong>需求阶段的角色和职责</strong></p>
+<ul>
+<li>软件开发项目经理：<ul>
+<li>A、带领项目组分析审核工作任务书；计划</li>
+<li>B、带领项目组与系统工程师进行需求交流并进行分析和文档化；</li>
+<li>C、组织SRS文档评审；</li>
+<li>D、组织需求跟踪；</li>
+</ul>
+</li>
+<li>软件开发工程师：<ul>
+<li>A、完成SRS文档；</li>
+<li>B、完成需求跟踪；</li>
+<li>C、参加SRS review；</li>
+<li>D、根据SRS评审专家意见，修改SRS文档；</li>
+<li>E、参加系统测试计划的评审；</li>
+</ul>
+</li>
+<li>软件经理：A、在SRS评审结束后，批准SRS文档；</li>
+<li>软件测试项目经理：<ul>
+<li>A、参与开发人员的软件需求分析，提出可测试性需求；</li>
+<li>B、组织人员参与SRS的评审工作；</li>
+<li>C、软件系统测试计划写作；</li>
+<li>D、组织系统测试计划的评审；</li>
+<li>E、组织本阶段测试需求跟踪；</li>
+</ul>
+</li>
+<li>软件测试工程师：<ul>
+<li>A、参与SRS评审工作；</li>
+<li>B、协助软件测试项目经理完成软件系统测试计划写作；</li>
+<li>C、参加系统测试计划的评审；</li>
+<li>D、完成本阶段测试需求跟踪；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>概要设计阶段的主要任务</strong></p>
+<ul>
+<li>进行软件系统各层设计，完成HLD文档</li>
+<li>概要设计的评审</li>
+<li>系统测试方案，用例的设计</li>
+<li>系统测试方案，用例的评审</li>
+<li>需求跟踪更新</li>
+<li>集成测试计划</li>
+<li>集成测试计划评审</li>
+</ul>
+</li>
+<li><p><strong>概要设计阶段的角色和职责</strong></p>
+<ul>
+<li>软件开发项目经理：<ul>
+<li>A、安排概要设计任务，并确保有足够的资源；</li>
+<li>B、组织概要设计文档的评审；</li>
+<li>C、批准评审后的概要设计说明书；</li>
+<li>D、组织需求跟踪；</li>
+</ul>
+</li>
+<li>软件开发工程师：<ul>
+<li>A、数据字典</li>
+<li>B、完成需求跟踪；</li>
+<li>C、参加概要设计文档review；</li>
+<li>D、根据评审专家意见，修改概要设计文档；</li>
+<li>E、参加系统测试方案、用例、集成测试计划的评审；</li>
+</ul>
+</li>
+<li>测试经理：在集成测试计划评审结束后，批准集成测试计划。</li>
+<li>软件测试项目经理：<ul>
+<li>A、组织人员参与HLD的评审工作；</li>
+<li>B、软件集成测试计划写作；</li>
+<li>C、组织集成测试计划的评审；</li>
+<li>D、安排相关系统测试方案、用例设计任务；</li>
+<li>E、组织系统测试方案、用例评审；</li>
+<li>F、组织本阶段测试需求跟踪；</li>
+</ul>
+</li>
+<li>软件测试工程师：<ul>
+<li>A、参与HLD评审；</li>
+<li>B、参与集成测试计划的评审；</li>
+<li>C、进行系统测试方案、用例的设计；</li>
+<li>D、参与系统测试方案、用例评审；</li>
+<li>E、完成本阶段的测试需求跟踪；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试过程"><span class="toc-number">1.</span> <span class="toc-text">测试过程</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&text=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&is_video=false&description=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试-测试过程&body=Check out this article: https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&title=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&name=测试-测试过程&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/&t=测试-测试过程" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2020
+    fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

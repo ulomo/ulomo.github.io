@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="测试： 开发 ：项目经理&#x2F;架构师（软件设计） 高级开发 中级开发 初级开发 开发管理：需求 测试报告 计划 测试用例   测试：测试经理 高级测试 中级测试 初级测试  1 功能测试&#x2F;性能测试 2 系统测试 bug： 致命bug 严重bug 影响流程 一般bug 建议bug   接口测试 ：工具测试（app，web工具） 自动化测试   3 操作文档（帮助文档）     软件测试的目的和定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试的相关概念">
+<meta property="og:url" content="https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="测试： 开发 ：项目经理&#x2F;架构师（软件设计） 高级开发 中级开发 初级开发 开发管理：需求 测试报告 计划 测试用例   测试：测试经理 高级测试 中级测试 初级测试  1 功能测试&#x2F;性能测试 2 系统测试 bug： 致命bug 严重bug 影响流程 一般bug 建议bug   接口测试 ：工具测试（app，web工具） 自动化测试   3 操作文档（帮助文档）     软件测试的目的和定义">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-506a5b129c3a23d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-04c02995a526649f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-05-02T01:49:58.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.000Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9937522-506a5b129c3a23d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>测试的相关概念</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E4%B8%AD%E5%BC%95%E5%85%A5%E7%BC%BA%E9%99%B7%E7%9A%84%E5%8E%9F%E5%9B%A0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/02/%E6%B5%8B%E8%AF%95-%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&text=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&is_video=false&description=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试的相关概念&body=Check out this article: https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&name=测试的相关概念&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&t=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试："><span class="toc-number">1.</span> <span class="toc-text">测试：</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        测试的相关概念
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-02T01:49:58.000Z" itemprop="datePublished">2019-05-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%B5%8B%E8%AF%95/">测试</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h3><ul>
+<li>开发 ：项目经理/架构师（软件设计） 高级开发 中级开发 初级开发<ul>
+<li>开发管理：需求 测试报告 计划 测试用例</li>
+</ul>
+</li>
+<li>测试：测试经理 高级测试 中级测试 初级测试 <ul>
+<li>1 功能测试/性能测试</li>
+<li>2 系统测试<ul>
+<li>bug：<ul>
+<li>致命bug</li>
+<li>严重bug 影响流程</li>
+<li>一般bug</li>
+<li>建议bug</li>
+</ul>
+</li>
+<li>接口测试 ：工具测试（app，web工具）</li>
+<li>自动化测试</li>
+</ul>
+</li>
+<li>3 操作文档（帮助文档）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>软件测试的目的和定义</p>
+</blockquote>
+<ul>
+<li>什么是软件测试<ul>
+<li>定义：<ul>
+<li>软件测试是一个过程，包含若干活动，运行软件进行测试只是活动之一</li>
+<li>进行软件测试可以是人工方式，也可以借助于工具</li>
+<li>进行软件测试可以运行软件也可不运行软件</li>
+<li>软件测试的目的不仅仅是为了发现错误<ul>
+<li>目的：以最少的人力、物力和时间找出软件中潜在的各种错误和缺陷，通过修正各种错误和缺陷提高软件质量，回避软件发布后由于潜在的软件缺陷和错误造成的隐患所带来的商业风险</li>
+<li>目的-证明：</li>
+<li>获取系统在可接受风险范围内可用的信心</li>
+<li>尝试在非正常情况和条件下的功能和特性</li>
+<li>保证一个工作产品是完整的并且可用或者可被集成</li>
+<li>目的-检测</li>
+<li>发现缺陷，错误和系统不足</li>
+<li>定义系统的能力和局限性</li>
+<li>提供组件，工作产品和系统的质量信息</li>
+<li>目的-预防</li>
+<li>澄清系统的规格和性能</li>
+<li>提供预防或减少可能制造错误的信息</li>
+<li>在过程中尽早检测错误</li>
+<li>确认问题和风险并且提前确认这些问题和风险的途径</li>
+<li>软件测试的主要工作</li>
+<li>检测代码，评审开发文档</li>
+<li>进行测试设计，写作测试文档（测试计划，测试方案，测试用例）</li>
+<li>执行测试，发现软件缺陷，提交缺陷报告，并确认缺陷最终得到了修正</li>
+<li>通过测试度量软件的质量</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>软件生命周期</p>
+</blockquote>
+<ul>
+<li>计划（开发/测试）<ul>
+<li>工作内容 ：<ul>
+<li>确定软件开发总目标</li>
+<li>给出软件的功能，性能，可靠性以及接口等方面的设想</li>
+<li>研究完成该项目的可行性，探讨问题解决方案；</li>
+<li>对可供开发使用的资源、成本、可取得的效益和开发进度作出估计；</li>
+<li>制定完成开发任务的实施计划。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>需求分析：<ul>
+<li>工作内容：<ul>
+<li>对开发的软件进行详细的定义，由需求分析人员和用户共同讨论决定，那些需求是可以满足的，并且给予了确切的描述，写出软件需求说明书SRS（software requirement specification）</li>
+</ul>
+</li>
+<li>软件研发的类型不同，需求的来源也不同，需求分析中的用户针对的具体内容也不同</li>
+<li>针对产品的软件研发（自主研发）<ul>
+<li>需求来源：市场调研</li>
+<li>用户：市场调研人员</li>
+<li>特点：自己想研发什么，自己就来研发</li>
+</ul>
+</li>
+<li>针对项目的软件研发（需求开发）<ul>
+<li>需求来源：客户要求</li>
+<li>用户：实际用户</li>
+<li>特点：别人想研发什么，我们帮助研发</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>设计<ul>
+<li>工作内容<ul>
+<li>设计是软件工程的技术核心，这个阶段需要完成设计说明书</li>
+<li>概要设计（HLD），在设计阶段把各项需求转换成相应的体系结构，每一部分是功能明确的模块；</li>
+<li>详细设计（LLD），对每个模块要完成的工作进行具体的描述。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>编码<ul>
+<li>工作内容：<ul>
+<li>把软件设计转换成计算机可以接受的程序，即写成以某个程序设计语言表示的源程序清单，使用RDBMS工具建立数据库。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>测试<ul>
+<li>工作内容：<ul>
+<li>测试时检验软件是否符合客户需求，达到质量要求，一般由独立的小组独立执行，测试工作分为：<ul>
+<li>单元测试</li>
+<li>集成测试</li>
+<li>系统测试</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>运行维护<ul>
+<li>工作内容：<ul>
+<li>这个阶段将软件交付用户投入正式使用，以后便进入维护阶段，可能由多种原因需要对它进行修改，如软件错误，系统软件升级，增强软件功能，提高性能</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><img src="https://upload-images.jianshu.io/upload_images/9937522-506a5b129c3a23d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="软件测试"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9937522-04c02995a526649f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="项目开发生命周期"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试："><span class="toc-number">1.</span> <span class="toc-text">测试：</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&text=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&is_video=false&description=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试的相关概念&body=Check out this article: https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&title=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&name=测试的相关概念&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/&t=测试的相关概念" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2020
+    fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

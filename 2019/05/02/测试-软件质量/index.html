@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="弹奏江南夜雨，唱了一首花语  1. 软件质量的定义 iso（国际标准化组织）关于质量的定义：  一个实体的所有特性，基于这些特性可以满足明显的或隐含的需求。而质量就是实体基于这些实体特性满足需求的程度。   软件质量的三个层次  符合需求规格 ：符合开发者明确定义的目标，即产品是不是在做让它做的事情，目标是开发者定义的，并且是可以验证的。（例如用户目标群体） 符合用户显式需求：符合用户所明确说明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试-软件质量">
+<meta property="og:url" content="https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/index.html">
+<meta property="og:site_name" content="秋日摘桂花做饼">
+<meta property="og:description" content="弹奏江南夜雨，唱了一首花语  1. 软件质量的定义 iso（国际标准化组织）关于质量的定义：  一个实体的所有特性，基于这些特性可以满足明显的或隐含的需求。而质量就是实体基于这些实体特性满足需求的程度。   软件质量的三个层次  符合需求规格 ：符合开发者明确定义的目标，即产品是不是在做让它做的事情，目标是开发者定义的，并且是可以验证的。（例如用户目标群体） 符合用户显式需求：符合用户所明确说明">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-55bc810748657b8e.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-7e53a0f57b506201.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-d3ec8bd43fe25655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9937522-ac944462535af1dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-05-02T01:50:38.000Z">
+<meta property="article:modified_time" content="2020-06-24T13:35:05.000Z">
+<meta property="article:author" content="fsl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9937522-55bc810748657b8e.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>测试-软件质量</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/02/%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E5%8F%8A%E6%B5%8B%E8%AF%95%E7%82%B9/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E7%A0%94%E5%8F%91%E7%BB%84%E7%BB%87%E5%92%8C%E6%B5%81%E7%A8%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&text=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&is_video=false&description=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试-软件质量&body=Check out this article: https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&name=测试-软件质量&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&t=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-软件质量的定义"><span class="toc-number">1.</span> <span class="toc-text">1. 软件质量的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-软件质量管理体系"><span class="toc-number">2.</span> <span class="toc-text">2. 软件质量管理体系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-软件质量模型"><span class="toc-number">3.</span> <span class="toc-text">3. 软件质量模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-软件质量活动"><span class="toc-number">4.</span> <span class="toc-text">4. 软件质量活动</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        测试-软件质量
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">秋日摘桂花做饼</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-02T01:50:38.000Z" itemprop="datePublished">2019-05-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%B5%8B%E8%AF%95/">测试</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p><a href="http://music.163.com/song?id=546500326&userid=1388867694" target="_blank" rel="noopener">弹奏江南夜雨，唱了一首花语</a></p>
+</blockquote>
+<h3 id="1-软件质量的定义"><a href="#1-软件质量的定义" class="headerlink" title="1. 软件质量的定义"></a>1. 软件质量的定义</h3><ul>
+<li><p><strong>iso（国际标准化组织）关于质量的定义：</strong></p>
+<ul>
+<li>一个实体的所有特性，基于这些特性可以满足明显的或隐含的需求。而质量就是实体基于这些实体特性满足需求的程度。</li>
+</ul>
+</li>
+<li><p><strong>软件质量的三个层次</strong></p>
+<ul>
+<li>符合需求规格 ：符合开发者明确定义的目标，即产品是不是在做让它做的事情，目标是开发者定义的，并且是可以验证的。（例如用户目标群体）</li>
+<li>符合用户显式需求：符合用户所明确说明的目标，目标是客户所定义的，符合目标即判断我们是不是在做我们需要做的事情。（例如客户对功能和界面的需求）</li>
+<li>符合用户实际需求：实际的需求包括用户明确说明的和隐含的需求。</li>
+</ul>
+</li>
+<li><p><strong>影响软件质量的因素</strong></p>
+<ul>
+<li>流程</li>
+<li>技术</li>
+<li>组织<ul>
+<li>软件质量的提高需要综合考虑，需要从各个方面进行改进，同时还需要兼顾成本和进度</li>
+<li>如果有不能解决的技术问题，需要先屏蔽/跳过这个问题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>质量管理发展阶段</strong></p>
+<ul>
+<li>第一阶段：检验质量管理 19th末-20th初</li>
+<li>第二阶段：统计质量控制。强调统计方法</li>
+<li>第三阶段：将质量控制扩展到产品生命周期全过程。强调全体员工参与</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-软件质量管理体系"><a href="#2-软件质量管理体系" class="headerlink" title="2. 软件质量管理体系"></a>2. 软件质量管理体系</h3><table>
+<thead>
+<tr>
+<th>流行的质量管理体系</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iso9000</td>
+<td>cmm</td>
+<td>六西格玛</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>iso2000八项质量管理原则</strong></p>
+<ul>
+<li>1.以顾客为中心</li>
+<li>2.领导作用</li>
+<li>3.全员参与</li>
+<li>4.过程方法：做好相关过程记录</li>
+<li>5.管理的系统方法：</li>
+<li>6.持续的改进：提出建议</li>
+<li>7.基于事实的决策方法</li>
+<li>8.互利的供方关系<ul>
+<li>意义:<ul>
+<li>质量管理的理论基础</li>
+<li>最基本/通用的一般性规律</li>
+<li>为组织建立质量管理体系提供了理论依据</li>
+<li>是组织领导者有效实施质量管理工作必须遵循的原则 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>八项质量管理原则的意义</strong></p>
+<ul>
+<li>是质量管理的理论基础；</li>
+<li>用高度概括、易于理解的语言所表述的质量管理的最基本、最通用的一般性规律；</li>
+<li>为组织建立质量管理体系提供了理论依据；</li>
+<li>是组织的领导者有效地实施质量管理工作必须遵循的原则。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>cmm的用途</strong><br><img src="https://upload-images.jianshu.io/upload_images/9937522-55bc810748657b8e.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="cmm等级"></p>
+<ul>
+<li>评估组用来识别组织中的强处和弱点</li>
+<li>评估组用来识别选择不同的业务承包商的风险和监督合同</li>
+<li>管理者用来了解其组织的能力，并了解了提高其能力成熟度而进行软件过程改进所需要进行的活动</li>
+<li>技术人员和过程改进组用来作为指南，指导他们在组织中定义和改进软件过程</li>
+</ul>
+</li>
+<li><p><strong>iso9001和cmm关系</strong></p>
+<ul>
+<li>最大相似点：强调管理、过程、规范化和文档化</li>
+<li>不同点<ul>
+<li>cmm焦点在软件</li>
+<li>iso包括硬件/软件/流程性服务</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>六西格玛管理法</strong></p>
+<ul>
+<li>以质量作为主线，以客户需求为中心，利用对数据和数据的分析，改进一个组织的业务流程能力，从而增强企业竞争力，是一套灵活，综合性的管理方法体系。</li>
+<li>要求企业完全从外部客户角度，而不是自己的角度来看待企业内部的各种流程。</li>
+<li>利用客户的要求来建立标准，设立产品与服务的标准与规格，并以此来评估企业流程的有效性和合理性</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-软件质量模型"><a href="#3-软件质量模型" class="headerlink" title="3. 软件质量模型"></a>3. 软件质量模型</h3><ul>
+<li>质量模型：一组特性及特性之间的关系，它提供规定质量需求和评价质量的基础<ul>
+<li>外部和内部质量<ul>
+<li>功能性：当软件在指定条件下使用时，软件产品提供满足明确和隐含需求的功能的能力<ul>
+<li>适合：软件产品为指定的任务和用户目标提供一组合适的功能的能力。</li>
+<li>准确：软件产品提供具有所需精确度的正确或相符的结果或效果的能力。</li>
+<li>互操作：软件产品与一个或更多的规定系统进行交互的能力。</li>
+<li>保密安全性：软件产品保护信息和数据的能力，以使未授权的人员或系统不能阅读或修改这些信息和数据，而不拒绝授权人员或系统对它们的访问。</li>
+</ul>
+</li>
+<li>可靠性：在指定条件下使用时，软件产品维持规定的性能级别的能力<ul>
+<li>成熟：软件产品为避免由软件中错误而导致失效的能力</li>
+<li>容错：在软件出现故障或者违反指定接口的情况下，软件产品维持规定的性能级别的能力。</li>
+<li>易恢复性：在失效发生的情况下，软件产品重建规定的性能级别并恢复受直接影响的数据的能力。</li>
+</ul>
+</li>
+<li>易用性：在指定条件下使用时，软件产品被理解、学习、使用和吸引用户的能力<ul>
+<li>易理解：软件产品使用户能理解软件是否合适以及如何能将软件用于特定的任务和使用环境的能力。</li>
+<li>易学：软件产品使用户能学习其应用的能力。</li>
+<li>易操作：软件产品使用户能操作和控制它的能力。</li>
+<li>吸引性：软件产品吸引用户的能力。</li>
+</ul>
+</li>
+<li>效率： 在规定条件下，相对于所用资源的数量，软件产品可提供适当性能的能力<ul>
+<li>时间特性：在规定条件下，软件产品执行其功能时，提供适当的响应和处理时间以及吞吐率的能力。即完成用户的某个功能需要的响应时间</li>
+<li>资源利用性：在规定条件下，软件产品执行其功能时，使用合适的资源数量和类别的能力。</li>
+</ul>
+</li>
+<li>维护性：软件可被修改的能力，修改可能包括修正，改进或软件对环境需求和功能规格说明变化的适应<ul>
+<li>易分析：软件诊断软件中的缺陷或失效原因或识别待修改部分的能力</li>
+<li>易改变：软件产品使指定的修改可被变成现实的能力</li>
+<li>稳定：软件产品避免由于软件修改而造成意外结果的能力</li>
+<li>易测试性：软件产品使已修改软件能被确认的能力</li>
+</ul>
+</li>
+<li>可移植性：软件产品从一种环境迁移到另外一种环境的能力<ul>
+<li>适应：软件产品无需采用有别于为考虑该软件的目的而准备的活动或手段就可能适应不同的指定环境的能力</li>
+<li>易安装：软件产品在指定环境中被安装的能力</li>
+<li>共存：软件产品在公共环境中同与其分享公共资源的其它独立软件共存的能力</li>
+<li>易替换性：软件产品在同样环境下，替代另一个相同用途的指定软件产品的能力</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-软件质量活动"><a href="#4-软件质量活动" class="headerlink" title="4. 软件质量活动"></a>4. 软件质量活动</h3><ul>
+<li><p><strong>软件质量保证SQA与测试的关系</strong></p>
+<ul>
+<li>软件质量由组织、流程和技术三方面决定<ul>
+<li>SQA从流程方面保证软件的质量</li>
+<li>测试从技术方面保证软件的质量</li>
+<li>只进行SQA活动或只进行测试活动不一定能产生好的软件质量</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>SQA的主要工作范围</strong></p>
+<ul>
+<li>指导并监督项目按照过程实施；</li>
+<li>对项目进行度量、分析，增加项目的可视性；</li>
+<li>审核工作产品，评价工作产品和过程质量目标的符合度；</li>
+<li>进行缺陷分析，缺陷预防活动，发现过程的缺陷，提供决策参考，促进过程改进</li>
+</ul>
+</li>
+<li><p><strong>质量度量的概念和目的</strong></p>
+<ul>
+<li>概念：<ul>
+<li>度量：对事物属性的量化表示</li>
+<li>度量：指计算机软件中范围广泛的测度，包括对软件系统，构件或生命周期过程具有的某个给定属性的度的一个定量测量</li>
+</ul>
+</li>
+<li>目的：<ul>
+<li>提高软件生产率，缩短产品研发周期，降低研发成本、维护成本</li>
+<li>提高软件产品质量，提高用户满意度</li>
+<li>为组织持续改进提供量化的指标和反馈</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>软件度量的作用</strong></p>
+<ul>
+<li>理解：通过度量，获得对过程，产品，资源等的理解，确定以后预测的基线和模型，对于不同的软件组织和软件类型，过程和模型都不一样。这是评估，预测，改进活动的基础</li>
+<li>预测：根据所理解确定的模型，由已知的要素推算，估计其它要素，以便合理分配资源，合理制定计划。</li>
+<li>评估：<ul>
+<li>分析活动与计划的符合度，确定是否有偏差，以便控制其执行</li>
+<li>开发活动与计划的符合程度。如工作量估计偏差、进度偏差等；</li>
+<li>产品的质量。如软件复杂度、缺陷密度、平均失效时间间隔等；</li>
+<li>新技术的影响</li>
+</ul>
+</li>
+<li>改进：根据得到的量化信息，可以帮助我们识别要因、查找问题的根源，以及能提高产品质量和过程效率的其它方法；与以前的量化信息比较，可以验证这些方法是否有效</li>
+</ul>
+</li>
+<li><p><strong>软件度量分类</strong></p>
+<ul>
+<li>四个基本度量项：<ul>
+<li>规模：软件工作产品的大小</li>
+<li>工作量：完成各软件工作产品和活动所用人时</li>
+<li>进度：各软件工作产品和活动开始和结束的时间</li>
+<li>质量缺陷：在各软件工作产品和活动中产生的缺陷数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>软件度量分类-规模数量</strong></p>
+<ul>
+<li>规模度量：<ul>
+<li>SRS文档页数</li>
+<li>HLD文档页数</li>
+<li>LLD文档页数</li>
+<li>代码量</li>
+<li>UT用例数</li>
+<li>IT用例数</li>
+<li>ST用例数、</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>其它度量指标</strong></p>
+<ul>
+<li>依据基本度量数可以分析，综合得到其它度量数据或指标</li>
+<li>缺陷密度：<ul>
+<li>研发活动发现缺陷密度</li>
+<li>研发活动引入缺陷密度</li>
+<li>工作产品缺陷密度</li>
+</ul>
+</li>
+<li>生产率</li>
+<li>测试执行效率</li>
+<li>用例密度</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><img src="https://upload-images.jianshu.io/upload_images/9937522-7e53a0f57b506201.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="软件质量管理体系"><br><img src="https://upload-images.jianshu.io/upload_images/9937522-d3ec8bd43fe25655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="软件质量模型"><br><img src="https://upload-images.jianshu.io/upload_images/9937522-ac944462535af1dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="软件质量活动"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-软件质量的定义"><span class="toc-number">1.</span> <span class="toc-text">1. 软件质量的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-软件质量管理体系"><span class="toc-number">2.</span> <span class="toc-text">2. 软件质量管理体系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-软件质量模型"><span class="toc-number">3.</span> <span class="toc-text">3. 软件质量模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-软件质量活动"><span class="toc-number">4.</span> <span class="toc-text">4. 软件质量活动</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&text=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&is_video=false&description=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=测试-软件质量&body=Check out this article: https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&title=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&name=测试-软件质量&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://ulomo.github.io/2019/05/02/%E6%B5%8B%E8%AF%95-%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F/&t=测试-软件质量" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2020
+    fsl
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
